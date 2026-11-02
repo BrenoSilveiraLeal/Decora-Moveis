@@ -614,6 +614,118 @@ function initHome() {
 /* ==========================================================================
    PÁGINA DE PRODUTO
    ========================================================================== */
+function initProductReviews(product) {
+  const root = $('#productReviews');
+  if (!root) return;
+
+  const storageKey = `decora_reviews_${product.id}`;
+  const readReviews = () => {
+    const reviews = load(storageKey, []);
+    return Array.isArray(reviews) ? reviews.filter((review) =>
+      review && typeof review.name === 'string' && typeof review.comment === 'string' &&
+      Number.isInteger(review.rating) && review.rating >= 1 && review.rating <= 5
+    ) : [];
+  };
+
+  root.innerHTML = `
+    <div class="reviews-heading">
+      <div>
+        <span class="eyebrow">Quem já escolheu</span>
+        <h2 class="display-title" id="reviewsTitle">avaliações</h2>
+      </div>
+      <div class="reviews-summary" id="reviewsSummary" aria-live="polite"></div>
+    </div>
+    <div class="reviews-layout">
+      <div class="reviews-list" id="reviewsList" aria-live="polite"></div>
+      <form class="review-form" id="reviewForm">
+        <span class="review-form-kicker">Sua experiência</span>
+        <h3>Conte o que achou</h3>
+        <label class="field">
+          <span>Seu nome</span>
+          <input class="input" name="name" type="text" maxlength="50" autocomplete="name" placeholder="Como podemos chamar você?" required>
+        </label>
+        <fieldset class="rating-field">
+          <legend>Sua nota</legend>
+          <div class="rating-picker" role="radiogroup" aria-label="Escolha uma nota de 1 a 5 estrelas">
+            ${[5, 4, 3, 2, 1].map((rating) => `<label class="rating-option"><input type="radio" name="rating" value="${rating}" required><span aria-hidden="true">★</span><span class="sr-only">${rating} ${rating === 1 ? 'estrela' : 'estrelas'}</span></label>`).join('')}
+          </div>
+        </fieldset>
+        <label class="field">
+          <span>Seu comentário</span>
+          <textarea class="input review-comment-input" name="comment" maxlength="600" rows="4" placeholder="O que mais gostou neste móvel?" required></textarea>
+        </label>
+        <button class="btn btn-lg" type="submit">Enviar avaliação</button>
+        <p class="review-local-note">Sua avaliação fica salva neste navegador.</p>
+      </form>
+    </div>`;
+
+  const summary = $('#reviewsSummary', root);
+  const list = $('#reviewsList', root);
+  const render = () => {
+    const reviews = readReviews();
+    const average = reviews.length ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : 0;
+    summary.innerHTML = reviews.length
+      ? `<strong>${average.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</strong><span class="review-stars" aria-label="${average.toFixed(1)} de 5 estrelas">${'★'.repeat(Math.round(average))}${'☆'.repeat(5 - Math.round(average))}</span><span>${reviews.length} ${reviews.length === 1 ? 'avaliação' : 'avaliações'}</span>`
+      : '<span>Seja a primeira pessoa a avaliar</span>';
+
+    list.replaceChildren();
+    if (!reviews.length) {
+      const empty = document.createElement('div');
+      empty.className = 'reviews-empty';
+      empty.innerHTML = '<span class="reviews-empty-star" aria-hidden="true">☆</span><h3>Esse espaço é seu</h3><p>Conte como o móvel ficou na sua casa e ajude outras pessoas a escolher.</p>';
+      list.appendChild(empty);
+      return;
+    }
+
+    reviews.slice().reverse().forEach((review) => {
+      const card = document.createElement('article');
+      card.className = 'review-card';
+      const top = document.createElement('div');
+      top.className = 'review-card-top';
+      const author = document.createElement('strong');
+      author.className = 'review-author';
+      author.textContent = review.name;
+      const date = document.createElement('time');
+      date.className = 'review-date';
+      const createdAt = new Date(review.createdAt);
+      date.dateTime = Number.isNaN(createdAt.getTime()) ? '' : createdAt.toISOString();
+      date.textContent = Number.isNaN(createdAt.getTime()) ? '' : createdAt.toLocaleDateString('pt-BR');
+      top.append(author, date);
+      const stars = document.createElement('div');
+      stars.className = 'review-stars';
+      stars.setAttribute('aria-label', `${review.rating} de 5 estrelas`);
+      stars.textContent = `${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}`;
+      const comment = document.createElement('p');
+      comment.className = 'review-card-comment';
+      comment.textContent = review.comment;
+      card.append(top, stars, comment);
+      list.appendChild(card);
+    });
+  };
+
+  $('#reviewForm', root).addEventListener('submit', (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (!form.reportValidity()) return;
+    const data = new FormData(form);
+    const review = {
+      name: String(data.get('name')).trim(),
+      rating: Number(data.get('rating')),
+      comment: String(data.get('comment')).trim(),
+      createdAt: new Date().toISOString()
+    };
+    if (!review.name || !review.comment || review.rating < 1 || review.rating > 5) return;
+    const reviews = readReviews();
+    reviews.push(review);
+    save(storageKey, reviews);
+    form.reset();
+    render();
+    showToast('Obrigado por compartilhar sua avaliação!');
+  });
+
+  render();
+}
+
 function initProduct() {
   const params = new URLSearchParams(window.location.search);
   const product = findProduct(params.get('p')) || PRODUCTS[0];
@@ -682,6 +794,8 @@ function initProduct() {
         <div>${ICONS.shield}2 anos de garantia</div>
       </div>
     </aside>`;
+
+  initProductReviews(product);
 
   const renderPanel = () => {
     const inst = installmentsFor(current.price * qty);
