@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Decora Móveis">
+  <rect width="64" height="64" rx="20" fill="#3c442c"/>
+  <!-- "D" arredondado no mesmo espírito da Fredoka, com um assento macio no miolo -->
+  <path fill="#f7f3ec" fill-rule="evenodd" d="M22 15h9.5a17 17 0 0 1 0 34H22a4.5 4.5 0 0 1-4.5-4.5v-25A4.5 4.5 0 0 1 22 15Zm5.5 10v14h4a7 7 0 0 0 0-14h-4Z"/>
+  <circle cx="49" cy="49" r="4" fill="#d98b58"/>
+</svg>

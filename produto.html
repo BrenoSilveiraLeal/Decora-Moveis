@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Escolha a cor, calcule o frete e compre seu móvel Decora.">
+  <title>Produto | Decora Móveis</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#3c442c">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="product">
+
+  <!-- VITRINE DO PRODUTO -->
+  <div class="showcase">
+    <section class="hero-wrapper" id="hero" aria-label="Vitrine do produto">
+      <div class="hero-backgrounds" id="heroBgContainer" aria-hidden="true"></div>
+
+      <header class="hero-header" id="siteHeader"></header>
+
+      <div class="hero-center-typography">
+        <h1 class="title-simply" id="heroTitle"></h1>
+        <span class="subtitle-furniture" id="heroSubtitle"></span>
+      </div>
+
+      <div class="hero-body">
+        <aside class="hero-sidebar">
+          <div class="items-stack" id="variantCardsContainer"></div>
+          <div class="sidebar-bottom-row">
+            <div class="footer-quote" id="footerQuote"></div>
+            <button class="btn-more-positions" id="btnMorePositions" type="button">Mais cores</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+    <div class="hero-buy" id="heroBuy"></div>
+  </div>
+
+  <main>
+    <section class="section">
+      <div class="container product-details" id="productDetails"></div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Combina com</span>
+            <h2 class="display-title">complete o ambiente</h2>
+          </div>
+          <a class="btn btn-light" href="index.html#colecao">Ver toda a coleção</a>
+        </div>
+        <div class="product-grid" id="relatedGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="margin-top:0;border-top:none;padding-top:0">
+        <span>© <span id="year"></span> Decora Móveis · Rua dos Pinheiros, 1200 · São Paulo/SP</span>
+        <span class="demo-note">Projeto demonstrativo — nenhuma compra real é processada</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

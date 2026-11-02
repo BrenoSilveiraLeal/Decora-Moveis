@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Decora Móveis - Design minimalista e conforto autoral com sofás, poltronas, cadeiras, pufes, mesas e luminárias contemporâneas.">
+  <title>Decora Móveis | Design Minimalista</title>
+
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#3c442c">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Pré-carregamento das imagens da vitrine para crossfade sem atraso -->
+  <link rel="preload" as="image" href="https://res.cloudinary.com/dalwymbky/image/upload/v1791332762/verde_jmsp7i.png">
+  <link rel="preload" as="image" href="https://res.cloudinary.com/dalwymbky/image/upload/v1791332763/azul_vnojkk.png">
+  <link rel="preload" as="image" href="https://res.cloudinary.com/dalwymbky/image/upload/v1791332762/laranja_l7oohl.png">
+  <link rel="preload" as="image" href="https://res.cloudinary.com/dalwymbky/image/upload/v1791332763/bege_wazzeh.png">
+</head>
+<body data-page="home">
+
+  <!-- VITRINE PRINCIPAL -->
+  <div class="showcase">
+    <section class="hero-wrapper" id="hero" aria-label="Vitrine">
+      <div class="hero-backgrounds" id="heroBgContainer" aria-hidden="true"></div>
+
+      <header class="hero-header" id="siteHeader"></header>
+
+      <div class="hero-center-typography">
+        <h1 class="title-simply" id="heroTitle">decora</h1>
+        <span class="subtitle-furniture" id="heroSubtitle">móveis</span>
+      </div>
+
+      <div class="hero-body">
+        <aside class="hero-sidebar">
+          <div class="items-stack" id="variantCardsContainer"></div>
+          <div class="sidebar-bottom-row">
+            <div class="footer-quote" id="footerQuote"></div>
+            <button class="btn-more-positions" id="btnMorePositions" type="button">Mais cores</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+    <div class="hero-buy" id="heroBuy"></div>
+  </div>
+
+  <main>
+    <!-- COLEÇÃO -->
+    <section class="section" id="colecao">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Coleção 2026</span>
+            <h2 class="display-title">nossa coleção</h2>
+          </div>
+        </div>
+        <div class="rooms" id="roomCards" role="group" aria-label="Compre por ambiente"></div>
+        <div class="chips" id="categoryChips" role="group" aria-label="Filtrar por categoria"></div>
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+    </section>
+
+    <!-- SOBRE -->
+    <section class="section" id="sobre" style="padding-top:0">
+      <div class="container about">
+        <div>
+          <span class="eyebrow">Sobre a Decora</span>
+          <p class="about-statement">Móveis de <em>curvas macias</em>, cores que acolhem e um design feito para durar décadas.</p>
+        </div>
+        <div>
+          <p class="lead">Desenhamos cada peça no nosso estúdio em São Paulo e produzimos com marcenarias e estofadores parceiros, em madeira de reflorestamento e tecidos antimanchas. Menos excesso, mais aconchego.</p>
+          <div class="stats">
+            <div class="stat"><strong>12</strong><span>anos de estúdio</span></div>
+            <div class="stat"><strong>4,9</strong><span>nota dos clientes</span></div>
+            <div class="stat"><strong>48</strong><span>cores na coleção</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENTREGA -->
+    <section class="section" id="entrega" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Compra tranquila</span>
+            <h2 class="display-title">do estúdio<br>até sua sala</h2>
+          </div>
+          <p class="lead">Calcule o prazo direto na página de cada móvel ou no carrinho. Entregamos em todo o Brasil.</p>
+        </div>
+        <div class="benefits">
+          <article class="benefit">
+            <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div>
+            <h3>Frete grátis</h3>
+            <p>Entrega padrão sem custo em compras acima de R$ 2.500.</p>
+          </article>
+          <article class="benefit">
+            <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5 2.5-2.5Z"/></svg></div>
+            <h3>Montagem opcional</h3>
+            <p>Sofás e mesas chegam montados por equipe especializada.</p>
+          </article>
+          <article class="benefit">
+            <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h3"/></svg></div>
+            <h3>10x sem juros</h3>
+            <p>Ou 5% de desconto pagando à vista no Pix.</p>
+          </article>
+          <article class="benefit">
+            <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></svg></div>
+            <h3>30 dias para trocar</h3>
+            <p>Não combinou com a sala? Buscamos de volta sem custo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO / NEWSLETTER -->
+    <section class="section" id="contato" style="padding-top:0">
+      <div class="container cta-band">
+        <div>
+          <h2>ganhe 10% na<br>primeira compra</h2>
+          <p>Receba lançamentos de cores e o cupom de boas-vindas no seu e-mail.</p>
+        </div>
+        <form class="inline-form" id="newsletterForm" novalidate>
+          <input class="input" type="email" placeholder="seu@email.com" aria-label="Seu e-mail" autocomplete="email">
+          <button class="btn" type="submit">Quero o cupom</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><span class="brand-logo"><span>D</span></span>Decora Móveis</div>
+          <p>Design minimalista e conforto autoral para casas que gostam de cor.</p>
+        </div>
+        <div>
+          <h4>Coleção</h4>
+          <ul>
+            <li><a href="produto.html?p=sofa-lumo">Sofá Lumo</a></li>
+            <li><a href="produto.html?p=poltrona-orbe">Poltrona Orbe</a></li>
+            <li><a href="produto.html?p=conjunto-roda">Conjunto de jantar Roda</a></li>
+            <li><a href="produto.html?p=cama-nuvem">Cama Nuvem</a></li>
+            <li><a href="produto.html?p=guardaroupa-nicho">Guarda-roupa Nicho</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Ajuda</h4>
+          <ul>
+            <li><a href="#entrega">Entrega e montagem</a></li>
+            <li><a href="#entrega">Trocas e devoluções</a></li>
+            <li><a href="carrinho.html">Meu carrinho</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Showroom</h4>
+          <ul>
+            <li>Rua dos Pinheiros, 1200</li>
+            <li>São Paulo · SP</li>
+            <li>Seg a sáb · 10h às 19h</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> Decora Móveis</span>
+        <span class="demo-note">Projeto demonstrativo — nenhuma compra real é processada</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

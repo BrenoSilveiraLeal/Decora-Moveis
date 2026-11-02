@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Finalize sua compra na Decora Móveis.">
+  <title>Finalizar compra | Decora Móveis</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#3c442c">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="checkout">
+  <header class="hero-header site-header" id="siteHeader"></header>
+
+  <main class="page">
+    <div class="container">
+      <h1 class="page-title">finalizar compra</h1>
+
+      <div class="layout-2col" id="checkoutLayout">
+        <form id="checkoutRoot" novalidate onsubmit="return false">
+          <div class="steps" aria-label="Etapas">
+            <span class="step-pill" data-step="1"><b>1</b>Identificação</span>
+            <span class="step-pill" data-step="2"><b>2</b>Entrega</span>
+            <span class="step-pill" data-step="3"><b>3</b>Pagamento</span>
+          </div>
+
+          <!-- ETAPA 1 -->
+          <section class="checkout-step panel" data-step="1">
+            <h2>Seus dados</h2>
+            <div class="form-grid">
+              <div class="field col-6">
+                <label for="f-name">Nome completo</label>
+                <input class="input" id="f-name" name="name" autocomplete="name" placeholder="Maria Souza">
+                <span class="field-error"></span>
+              </div>
+              <div class="field col-3">
+                <label for="f-email">E-mail</label>
+                <input class="input" id="f-email" name="email" type="email" autocomplete="email" placeholder="voce@email.com">
+                <span class="field-error"></span>
+              </div>
+              <div class="field col-3">
+                <label for="f-phone">Celular</label>
+                <input class="input" id="f-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000">
+                <span class="field-error"></span>
+              </div>
+            </div>
+            <div class="step-actions">
+              <a class="btn-text" href="carrinho.html">← Voltar ao carrinho</a>
+              <button class="btn btn-lg" type="button" id="toStep2">Continuar para entrega</button>
+            </div>
+          </section>
+
+          <!-- ETAPA 2 -->
+          <section class="checkout-step panel" data-step="2">
+            <h2>Endereço de entrega</h2>
+            <div class="form-grid">
+              <div class="field col-2">
+                <label for="f-cep">CEP</label>
+                <input class="input" id="f-cep" name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9">
+                <span class="field-error"></span>
+              </div>
+              <div class="field col-4">
+                <label for="f-street">Rua</label>
+                <input class="input" id="f-street" name="street" autocomplete="address-line1" placeholder="Preenchida pelo CEP">
+                <span class="field-error"></span>
+              </div>
+              <div class="field col-2">
+                <label for="f-number">Número</label>
+                <input class="input" id="f-number" name="number" placeholder="123">
+                <span class="field-error"></span>
+              </div>
+              <div class="field col-4">
+                <label for="f-complement">Complemento <span style="font-weight:500;color:var(--muted)">(opcional)</span></label>
+                <input class="input" id="f-complement" name="complement" autocomplete="address-line2" placeholder="Apto, bloco…">
+              </div>
+              <div class="field col-2">
+                <label for="f-district">Bairro</label>
+                <input class="input" id="f-district" name="district" placeholder="Bairro">
+                <span class="field-error"></span>
+              </div>
+              <div class="field col-3">
+                <label for="f-city">Cidade</label>
+                <input class="input" id="f-city" name="city" autocomplete="address-level2" placeholder="Cidade">
+                <span class="field-error"></span>
+              </div>
+              <div class="field col-1" style="grid-column:span 1">
+                <label for="f-uf">UF</label>
+                <input class="input" id="f-uf" name="uf" maxlength="2" autocomplete="address-level1" placeholder="SP" style="text-transform:uppercase">
+                <span class="field-error"></span>
+              </div>
+            </div>
+            <h2 style="margin-top:28px;margin-bottom:0">Forma de entrega</h2>
+            <div id="shipOptions"></div>
+            <div class="step-actions">
+              <button class="btn-text" type="button" id="backTo1">← Seus dados</button>
+              <button class="btn btn-lg" type="button" id="toStep3">Continuar para pagamento</button>
+            </div>
+          </section>
+
+          <!-- ETAPA 3 -->
+          <section class="checkout-step panel" data-step="3">
+            <h2>Pagamento</h2>
+            <div class="notice">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+              <span>Ambiente de demonstração: nenhuma cobrança é feita e nenhum dado de pagamento é guardado. Não use dados reais de cartão.</span>
+            </div>
+            <div class="pay-tabs" role="tablist">
+              <button type="button" class="pay-tab active" data-pay="pix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 4.5 4.5L12 12 7.5 7.5 12 3ZM12 12l4.5 4.5L12 21l-4.5-4.5L12 12ZM3 12l4.5-4.5L12 12l-4.5 4.5L3 12ZM12 12l4.5-4.5L21 12l-4.5 4.5L12 12Z"/></svg>Pix<small>5% off</small></button>
+              <button type="button" class="pay-tab" data-pay="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h3"/></svg>Cartão<small>até 10x</small></button>
+              <button type="button" class="pay-tab" data-pay="boleto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6v12M7 6v12M10 6v12M14 6v12M16 6v12M20 6v12"/></svg>Boleto<small>3 dias úteis</small></button>
+            </div>
+
+            <div class="pay-panel active" data-pay="pix">
+              <p class="panel-sub">Você recebe o QR Code na próxima tela. Aprovação na hora e <strong>5% de desconto</strong> no total.</p>
+            </div>
+
+            <div class="pay-panel" data-pay="card">
+              <div class="form-grid">
+                <div class="field col-6">
+                  <label for="f-card">Número do cartão</label>
+                  <input class="input" id="f-card" name="cardNumber" inputmode="numeric" autocomplete="off" placeholder="0000 0000 0000 0000">
+                  <span class="field-error"></span>
+                </div>
+                <div class="field col-6">
+                  <label for="f-cardname">Nome impresso no cartão</label>
+                  <input class="input" id="f-cardname" name="cardName" autocomplete="off" placeholder="MARIA SOUZA" style="text-transform:uppercase">
+                  <span class="field-error"></span>
+                </div>
+                <div class="field col-3">
+                  <label for="f-exp">Validade</label>
+                  <input class="input" id="f-exp" name="cardExpiry" inputmode="numeric" autocomplete="off" placeholder="MM/AA">
+                  <span class="field-error"></span>
+                </div>
+                <div class="field col-3">
+                  <label for="f-cvv">CVV</label>
+                  <input class="input" id="f-cvv" name="cardCvv" inputmode="numeric" autocomplete="off" placeholder="123">
+                  <span class="field-error"></span>
+                </div>
+                <div class="field col-6">
+                  <label for="f-inst">Parcelas</label>
+                  <select class="input" id="f-inst" name="installments"></select>
+                </div>
+              </div>
+            </div>
+
+            <div class="pay-panel" data-pay="boleto">
+              <p class="panel-sub">O boleto é gerado na próxima tela e vence em 3 dias úteis. O prazo de entrega conta a partir da compensação.</p>
+            </div>
+
+            <div class="step-actions">
+              <button class="btn-text" type="button" id="backTo2">← Entrega</button>
+              <button class="btn btn-lg" type="button" id="placeOrder">Confirmar pedido</button>
+            </div>
+          </section>
+        </form>
+
+        <div class="sticky" id="checkoutSummary"></div>
+      </div>
+    </div>
+  </main>
+
+  <div class="processing" id="processing" role="status" aria-live="polite">
+    <div class="spinner"></div>
+    Processando seu pedido…
+  </div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
