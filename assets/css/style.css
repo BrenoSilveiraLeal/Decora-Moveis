@@ -1276,6 +1276,18 @@ select.input {
   transition: color 0.4s ease;
 }
 
+.product-reviews-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 12px;
+  color: var(--color-badge-bg);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.product-reviews-link:hover { text-decoration: underline; }
+
 .product-desc {
   margin-top: 18px;
   max-width: 620px;

@@ -661,9 +661,15 @@ function initProductReviews(product) {
 
   const summary = $('#reviewsSummary', root);
   const list = $('#reviewsList', root);
+  const productReviewLink = $('#productReviewLink');
   const render = () => {
     const reviews = readReviews();
     const average = reviews.length ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : 0;
+    if (productReviewLink) {
+      productReviewLink.textContent = reviews.length
+        ? `★ ${average.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} · ${reviews.length} ${reviews.length === 1 ? 'avaliação' : 'avaliações'} · ver comentários`
+        : '☆ Seja a primeira pessoa a avaliar';
+    }
     summary.innerHTML = reviews.length
       ? `<strong>${average.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</strong><span class="review-stars" aria-label="${average.toFixed(1)} de 5 estrelas">${'★'.repeat(Math.round(average))}${'☆'.repeat(5 - Math.round(average))}</span><span>${reviews.length} ${reviews.length === 1 ? 'avaliação' : 'avaliações'}</span>`
       : '<span>Seja a primeira pessoa a avaliar</span>';
@@ -743,6 +749,7 @@ function initProduct() {
       </nav>
       <h2 class="product-title">${productLabel(product).toLowerCase()}</h2>
       <p class="product-tagline">${product.tagline}</p>
+      <a class="product-reviews-link" id="productReviewLink" href="#reviewsTitle"></a>
       <p class="product-desc">${product.description}</p>
       <dl class="specs">
         ${Object.entries(product.specs).map(([k, v]) => `<div class="specs-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('')}
