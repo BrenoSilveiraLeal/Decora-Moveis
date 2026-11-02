@@ -490,9 +490,8 @@ function productCardHTML(product, delay = 0) {
   const minPrice = Math.min(...product.variants.map((x) => x.price));
   return `
     <article class="product-card" data-pid="${product.id}" style="animation-delay:${delay}ms">
-      <a class="product-media" href="${productUrl(product, v)}" style="--card-fill:${v.fill};--zoom:${product.cardZoom};--word-color:${v.theme.titleText};--pill-bg:${v.theme.badgeBg}">
+      <a class="product-media" href="${productUrl(product, v)}" style="--card-fill:${v.fill};--zoom:${product.cardZoom};--word-color:${v.theme.titleText}">
         <img src="${v.image}" alt="${productLabel(product)} na cor ${v.name}" loading="lazy">
-        <span class="card-price-pill">${moneyShort(v.price)}</span>
         <span class="product-word">${product.word}</span>
       </a>
       <div class="product-info">
@@ -522,10 +521,8 @@ function bindProductCards(container) {
       selected = variant;
       media.style.setProperty('--card-fill', variant.fill);
       media.style.setProperty('--word-color', variant.theme.titleText);
-      media.style.setProperty('--pill-bg', variant.theme.badgeBg);
       img.src = variant.image;
       img.alt = `${productLabel(product)} na cor ${variant.name}`;
-      $('.card-price-pill', media).textContent = moneyShort(variant.price);
       $('[data-color]', card).textContent = `${variant.name} · ${product.variants.length} cores`;
       const url = productUrl(product, variant);
       media.href = url;
