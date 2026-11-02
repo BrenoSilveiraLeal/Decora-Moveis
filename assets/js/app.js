@@ -388,6 +388,7 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     layer.className = `hero-bg-layer ${index === currentVariantIndex ? 'active' : ''}`;
     layer.style.backgroundImage = `url('${variant.image}')`;
     layer.style.setProperty('--mscale', `${product.mobileScale}%`);
+    layer.style.setProperty('--hero-image-scale', variant.heroScale || 1);
     layer.setAttribute('data-id', variant.id);
     bgContainer.appendChild(layer);
   });

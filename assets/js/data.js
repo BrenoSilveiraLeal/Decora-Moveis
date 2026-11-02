@@ -125,11 +125,11 @@ const PRODUCTS = [
     variants: [
       { id: 'lilas', name: 'Lilás', swatch: '#a99ab9', price: 690, image: 'assets/img/pufe-lilas.jpg', quote: ['Um toque lúdico', 'para cantos tranquilos'], fill: '#d2cae1',
         theme: { navText: '#352b4a', darkBtn: '#54476e', darkHover: '#3e3354', badgeBg: '#6b5c8a', titleText: '#fbf9ff', bodyBg: '#d2cae1' } },
-      { id: 'manteiga', name: 'Manteiga', swatch: '#d8a844', price: 690, image: 'assets/img/pufe-manteiga.jpg', quote: ['Amarelo manteiga', 'para dias ensolarados'], fill: '#e9cc86',
+      { id: 'manteiga', name: 'Manteiga', swatch: '#d8a844', price: 690, image: 'assets/img/pufe-manteiga.jpg', heroScale: 1.1, quote: ['Amarelo manteiga', 'para dias ensolarados'], fill: '#e9cc86',
         theme: { navText: '#4a3608', darkBtn: '#7a5a12', darkHover: '#5b420c', badgeBg: '#94701c', titleText: '#fffaf0', bodyBg: '#e9cc86' } },
       { id: 'menta', name: 'Menta', swatch: '#9cc2a6', price: 690, image: 'assets/img/pufe-menta.jpg', quote: ['Frescor de menta', 'para respirar fundo'], fill: '#b4ccb6',
         theme: { navText: '#1f3a28', darkBtn: '#355c41', darkHover: '#26452f', badgeBg: '#487556', titleText: '#f7fbf7', bodyBg: '#b4ccb6' } },
-      { id: 'pedra', name: 'Pedra', swatch: '#827b75', price: 720, image: 'assets/img/pufe-pedra.jpg', quote: ['Neutro e urbano', 'para combinar com tudo'], fill: '#8c8885',
+      { id: 'pedra', name: 'Pedra', swatch: '#827b75', price: 720, image: 'assets/img/pufe-pedra.jpg', heroScale: 1.1, quote: ['Neutro e urbano', 'para combinar com tudo'], fill: '#8c8885',
         theme: { navText: '#252321', darkBtn: '#403c38', darkHover: '#2c2926', badgeBg: '#5a5550', titleText: '#f7f5f2', bodyBg: '#8c8885' } }
     ]
   },
