@@ -387,10 +387,8 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     const layer = document.createElement('div');
     layer.className = `hero-bg-layer ${index === currentVariantIndex ? 'active' : ''}`;
     layer.style.backgroundImage = `url('${variant.image}')`;
-    const frame = HERO_FRAMES[product.id]?.[variant.id] || {};
     layer.style.setProperty('--mscale', `${product.mobileScale}%`);
-    layer.style.setProperty('--hero-image-scale', frame.scale || variant.heroScale || 1);
-    layer.style.setProperty('--hero-position', frame.position || '50% 50%');
+    layer.style.setProperty('--hero-image-scale', variant.heroScale || 1);
     layer.setAttribute('data-id', variant.id);
     bgContainer.appendChild(layer);
   });
