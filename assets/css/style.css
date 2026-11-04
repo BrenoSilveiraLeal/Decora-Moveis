@@ -2372,7 +2372,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .chip { flex-shrink: 0; }
 
   .product-grid { grid-template-columns: 1fr; gap: 18px; }
-  .rooms { grid-template-columns: repeat(3, 72%); overflow-x: auto; scrollbar-width: none; gap: 12px; margin: 0 -20px 20px; padding: 4px 20px 8px; scroll-snap-type: x mandatory; }
+  .rooms { grid-template-columns: repeat(3, 72%); overflow-x: auto; scrollbar-width: none; gap: 12px; margin: 0 -20px 20px; padding: 4px 20px 8px 28px; scroll-padding-left: 28px; scroll-snap-type: x mandatory; }
   .rooms::-webkit-scrollbar { display: none; }
   .room-card { scroll-snap-align: start; }
   #categoryChips { margin-bottom: 20px; }

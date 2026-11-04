@@ -60,13 +60,13 @@ const PRODUCTS = [
       'Peso': '68 kg'
     },
     variants: [
-      { id: 'rosa', name: 'Rosa', swatch: '#b0857f', price: 4790, image: 'assets/img/sofa-rosa.jpg', quote: ['Abraço macio', 'para a família toda'], fill: '#d8b6b4',
+      { id: 'rosa', name: 'Rosa', swatch: '#b0857f', price: 4790, image: 'assets/img/sofa-rosa.jpg', heroScale: 1.08, quote: ['Abraço macio', 'para a família toda'], fill: '#d8b6b4',
         theme: { navText: '#4a2a2a', darkBtn: '#6e3f3c', darkHover: '#52302d', badgeBg: '#8a5550', titleText: '#fff6f4', bodyBg: '#d8b6b4' } },
-      { id: 'mostarda', name: 'Mostarda', swatch: '#b9831f', price: 4790, image: 'assets/img/sofa-mostarda.jpg', quote: ['Cor que acende', 'a sala de estar'], fill: '#caa451',
+      { id: 'mostarda', name: 'Mostarda', swatch: '#b9831f', price: 4790, image: 'assets/img/sofa-mostarda.jpg', heroScale: 1, quote: ['Cor que acende', 'a sala de estar'], fill: '#caa451',
         theme: { navText: '#3d2c08', darkBtn: '#5c4210', darkHover: '#43300a', badgeBg: '#7a5a1a', titleText: '#fff8e6', bodyBg: '#caa451' } },
-      { id: 'petroleo', name: 'Petróleo', swatch: '#215263', price: 4990, image: 'assets/img/sofa-petroleo.jpg', quote: ['Profundidade e calma', 'para noites longas'], fill: '#739dab',
+      { id: 'petroleo', name: 'Petróleo', swatch: '#215263', price: 4990, image: 'assets/img/sofa-petroleo.jpg', heroScale: 1.08, quote: ['Profundidade e calma', 'para noites longas'], fill: '#739dab',
         theme: { navText: '#0f2a33', darkBtn: '#1d4552', darkHover: '#13323d', badgeBg: '#2b5b6b', titleText: '#f0f7f9', bodyBg: '#739dab' } },
-      { id: 'linho', name: 'Linho', swatch: '#d9d0c1', price: 5290, image: 'assets/img/sofa-linho.jpg', quote: ['Linho natural', 'leveza em cada fibra'], fill: '#9b8e7e',
+      { id: 'linho', name: 'Linho', swatch: '#d9d0c1', price: 5290, image: 'assets/img/sofa-linho.jpg', heroScale: 1.03, quote: ['Linho natural', 'leveza em cada fibra'], fill: '#9b8e7e',
         theme: { navText: '#2e271f', darkBtn: '#4a4034', darkHover: '#352d24', badgeBg: '#65584a', titleText: '#faf6f0', bodyBg: '#9b8e7e' } }
     ]
   },
