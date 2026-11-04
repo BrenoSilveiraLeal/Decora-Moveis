@@ -393,6 +393,14 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     bgContainer.appendChild(layer);
   });
 
+  // Na página inicial, revela a imagem principal de baixo para cima uma vez.
+  // O título "decora" continua visível enquanto a vitrine termina de entrar.
+  if (mode === 'home') {
+    const firstLayer = $('.hero-bg-layer.active', bgContainer);
+    requestAnimationFrame(() => firstLayer.classList.add('hero-intro-rise'));
+    firstLayer.addEventListener('animationend', () => firstLayer.classList.remove('hero-intro-rise'), { once: true });
+  }
+
   function renderSidebarCards() {
     cardsContainer.innerHTML = '';
     variants
