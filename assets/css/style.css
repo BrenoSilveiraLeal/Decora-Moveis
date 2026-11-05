@@ -2251,13 +2251,13 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   }
 
   .hero-center-typography {
-    top: 50%;
+    top: 44%;
     left: 50%;
     transform: translate(-50%, -50%);
     align-items: flex-start;
     text-align: left;
-    width: 100%;
-    padding: 0 16px;
+    width: max-content;
+    padding: 0;
   }
 
   .title-simply {
@@ -2267,11 +2267,11 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   }
 
   .subtitle-furniture {
-    align-self: flex-start;
-    margin-right: 0;
+    align-self: flex-end;
+    margin-right: 4px;
     margin-top: 4px;
     font-size: clamp(16px, 4vw, 22px);
-    text-align: left;
+    text-align: right;
   }
 
   .hero-body { padding: 0; }
