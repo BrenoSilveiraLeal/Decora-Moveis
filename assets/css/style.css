@@ -341,7 +341,8 @@ body.home-loading .site-loader .hero-center-typography { visibility: visible; }
    ========================================================================== */
 .hero-center-typography {
   position: absolute;
-  top: 50%;
+  /* Mantém a marca na mesma posição do loader, mesmo com o min-height do hero. */
+  top: 50vh;
   left: 44%;
   transform: translate(-50%, -50%);
   display: flex;
