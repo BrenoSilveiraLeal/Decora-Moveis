@@ -106,50 +106,27 @@ button { font-family: inherit; }
 /* Abertura curta da página inicial: primeiro a marca, depois a vitrine. */
 body.home-loading { overflow: hidden; }
 
-body.home-loading .hero-header,
-body.home-loading .hero-backgrounds,
-body.home-loading .hero-center-typography,
-body.home-loading .hero-body,
-body.home-loading .hero-buy { visibility: hidden; }
+body.home-loading .showcase .hero-header,
+body.home-loading .showcase .hero-backgrounds,
+body.home-loading .showcase .hero-center-typography,
+body.home-loading .showcase .hero-body,
+body.home-loading .showcase .hero-buy { visibility: hidden; }
 
 .site-loader {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: #a8ab8a;
   opacity: 1;
   transition: opacity 0.45s ease, visibility 0.45s ease;
 }
 
+body.home-loading .site-loader .hero-center-typography { visibility: visible; }
+
 .site-loader.is-exiting {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-}
-
-.site-loader-wordmark {
-  display: flex;
-  flex-direction: column;
-  color: #f4efe6;
-  font-family: var(--font-display);
-  font-weight: 700;
-  line-height: 0.82;
-  letter-spacing: -0.045em;
-}
-
-.site-loader-wordmark > span { font-size: clamp(72px, 18vw, 150px); }
-
-.site-loader-wordmark small {
-  align-self: flex-end;
-  margin: 10px 5px 0 0;
-  font-family: var(--font-body);
-  font-size: clamp(18px, 3vw, 28px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0;
 }
 
 .hero-header.hero-header-enter { animation: hero-header-enter 0.7s ease both; }
@@ -210,7 +187,7 @@ body.home-loading .hero-buy { visibility: hidden; }
 }
 
 @keyframes hero-title-rise {
-  from { opacity: 0; transform: translate3d(-50%, calc(-50% + 4vh), 0) scale(0.94); }
+  from { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(0.96); }
   to { opacity: 1; transform: translate3d(-50%, -50%, 0) scale(1); }
 }
 
