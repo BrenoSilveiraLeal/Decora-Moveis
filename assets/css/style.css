@@ -2186,7 +2186,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
 /* Telas em pé (celular e tablet): o móvel inteiro aparece e o resto é preenchido com o tom do fundo */
 @media (max-width: 1024px) and (orientation: portrait) {
   .hero-bg-layer {
-    top: 56%;
+    top: 44%;
     left: 50%;
     width: var(--mscale, 200%);
     height: auto;
@@ -2254,24 +2254,24 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
     width: 100%;
     padding: 0 16px;
   }
 
   .title-simply {
-    font-size: clamp(64px, 17vw, 96px);
+    font-size: clamp(68px, 19vw, 100px);
     line-height: 0.88;
-    text-align: center;
+    text-align: left;
   }
 
   .subtitle-furniture {
-    align-self: center;
+    align-self: flex-start;
     margin-right: 0;
-    margin-top: 8px;
+    margin-top: 4px;
     font-size: clamp(16px, 4vw, 22px);
-    text-align: center;
+    text-align: left;
   }
 
   .hero-body { padding: 0; }
@@ -2422,7 +2422,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
 
   .nav-link { font-size: 12px; }
 
-  .title-simply { font-size: clamp(54px, 15vw, 68px); }
+  .title-simply { font-size: clamp(64px, 19vw, 78px); }
 
   .variant-card {
     width: 82px;
