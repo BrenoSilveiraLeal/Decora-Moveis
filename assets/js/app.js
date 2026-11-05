@@ -408,11 +408,11 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     const imageReady = image.decode ? image.decode().catch(() => {}) : new Promise((resolve) => {
       image.onload = image.onerror = resolve;
     });
-    const minimumSplash = new Promise((resolve) => setTimeout(resolve, reducedMotion ? 0 : 1250));
+    const minimumSplash = new Promise((resolve) => setTimeout(resolve, reducedMotion ? 0 : 900));
 
     const imageReadyOrTimeout = Promise.race([
       imageReady,
-      new Promise((resolve) => setTimeout(resolve, 1800))
+      new Promise((resolve) => setTimeout(resolve, 1400))
     ]);
 
     Promise.all([imageReadyOrTimeout, minimumSplash]).then(() => {
