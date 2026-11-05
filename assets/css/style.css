@@ -103,6 +103,68 @@ button { font-family: inherit; }
   transition: background-color 0.35s ease-in-out;
 }
 
+/* Abertura curta da página inicial: primeiro a marca, depois a vitrine. */
+body.home-loading { overflow: hidden; }
+
+body.home-loading .hero-header,
+body.home-loading .hero-backgrounds,
+body.home-loading .hero-center-typography,
+body.home-loading .hero-body,
+body.home-loading .hero-buy { visibility: hidden; }
+
+.site-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #a8ab8a;
+  opacity: 1;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+.site-loader.is-exiting {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.site-loader-wordmark {
+  display: flex;
+  flex-direction: column;
+  color: #f4efe6;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+}
+
+.site-loader-wordmark > span { font-size: clamp(72px, 18vw, 150px); }
+
+.site-loader-wordmark small {
+  align-self: flex-end;
+  margin: 10px 5px 0 0;
+  font-family: var(--font-body);
+  font-size: clamp(18px, 3vw, 28px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.hero-header.hero-header-enter { animation: hero-header-enter 0.7s ease both; }
+.hero-body.hero-body-enter { animation: hero-body-enter 0.75s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes hero-header-enter {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-body-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ==========================================================================
    BACKGROUND IMAGES (CROSSFADE CINEMATOGRÁFICO)
    ========================================================================== */
@@ -2223,12 +2285,12 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
     overflow: hidden;
   }
 
-  .hero-header { padding: 16px 20px; gap: 14px; }
+  .hero-header { padding: 16px; gap: 10px; }
 
   .header-left {
     flex: 1;
-    justify-content: space-between;
-    gap: 16px;
+    justify-content: flex-start;
+    gap: 8px;
   }
 
   .brand-logo {
@@ -2243,11 +2305,12 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .cart-button { width: 38px; height: 38px; border-radius: 12px; }
   .cart-button svg { width: 18px; height: 18px; }
 
-  nav { min-width: 0; }
+  nav { flex: 1; min-width: 0; }
 
   .nav-menu {
-    gap: 16px;
-    overflow-x: auto;
+    justify-content: space-between;
+    gap: clamp(3px, 1.8vw, 7px);
+    overflow: visible;
     scrollbar-width: none;
     -ms-overflow-style: none;
     padding: 4px 0;
@@ -2256,7 +2319,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .nav-menu::-webkit-scrollbar { display: none; }
 
   .nav-link {
-    font-size: 13px;
+    font-size: clamp(10.5px, 3vw, 12px);
     white-space: nowrap;
   }
 
@@ -2428,9 +2491,9 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
 @media (max-width: 380px) {
   .hero-header { padding: 12px 14px; }
 
-  .nav-menu { gap: 12px; }
+  .nav-menu { gap: 4px; }
 
-  .nav-link { font-size: 12px; }
+  .nav-link { font-size: 11px; }
 
   .title-simply { font-size: clamp(68px, 20vw, 84px); }
 

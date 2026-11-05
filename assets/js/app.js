@@ -395,16 +395,40 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     bgContainer.appendChild(layer);
   });
 
-  // Na página inicial, a imagem principal e a marca entram juntas uma vez.
+  // A tela inicial dá um instante para a marca aparecer e revelar a vitrine
+  // assim que a primeira imagem estiver pronta.
   if (mode === 'home') {
     const firstLayer = $('.hero-bg-layer.active', bgContainer);
     const heroTypography = $('.hero-center-typography');
-    requestAnimationFrame(() => {
+    const heroHeader = $('#siteHeader');
+    const heroBody = $('.hero-body');
+    const loader = $('#siteLoader');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const image = new Image();
+    image.src = variants[currentVariantIndex].image;
+    const imageReady = image.decode ? image.decode().catch(() => {}) : new Promise((resolve) => {
+      image.onload = image.onerror = resolve;
+    });
+    const minimumSplash = new Promise((resolve) => setTimeout(resolve, reducedMotion ? 0 : 1250));
+
+    const imageReadyOrTimeout = Promise.race([
+      imageReady,
+      new Promise((resolve) => setTimeout(resolve, 1800))
+    ]);
+
+    Promise.all([imageReadyOrTimeout, minimumSplash]).then(() => {
+      heroHeader.classList.add('hero-header-enter');
+      heroBody.classList.add('hero-body-enter');
       firstLayer.classList.add('hero-intro-rise');
       heroTypography.classList.add('hero-intro-title');
+      document.body.classList.remove('home-loading');
+      loader.classList.add('is-exiting');
+      window.setTimeout(() => loader.remove(), 500);
     });
     firstLayer.addEventListener('animationend', () => firstLayer.classList.remove('hero-intro-rise'), { once: true });
     heroTypography.addEventListener('animationend', () => heroTypography.classList.remove('hero-intro-title'), { once: true });
+    heroHeader.addEventListener('animationend', () => heroHeader.classList.remove('hero-header-enter'), { once: true });
+    heroBody.addEventListener('animationend', () => heroBody.classList.remove('hero-body-enter'), { once: true });
   }
 
   function renderSidebarCards() {
