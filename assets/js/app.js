@@ -395,12 +395,16 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     bgContainer.appendChild(layer);
   });
 
-  // Na página inicial, revela a imagem principal de baixo para cima uma vez.
-  // O título "decora" continua visível enquanto a vitrine termina de entrar.
+  // Na página inicial, a imagem principal e a marca entram juntas uma vez.
   if (mode === 'home') {
     const firstLayer = $('.hero-bg-layer.active', bgContainer);
-    requestAnimationFrame(() => firstLayer.classList.add('hero-intro-rise'));
+    const heroTypography = $('.hero-center-typography');
+    requestAnimationFrame(() => {
+      firstLayer.classList.add('hero-intro-rise');
+      heroTypography.classList.add('hero-intro-title');
+    });
     firstLayer.addEventListener('animationend', () => firstLayer.classList.remove('hero-intro-rise'), { once: true });
+    heroTypography.addEventListener('animationend', () => heroTypography.classList.remove('hero-intro-title'), { once: true });
   }
 
   function renderSidebarCards() {
@@ -463,6 +467,7 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     const introLayer = $('.hero-intro-rise', bgContainer);
     if (introLayer && currentLayer !== targetLayer) {
       introLayer.classList.remove('hero-intro-rise');
+      $('.hero-center-typography').classList.remove('hero-intro-title');
     }
     layers.forEach((layer) => {
       if (layer === targetLayer || layer === currentLayer) return;

@@ -133,9 +133,13 @@ button { font-family: inherit; }
   opacity: 1;
 }
 
-/* Entrada única da imagem da vitrine inicial, sem atrasar o título da marca. */
+/* Entrada sincronizada da imagem e da marca na vitrine inicial. */
 .hero-bg-layer.hero-intro-rise {
   animation: hero-image-rise 1.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-center-typography.hero-intro-title {
+  animation: hero-title-rise 1.25s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes hero-image-rise {
@@ -143,8 +147,14 @@ button { font-family: inherit; }
   to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 }
 
+@keyframes hero-title-rise {
+  from { opacity: 0; transform: translate3d(-50%, calc(-50% + 4vh), 0) scale(0.94); }
+  to { opacity: 1; transform: translate3d(-50%, -50%, 0) scale(1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-bg-layer.hero-intro-rise { animation: none; }
+  .hero-bg-layer.hero-intro-rise,
+  .hero-center-typography.hero-intro-title { animation: none; }
 }
 
 /* ==========================================================================
@@ -2261,7 +2271,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   }
 
   .title-simply {
-    font-size: clamp(68px, 19vw, 100px);
+    font-size: clamp(72px, 21vw, 108px);
     line-height: 0.88;
     text-align: left;
   }
@@ -2422,7 +2432,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
 
   .nav-link { font-size: 12px; }
 
-  .title-simply { font-size: clamp(64px, 19vw, 78px); }
+  .title-simply { font-size: clamp(68px, 20vw, 84px); }
 
   .variant-card {
     width: 82px;
