@@ -177,23 +177,13 @@ body.home-loading .site-loader .hero-center-typography { visibility: visible; }
   animation: hero-image-rise 1.25s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.hero-center-typography.hero-intro-title {
-  animation: hero-title-rise 1.25s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
 @keyframes hero-image-rise {
   from { opacity: 0; transform: translate3d(0, 9vh, 0) scale(1.025); }
   to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 }
 
-@keyframes hero-title-rise {
-  from { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(0.96); }
-  to { opacity: 1; transform: translate3d(-50%, -50%, 0) scale(1); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .hero-bg-layer.hero-intro-rise,
-  .hero-center-typography.hero-intro-title { animation: none; }
+  .hero-bg-layer.hero-intro-rise { animation: none; }
 }
 
 /* ==========================================================================

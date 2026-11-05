@@ -399,7 +399,6 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
   // assim que a primeira imagem estiver pronta.
   if (mode === 'home') {
     const firstLayer = $('.hero-bg-layer.active', bgContainer);
-    const heroTypography = $('.hero-center-typography');
     const heroHeader = $('#siteHeader');
     const heroBody = $('.hero-body');
     const loader = $('#siteLoader');
@@ -420,13 +419,11 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
       heroHeader.classList.add('hero-header-enter');
       heroBody.classList.add('hero-body-enter');
       firstLayer.classList.add('hero-intro-rise');
-      heroTypography.classList.add('hero-intro-title');
       document.body.classList.remove('home-loading');
       loader.classList.add('is-exiting');
       window.setTimeout(() => loader.remove(), 500);
     });
     firstLayer.addEventListener('animationend', () => firstLayer.classList.remove('hero-intro-rise'), { once: true });
-    heroTypography.addEventListener('animationend', () => heroTypography.classList.remove('hero-intro-title'), { once: true });
     heroHeader.addEventListener('animationend', () => heroHeader.classList.remove('hero-header-enter'), { once: true });
     heroBody.addEventListener('animationend', () => heroBody.classList.remove('hero-body-enter'), { once: true });
   }
@@ -491,7 +488,6 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     const introLayer = $('.hero-intro-rise', bgContainer);
     if (introLayer && currentLayer !== targetLayer) {
       introLayer.classList.remove('hero-intro-rise');
-      $('.hero-center-typography').classList.remove('hero-intro-title');
     }
     layers.forEach((layer) => {
       if (layer === targetLayer || layer === currentLayer) return;
