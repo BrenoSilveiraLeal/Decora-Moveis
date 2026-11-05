@@ -2408,7 +2408,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .review-form { grid-row: 1; }
   .reviews-summary { padding: 10px 14px; }
   .page { padding: 8px 20px 64px; }
-  .site-footer { padding: 48px 20px 32px; }
+  .site-footer { padding: 48px 20px 32px; text-align: center; }
 
   .section-head { margin-bottom: 28px; }
   .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -20px; padding: 0 20px 4px; width: calc(100% + 40px); }
@@ -2428,6 +2428,10 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .stat strong { font-size: 26px; }
   .cta-band { padding: 36px 24px; border-radius: 28px; }
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-brand { justify-content: center; }
+  .footer-bottom { flex-direction: column; align-items: center; }
+  .demo-note { justify-content: center; }
+  .demo-note::before { flex-shrink: 0; }
 
   .buy-panel { padding: 22px; border-radius: var(--radius-card); }
   .panel-price { font-size: 40px; }
