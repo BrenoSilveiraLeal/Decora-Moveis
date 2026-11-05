@@ -1,0 +1,430 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - region "Vitrine" [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - link "Decora Móveis Início" [ref=e6] [cursor=pointer]:
+            - /url: index.html
+            - generic [ref=e7]: D
+          - navigation "Navegação Principal" [ref=e8]:
+            - list [ref=e9]:
+              - listitem [ref=e10]:
+                - link "Coleção" [ref=e11] [cursor=pointer]:
+                  - /url: index.html#colecao
+              - listitem [ref=e12]:
+                - link "Sobre" [ref=e13] [cursor=pointer]:
+                  - /url: index.html#sobre
+              - listitem [ref=e14]:
+                - link "Entrega" [ref=e15] [cursor=pointer]:
+                  - /url: index.html#entrega
+              - listitem [ref=e16]:
+                - link "Contato" [ref=e17] [cursor=pointer]:
+                  - /url: index.html#contato
+        - button "Abrir carrinho" [ref=e19] [cursor=pointer]:
+          - generic: "0"
+      - generic:
+        - heading "decora" [level=1]
+        - generic: móveis
+      - complementary "Cores disponíveis de Poltrona Orbe" [ref=e23]:
+        - generic [ref=e24]:
+          - button "Trocar para Poltrona Orbe na cor Azul" [ref=e25] [cursor=pointer]:
+            - generic [ref=e26]: R$ 1.690
+            - generic [ref=e29]: Azul
+          - button "Trocar para Poltrona Orbe na cor Laranja" [ref=e30] [cursor=pointer]:
+            - generic [ref=e31]: R$ 2.150
+            - generic [ref=e34]: Laranja
+          - button "Trocar para Poltrona Orbe na cor Bege" [ref=e35] [cursor=pointer]:
+            - generic [ref=e36]: R$ 1.980
+            - generic [ref=e39]: Bege
+        - generic [ref=e40]:
+          - paragraph [ref=e42]: Design autoralpara o seu aconchego
+          - button "Mais cores" [ref=e43] [cursor=pointer]
+    - generic [ref=e44]:
+      - generic [ref=e45]: Destaque da coleção
+      - strong [ref=e46]: Poltrona Orbe · Oliva
+      - generic [ref=e47]: R$ 1.850
+      - paragraph [ref=e48]: ou 10x de R$ 185,00 sem juros
+      - generic [ref=e49]:
+        - link "Ver detalhes" [ref=e50] [cursor=pointer]:
+          - /url: produto.html?p=poltrona-orbe&c=verde
+        - button "Adicionar" [ref=e51] [cursor=pointer]
+  - main [ref=e52]:
+    - generic [ref=e54]:
+      - generic [ref=e56]:
+        - generic [ref=e57]: Coleção 2026
+        - heading "nossa coleção" [level=2] [ref=e58]
+      - group "Compre por ambiente" [ref=e59]:
+        - button "sala de estar 5 peças" [ref=e60] [cursor=pointer]:
+          - generic [ref=e61]: sala de estar
+          - generic [ref=e62]: 5 peças
+        - button "sala de jantar 2 peças" [ref=e63] [cursor=pointer]:
+          - generic [ref=e64]: sala de jantar
+          - generic [ref=e65]: 2 peças
+        - button "quarto 5 peças" [ref=e66] [cursor=pointer]:
+          - generic [ref=e67]: quarto
+          - generic [ref=e68]: 5 peças
+      - group "Filtrar por categoria" [ref=e69]:
+        - button "Todos" [ref=e70] [cursor=pointer]
+        - button "Sofás" [ref=e71] [cursor=pointer]
+        - button "Poltronas" [ref=e72] [cursor=pointer]
+        - button "Cadeiras" [ref=e73] [cursor=pointer]
+        - button "Conjuntos de jantar" [ref=e74] [cursor=pointer]
+        - button "Mesas" [ref=e75] [cursor=pointer]
+        - button "Racks" [ref=e76] [cursor=pointer]
+        - button "Camas" [ref=e77] [cursor=pointer]
+        - button "Guarda-roupas" [ref=e78] [cursor=pointer]
+        - button "Cômodas" [ref=e79] [cursor=pointer]
+        - button "Mesas de cabeceira" [ref=e80] [cursor=pointer]
+        - button "Pufes" [ref=e81] [cursor=pointer]
+        - button "Iluminação" [ref=e82] [cursor=pointer]
+      - generic [ref=e83]:
+        - article [ref=e84]:
+          - link [ref=e85] [cursor=pointer]:
+            - /url: produto.html?p=poltrona-orbe&c=verde
+            - img "Poltrona Orbe na cor Oliva" [ref=e86]
+            - generic: orbe
+          - generic [ref=e87]:
+            - generic [ref=e88]:
+              - heading [level=3] [ref=e89]:
+                - link "Poltrona Orbe" [ref=e90] [cursor=pointer]:
+                  - /url: produto.html?p=poltrona-orbe&c=verde
+              - paragraph [ref=e91]: Oliva · 4 cores
+            - generic [ref=e92]:
+              - generic [ref=e93]: a partir de
+              - text: R$ 1.690
+          - generic [ref=e94]:
+            - group "Cores" [ref=e95]:
+              - button "Cor Oliva" [ref=e96] [cursor=pointer]
+              - button "Cor Azul" [ref=e97] [cursor=pointer]
+              - button "Cor Laranja" [ref=e98] [cursor=pointer]
+              - button "Cor Bege" [ref=e99] [cursor=pointer]
+            - button "Adicionar Poltrona Orbe ao carrinho" [ref=e100] [cursor=pointer]
+        - article [ref=e103]:
+          - link [ref=e104] [cursor=pointer]:
+            - /url: produto.html?p=sofa-lumo&c=rosa
+            - img "Sofá Lumo na cor Rosa" [ref=e105]
+            - generic: lumo
+          - generic [ref=e106]:
+            - generic [ref=e107]:
+              - heading [level=3] [ref=e108]:
+                - link "Sofá Lumo" [ref=e109] [cursor=pointer]:
+                  - /url: produto.html?p=sofa-lumo&c=rosa
+              - paragraph [ref=e110]: Rosa · 4 cores
+            - generic [ref=e111]:
+              - generic [ref=e112]: a partir de
+              - text: R$ 4.790
+          - generic [ref=e113]:
+            - group "Cores" [ref=e114]:
+              - button "Cor Rosa" [ref=e115] [cursor=pointer]
+              - button "Cor Mostarda" [ref=e116] [cursor=pointer]
+              - button "Cor Petróleo" [ref=e117] [cursor=pointer]
+              - button "Cor Linho" [ref=e118] [cursor=pointer]
+            - button "Adicionar Sofá Lumo ao carrinho" [ref=e119] [cursor=pointer]
+        - article [ref=e122]:
+          - link [ref=e123] [cursor=pointer]:
+            - /url: produto.html?p=cadeira-aro&c=musgo
+            - img "Cadeira Aro na cor Musgo" [ref=e124]
+            - generic: aro
+          - generic [ref=e125]:
+            - generic [ref=e126]:
+              - heading [level=3] [ref=e127]:
+                - link "Cadeira Aro" [ref=e128] [cursor=pointer]:
+                  - /url: produto.html?p=cadeira-aro&c=musgo
+              - paragraph [ref=e129]: Musgo · 4 cores
+            - generic [ref=e130]:
+              - generic [ref=e131]: a partir de
+              - text: R$ 890
+          - generic [ref=e132]:
+            - group "Cores" [ref=e133]:
+              - button "Cor Musgo" [ref=e134] [cursor=pointer]
+              - button "Cor Terracota" [ref=e135] [cursor=pointer]
+              - button "Cor Céu" [ref=e136] [cursor=pointer]
+              - button "Cor Creme" [ref=e137] [cursor=pointer]
+            - button "Adicionar Cadeira Aro ao carrinho" [ref=e138] [cursor=pointer]
+        - article [ref=e141]:
+          - link [ref=e142] [cursor=pointer]:
+            - /url: produto.html?p=pufe-bolha&c=lilas
+            - img "Pufe Bolha na cor Lilás" [ref=e143]
+            - generic: bolha
+          - generic [ref=e144]:
+            - generic [ref=e145]:
+              - heading [level=3] [ref=e146]:
+                - link "Pufe Bolha" [ref=e147] [cursor=pointer]:
+                  - /url: produto.html?p=pufe-bolha&c=lilas
+              - paragraph [ref=e148]: Lilás · 4 cores
+            - generic [ref=e149]:
+              - generic [ref=e150]: a partir de
+              - text: R$ 690
+          - generic [ref=e151]:
+            - group "Cores" [ref=e152]:
+              - button "Cor Lilás" [ref=e153] [cursor=pointer]
+              - button "Cor Manteiga" [ref=e154] [cursor=pointer]
+              - button "Cor Menta" [ref=e155] [cursor=pointer]
+              - button "Cor Pedra" [ref=e156] [cursor=pointer]
+            - button "Adicionar Pufe Bolha ao carrinho" [ref=e157] [cursor=pointer]
+        - article [ref=e160]:
+          - link [ref=e161] [cursor=pointer]:
+            - /url: produto.html?p=luminaria-cogu&c=coral
+            - img "Luminária Cogu na cor Coral" [ref=e162]
+            - generic: cogu
+          - generic [ref=e163]:
+            - generic [ref=e164]:
+              - heading [level=3] [ref=e165]:
+                - link "Luminária Cogu" [ref=e166] [cursor=pointer]:
+                  - /url: produto.html?p=luminaria-cogu&c=coral
+              - paragraph [ref=e167]: Coral · 4 cores
+            - generic [ref=e168]:
+              - generic [ref=e169]: a partir de
+              - text: R$ 490
+          - generic [ref=e170]:
+            - group "Cores" [ref=e171]:
+              - button "Cor Coral" [ref=e172] [cursor=pointer]
+              - button "Cor Sálvia" [ref=e173] [cursor=pointer]
+              - button "Cor Cobalto" [ref=e174] [cursor=pointer]
+              - button "Cor Marfim" [ref=e175] [cursor=pointer]
+            - button "Adicionar Luminária Cogu ao carrinho" [ref=e176] [cursor=pointer]
+        - article [ref=e179]:
+          - link [ref=e180] [cursor=pointer]:
+            - /url: produto.html?p=mesa-seixo&c=travertino
+            - img "Mesa de centro Seixo na cor Travertino" [ref=e181]
+            - generic: seixo
+          - generic [ref=e182]:
+            - generic [ref=e183]:
+              - heading [level=3] [ref=e184]:
+                - link "Mesa de centro Seixo" [ref=e185] [cursor=pointer]:
+                  - /url: produto.html?p=mesa-seixo&c=travertino
+              - paragraph [ref=e186]: Travertino · 4 cores
+            - generic [ref=e187]:
+              - generic [ref=e188]: a partir de
+              - text: R$ 2.590
+          - generic [ref=e189]:
+            - group "Cores" [ref=e190]:
+              - button "Cor Travertino" [ref=e191] [cursor=pointer]
+              - button "Cor Nogueira" [ref=e192] [cursor=pointer]
+              - button "Cor Argila" [ref=e193] [cursor=pointer]
+              - button "Cor Grafite" [ref=e194] [cursor=pointer]
+            - button "Adicionar Mesa de centro Seixo ao carrinho" [ref=e195] [cursor=pointer]
+        - article [ref=e198]:
+          - link [ref=e199] [cursor=pointer]:
+            - /url: produto.html?p=conjunto-roda&c=linho
+            - img "Conjunto de jantar Roda na cor Linho" [ref=e200]
+            - generic: roda
+          - generic [ref=e201]:
+            - generic [ref=e202]:
+              - heading [level=3] [ref=e203]:
+                - link "Conjunto de jantar Roda" [ref=e204] [cursor=pointer]:
+                  - /url: produto.html?p=conjunto-roda&c=linho
+              - paragraph [ref=e205]: Linho · 4 cores
+            - generic [ref=e206]:
+              - generic [ref=e207]: a partir de
+              - text: R$ 6.490
+          - generic [ref=e208]:
+            - group "Cores" [ref=e209]:
+              - button "Cor Linho" [ref=e210] [cursor=pointer]
+              - button "Cor Terracota" [ref=e211] [cursor=pointer]
+              - button "Cor Sálvia" [ref=e212] [cursor=pointer]
+              - button "Cor Mostarda" [ref=e213] [cursor=pointer]
+            - button "Adicionar Conjunto de jantar Roda ao carrinho" [ref=e214] [cursor=pointer]
+        - article [ref=e217]:
+          - link [ref=e218] [cursor=pointer]:
+            - /url: produto.html?p=guardaroupa-nicho&c=areia
+            - img "Guarda-roupa Nicho na cor Areia" [ref=e219]
+            - generic: nicho
+          - generic [ref=e220]:
+            - generic [ref=e221]:
+              - heading [level=3] [ref=e222]:
+                - link "Guarda-roupa Nicho" [ref=e223] [cursor=pointer]:
+                  - /url: produto.html?p=guardaroupa-nicho&c=areia
+              - paragraph [ref=e224]: Areia · 4 cores
+            - generic [ref=e225]:
+              - generic [ref=e226]: a partir de
+              - text: R$ 4.290
+          - generic [ref=e227]:
+            - group "Cores" [ref=e228]:
+              - button "Cor Areia" [ref=e229] [cursor=pointer]
+              - button "Cor Sálvia" [ref=e230] [cursor=pointer]
+              - button "Cor Névoa" [ref=e231] [cursor=pointer]
+              - button "Cor Nogueira" [ref=e232] [cursor=pointer]
+            - button "Adicionar Guarda-roupa Nicho ao carrinho" [ref=e233] [cursor=pointer]
+        - article [ref=e236]:
+          - link [ref=e237] [cursor=pointer]:
+            - /url: produto.html?p=comoda-onda&c=terracota
+            - img "Cômoda Onda na cor Terracota" [ref=e238]
+            - generic: onda
+          - generic [ref=e239]:
+            - generic [ref=e240]:
+              - heading [level=3] [ref=e241]:
+                - link "Cômoda Onda" [ref=e242] [cursor=pointer]:
+                  - /url: produto.html?p=comoda-onda&c=terracota
+              - paragraph [ref=e243]: Terracota · 4 cores
+            - generic [ref=e244]:
+              - generic [ref=e245]: a partir de
+              - text: R$ 2.390
+          - generic [ref=e246]:
+            - group "Cores" [ref=e247]:
+              - button "Cor Terracota" [ref=e248] [cursor=pointer]
+              - button "Cor Creme" [ref=e249] [cursor=pointer]
+              - button "Cor Oliva" [ref=e250] [cursor=pointer]
+              - button "Cor Rosa" [ref=e251] [cursor=pointer]
+            - button "Adicionar Cômoda Onda ao carrinho" [ref=e252] [cursor=pointer]
+        - article [ref=e255]:
+          - link [ref=e256] [cursor=pointer]:
+            - /url: produto.html?p=cama-nuvem&c=aveia
+            - img "Cama Nuvem na cor Aveia" [ref=e257]
+            - generic: nuvem
+          - generic [ref=e258]:
+            - generic [ref=e259]:
+              - heading [level=3] [ref=e260]:
+                - link "Cama Nuvem" [ref=e261] [cursor=pointer]:
+                  - /url: produto.html?p=cama-nuvem&c=aveia
+              - paragraph [ref=e262]: Aveia · 4 cores
+            - generic [ref=e263]:
+              - generic [ref=e264]: a partir de
+              - text: R$ 5.490
+          - generic [ref=e265]:
+            - group "Cores" [ref=e266]:
+              - button "Cor Aveia" [ref=e267] [cursor=pointer]
+              - button "Cor Rosa" [ref=e268] [cursor=pointer]
+              - button "Cor Índigo" [ref=e269] [cursor=pointer]
+              - button "Cor Floresta" [ref=e270] [cursor=pointer]
+            - button "Adicionar Cama Nuvem ao carrinho" [ref=e271] [cursor=pointer]
+        - article [ref=e274]:
+          - link [ref=e275] [cursor=pointer]:
+            - /url: produto.html?p=cabeceira-pingo&c=mostarda
+            - img "Mesa de cabeceira Pingo na cor Mostarda" [ref=e276]
+            - generic: pingo
+          - generic [ref=e277]:
+            - generic [ref=e278]:
+              - heading [level=3] [ref=e279]:
+                - link "Mesa de cabeceira Pingo" [ref=e280] [cursor=pointer]:
+                  - /url: produto.html?p=cabeceira-pingo&c=mostarda
+              - paragraph [ref=e281]: Mostarda · 4 cores
+            - generic [ref=e282]:
+              - generic [ref=e283]: a partir de
+              - text: R$ 790
+          - generic [ref=e284]:
+            - group "Cores" [ref=e285]:
+              - button "Cor Mostarda" [ref=e286] [cursor=pointer]
+              - button "Cor Lilás" [ref=e287] [cursor=pointer]
+              - button "Cor Giz" [ref=e288] [cursor=pointer]
+              - button "Cor Nogueira" [ref=e289] [cursor=pointer]
+            - button "Adicionar Mesa de cabeceira Pingo ao carrinho" [ref=e290] [cursor=pointer]
+        - article [ref=e293]:
+          - link [ref=e294] [cursor=pointer]:
+            - /url: produto.html?p=rack-arco&c=carvalho
+            - img "Rack Arco na cor Carvalho" [ref=e295]
+            - generic: arco
+          - generic [ref=e296]:
+            - generic [ref=e297]:
+              - heading [level=3] [ref=e298]:
+                - link "Rack Arco" [ref=e299] [cursor=pointer]:
+                  - /url: produto.html?p=rack-arco&c=carvalho
+              - paragraph [ref=e300]: Carvalho · 4 cores
+            - generic [ref=e301]:
+              - generic [ref=e302]: a partir de
+              - text: R$ 3.190
+          - generic [ref=e303]:
+            - group "Cores" [ref=e304]:
+              - button "Cor Carvalho" [ref=e305] [cursor=pointer]
+              - button "Cor Grafite" [ref=e306] [cursor=pointer]
+              - button "Cor Sálvia" [ref=e307] [cursor=pointer]
+              - button "Cor Terracota" [ref=e308] [cursor=pointer]
+            - button "Adicionar Rack Arco ao carrinho" [ref=e309] [cursor=pointer]
+    - generic [ref=e313]:
+      - generic [ref=e314]:
+        - generic [ref=e315]: Sobre a Decora
+        - paragraph [ref=e316]:
+          - text: Móveis de
+          - emphasis [ref=e317]: curvas macias
+          - text: ", cores que acolhem e um design feito para durar décadas."
+      - generic [ref=e318]:
+        - paragraph [ref=e319]: Desenhamos cada peça no nosso estúdio em São Paulo e produzimos com marcenarias e estofadores parceiros, em madeira de reflorestamento e tecidos antimanchas. Menos excesso, mais aconchego.
+        - generic [ref=e320]:
+          - generic [ref=e321]:
+            - strong [ref=e322]: "12"
+            - text: anos de estúdio
+          - generic [ref=e323]:
+            - strong [ref=e324]: 4,9
+            - text: nota dos clientes
+          - generic [ref=e325]:
+            - strong [ref=e326]: "48"
+            - text: cores na coleção
+    - generic [ref=e328]:
+      - generic [ref=e329]:
+        - generic [ref=e330]:
+          - generic [ref=e331]: Compra tranquila
+          - heading "do estúdio até sua sala" [level=2] [ref=e332]: do estúdioaté sua sala
+        - paragraph [ref=e333]: Calcule o prazo direto na página de cada móvel ou no carrinho. Entregamos em todo o Brasil.
+      - generic [ref=e334]:
+        - article [ref=e335]:
+          - heading "Frete grátis" [level=3] [ref=e341]
+          - paragraph [ref=e342]: Entrega padrão sem custo em compras acima de R$ 2.500.
+        - article [ref=e343]:
+          - heading "Montagem opcional" [level=3] [ref=e347]
+          - paragraph [ref=e348]: Sofás e mesas chegam montados por equipe especializada.
+        - article [ref=e349]:
+          - heading "10x sem juros" [level=3] [ref=e354]
+          - paragraph [ref=e355]: Ou 5% de desconto pagando à vista no Pix.
+        - article [ref=e356]:
+          - heading "30 dias para trocar" [level=3] [ref=e360]
+          - paragraph [ref=e361]: Não combinou com a sala? Buscamos de volta sem custo.
+    - generic [ref=e363]:
+      - generic [ref=e364]:
+        - heading "ganhe 10% na primeira compra" [level=2] [ref=e365]: ganhe 10% naprimeira compra
+        - paragraph [ref=e366]: Receba lançamentos de cores e o cupom de boas-vindas no seu e-mail.
+      - generic [ref=e367]:
+        - textbox "Seu e-mail" [ref=e368]:
+          - /placeholder: seu@email.com
+        - button "Quero o cupom" [ref=e369] [cursor=pointer]
+  - contentinfo [ref=e370]:
+    - generic [ref=e371]:
+      - generic [ref=e372]:
+        - generic [ref=e373]:
+          - generic [ref=e374]:
+            - generic [ref=e375]: D
+            - text: Decora Móveis
+          - paragraph [ref=e377]: Design minimalista e conforto autoral para casas que gostam de cor.
+        - generic [ref=e378]:
+          - heading "Coleção" [level=4] [ref=e379]
+          - list [ref=e380]:
+            - listitem [ref=e381]:
+              - link "Sofá Lumo" [ref=e382] [cursor=pointer]:
+                - /url: produto.html?p=sofa-lumo
+            - listitem [ref=e383]:
+              - link "Poltrona Orbe" [ref=e384] [cursor=pointer]:
+                - /url: produto.html?p=poltrona-orbe
+            - listitem [ref=e385]:
+              - link "Conjunto de jantar Roda" [ref=e386] [cursor=pointer]:
+                - /url: produto.html?p=conjunto-roda
+            - listitem [ref=e387]:
+              - link "Cama Nuvem" [ref=e388] [cursor=pointer]:
+                - /url: produto.html?p=cama-nuvem
+            - listitem [ref=e389]:
+              - link "Guarda-roupa Nicho" [ref=e390] [cursor=pointer]:
+                - /url: produto.html?p=guardaroupa-nicho
+        - generic [ref=e391]:
+          - heading "Ajuda" [level=4] [ref=e392]
+          - list [ref=e393]:
+            - listitem [ref=e394]:
+              - link "Entrega e montagem" [ref=e395] [cursor=pointer]:
+                - /url: "#entrega"
+            - listitem [ref=e396]:
+              - link "Trocas e devoluções" [ref=e397] [cursor=pointer]:
+                - /url: "#entrega"
+            - listitem [ref=e398]:
+              - link "Meu carrinho" [ref=e399] [cursor=pointer]:
+                - /url: carrinho.html
+        - generic [ref=e400]:
+          - heading "Showroom" [level=4] [ref=e401]
+          - list [ref=e402]:
+            - listitem [ref=e403]: Rua dos Pinheiros, 1200
+            - listitem [ref=e404]: São Paulo · SP
+            - listitem [ref=e405]: Seg a sáb · 10h às 19h
+      - generic [ref=e406]:
+        - generic [ref=e407]: © 2026 Decora Móveis
+        - generic [ref=e408]: Projeto demonstrativo — nenhuma compra real é processada
+  - complementary [aria-hidden] [ref=e409]:
+    - generic [ref=e410]:
+      - heading [level=2] [ref=e411]: carrinho
+      - button [ref=e412] [cursor=pointer]
+  - status [ref=e417]

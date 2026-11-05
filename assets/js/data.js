@@ -385,6 +385,83 @@ const PRODUCTS = [
   }
 ];
 
+// Escala e ponto de ancoragem medidos por foto para manter cada móvel no
+// mesmo quadro ao trocar de cor. A proporção do produto permanece intacta.
+const HERO_FRAMES = {
+  'poltrona-orbe': {
+    verde: { scale: 1.05, position: '51% 52%' },
+    azul: { scale: 1.05, position: '49% 48%' },
+    laranja: { scale: 1.05, position: '51% 48%' },
+    bege: { scale: 1.08, position: '37% 60%' }
+  },
+  'sofa-lumo': {
+    rosa: { scale: 1.09, position: '49% 59%' },
+    mostarda: { scale: 1.04, position: '55% 81%' },
+    petroleo: { scale: 1.07, position: '45% 9%' },
+    linho: { scale: 1.04, position: '77% 45%' }
+  },
+  'cadeira-aro': {
+    musgo: { scale: 1.05, position: '51% 37%' },
+    terracota: { scale: 1.06, position: '46% 54%' },
+    ceu: { scale: 1.05, position: '49% 45%' },
+    creme: { scale: 1.04, position: '54% 77%' }
+  },
+  'pufe-bolha': {
+    lilas: { scale: 1.14, position: '50% 50%' },
+    manteiga: { scale: 1.10, position: '50% 50%' },
+    menta: { scale: 1.04, position: '50% 50%' },
+    pedra: { scale: 1.10, position: '50% 50%' }
+  },
+  'luminaria-cogu': {
+    coral: { scale: 1.04, position: '55% 48%' },
+    salvia: { scale: 1.06, position: '50% 49%' },
+    cobalto: { scale: 1.11, position: '50% 66%' },
+    marfim: { scale: 1.04, position: '24% 53%' }
+  },
+  'mesa-seixo': {
+    travertino: { scale: 1.03, position: '64% 98%' },
+    nogueira: { scale: 1.04, position: '36% 41%' },
+    argila: { scale: 1.15, position: '55% 62%' },
+    grafite: { scale: 1.05, position: '37% 1%' }
+  },
+  'conjunto-roda': {
+    linho: { scale: 1.18, position: '55% 61%' },
+    terracota: { scale: 1.04, position: '44% 55%' },
+    salvia: { scale: 1.06, position: '48% 49%' },
+    mostarda: { scale: 1.04, position: '53% 55%' }
+  },
+  'guardaroupa-nicho': {
+    areia: { scale: 1.05, position: '2% 44%' },
+    salvia: { scale: 1.04, position: '51% 39%' },
+    nevoa: { scale: 1.07, position: '49% 53%' },
+    nogueira: { scale: 1.16, position: '51% 63%' }
+  },
+  'comoda-onda': {
+    terracota: { scale: 1.07, position: '49% 51%' },
+    creme: { scale: 1.07, position: '27% 75%' },
+    oliva: { scale: 1.07, position: '51% 59%' },
+    rosa: { scale: 1.12, position: '69% 48%' }
+  },
+  'cama-nuvem': {
+    aveia: { scale: 1.05, position: '76% 66%' },
+    rosa: { scale: 1.06, position: '59% 51%' },
+    indigo: { scale: 1.05, position: '35% 2%' },
+    floresta: { scale: 1.02, position: '42% 54%' }
+  },
+  'cabeceira-pingo': {
+    mostarda: { scale: 1.07, position: '53% 3%' },
+    lilas: { scale: 1.10, position: '34% 72%' },
+    giz: { scale: 1.13, position: '58% 59%' },
+    nogueira: { scale: 1.04, position: '46% 39%' }
+  },
+  'rack-arco': {
+    carvalho: { scale: 1.04, position: '74% 73%' },
+    grafite: { scale: 1.09, position: '50% 40%' },
+    salvia: { scale: 1.04, position: '48% 69%' },
+    terracota: { scale: 1.04, position: '50% 37%' }
+  }
+};
+
 const CATEGORIES = [
   { key: 'todos', label: 'Todos' },
   { key: 'sofas', label: 'Sofás' },

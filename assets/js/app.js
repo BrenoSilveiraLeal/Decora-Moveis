@@ -388,7 +388,9 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     layer.className = `hero-bg-layer ${index === currentVariantIndex ? 'active' : ''}`;
     layer.style.backgroundImage = `url('${variant.image}')`;
     layer.style.setProperty('--mscale', `${product.mobileScale}%`);
-    layer.style.setProperty('--hero-image-scale', variant.heroScale || 1);
+    const frame = HERO_FRAMES[product.id]?.[variant.id] || {};
+    layer.style.setProperty('--hero-image-scale', frame.scale || variant.heroScale || 1);
+    layer.style.setProperty('--hero-position', frame.position || '50% 50%');
     layer.setAttribute('data-id', variant.id);
     bgContainer.appendChild(layer);
   });
@@ -407,27 +409,27 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
       .map((item, idx) => ({ ...item, originalIndex: idx }))
       .filter((item) => item.originalIndex !== currentVariantIndex)
       .forEach((variant) => {
-        const card = document.createElement('div');
+        const card = document.createElement('button');
         card.className = 'variant-card';
-        card.setAttribute('role', 'button');
-        card.setAttribute('tabindex', '0');
+        card.type = 'button';
+        card.dataset.variantId = variant.id;
         card.setAttribute('aria-label', `Trocar para ${productLabel(product)} na cor ${variant.name}`);
         card.innerHTML = `
           <span class="card-price-pill">${moneyShort(variant.price)}</span>
-          <div class="card-thumb-wrapper">
+          <span class="card-thumb-wrapper" aria-hidden="true">
             <img class="card-thumb-img" src="${variant.image}" alt="${productLabel(product)} na cor ${variant.name}" loading="eager" />
-          </div>
+          </span>
           <span class="card-model-name">${variant.name}</span>`;
-        card.addEventListener('click', () => updateView(variant.originalIndex));
-        card.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            updateView(variant.originalIndex);
-          }
-        });
         cardsContainer.appendChild(card);
       });
   }
+
+  cardsContainer.addEventListener('click', (event) => {
+    const card = event.target.closest('.variant-card[data-variant-id]');
+    if (!card || !cardsContainer.contains(card)) return;
+    const index = variants.findIndex((variant) => variant.id === card.dataset.variantId);
+    if (index !== -1) updateView(index);
+  });
 
   function renderBuyBox(variant) {
     if (!buyBox) return;
@@ -455,7 +457,28 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     currentVariantIndex = index;
     const current = variants[index];
 
-    $$('.hero-bg-layer', bgContainer).forEach((layer, idx) => layer.classList.toggle('active', idx === index));
+    const layers = $$('.hero-bg-layer', bgContainer);
+    const targetLayer = layers[index];
+    const currentLayer = layers.find((layer) => layer.classList.contains('active'));
+    const introLayer = $('.hero-intro-rise', bgContainer);
+    if (introLayer && currentLayer !== targetLayer) {
+      introLayer.classList.remove('hero-intro-rise');
+    }
+    layers.forEach((layer) => {
+      if (layer === targetLayer || layer === currentLayer) return;
+      layer.style.transition = 'none';
+      layer.classList.remove('active');
+      void layer.offsetWidth;
+      layer.style.removeProperty('transition');
+    });
+    if (currentLayer && currentLayer !== targetLayer) currentLayer.classList.remove('active');
+    if (targetLayer && targetLayer !== currentLayer) {
+      targetLayer.style.transition = 'none';
+      targetLayer.classList.remove('active');
+      void targetLayer.offsetWidth;
+      targetLayer.style.removeProperty('transition');
+      targetLayer.classList.add('active');
+    }
     renderSidebarCards();
     applyTheme(current.theme, current.fill);
 
@@ -540,7 +563,6 @@ function bindProductCards(container) {
 
     $$('.swatch', card).forEach((s) => {
       const variant = findVariant(product, s.dataset.vid);
-      s.addEventListener('mouseenter', () => select(variant));
       s.addEventListener('focus', () => select(variant));
       s.addEventListener('click', () => select(variant));
     });
