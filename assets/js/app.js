@@ -492,7 +492,6 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     const layer = document.createElement('div');
     layer.className = `hero-bg-layer ${index === currentVariantIndex ? 'active' : ''}`;
     layer.style.backgroundImage = `url('${variant.image}')`;
-    layer.style.setProperty('--mscale', `${product.mobileScale * 0.72}%`);
     layer.setAttribute('data-id', variant.id);
     bgContainer.appendChild(layer);
   });
@@ -502,7 +501,7 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     const first = layers[0];
     const portrait = window.matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
     const focus = portrait ? [0.5, 0.5] : (HERO_FRAMES[product.id]?.focus || [0.5, 0.5]);
-    const frames = productImageFrames(product, first.clientWidth, first.clientHeight, focus);
+    const frames = productImageFrames(product, first.clientWidth, first.clientHeight, focus, portrait ? 1.15 : undefined);
     layers.forEach((layer) => {
       const frame = frames[layer.dataset.id];
       layer.style.backgroundSize = `${frame.width}px ${frame.height}px`;

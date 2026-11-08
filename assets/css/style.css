@@ -2452,8 +2452,8 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .hero-bg-layer {
     top: 44%;
     left: 50%;
-    /* A escala é reduzida pelo controlador para mostrar o móvel inteiro. */
-    width: var(--mscale, 144%);
+    /* A camada cobre a tela; o enquadramento reduz só o móvel. */
+    width: 100%;
     height: auto;
     aspect-ratio: 16 / 9;
     translate: -50% -50%;
@@ -2640,14 +2640,32 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .section-head { margin-bottom: 28px; }
   .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -20px; padding: 0 20px 4px; width: calc(100% + 40px); }
   .chips::-webkit-scrollbar { display: none; }
-  #categoryChips { flex-wrap: wrap; overflow: visible; width: auto; margin: 0; padding: 4px 0 6px; }
-  .chip { flex-shrink: 0; }
+  #categoryChips {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(52px, auto);
+    gap: 10px;
+    flex-wrap: initial;
+    overflow: visible;
+    width: 100%;
+    margin: 0 0 20px;
+    padding: 4px 0 6px;
+  }
+  #categoryChips .chip {
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    justify-content: center;
+    padding: 10px 12px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
+  }
 
   .product-grid { grid-template-columns: 1fr; gap: 18px; }
   .rooms { grid-template-columns: repeat(3, 72%); overflow-x: auto; scrollbar-width: none; gap: 12px; margin: 0 -20px 20px; padding: 4px 20px 8px 28px; scroll-padding-left: 28px; scroll-snap-type: x mandatory; }
   .rooms::-webkit-scrollbar { display: none; }
   .room-card { scroll-snap-align: start; }
-  #categoryChips { margin-bottom: 20px; }
   .benefits { grid-template-columns: 1fr; gap: 12px; }
   .benefit { padding: 22px; display: grid; grid-template-columns: 48px 1fr; gap: 0 16px; }
   .benefit-icon { margin-bottom: 0; grid-row: span 2; }
@@ -2676,8 +2694,18 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .form-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .col-6, .col-4 { grid-column: span 2; }
   .col-3, .col-2 { grid-column: span 1; }
-  .steps { overflow-x: auto; scrollbar-width: none; }
-  .step-pill { flex-shrink: 0; }
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .step-pill {
+    min-width: 0;
+    min-height: 48px;
+    justify-content: center;
+    gap: 5px;
+    padding: 7px 5px;
+    font-size: 11px;
+    text-align: center;
+    line-height: 1.15;
+  }
+  .step-pill b { flex: 0 0 22px; width: 22px; height: 22px; }
   .pay-tab { padding: 14px 6px; font-size: 12.5px; }
   .pix-box { grid-template-columns: 1fr; justify-items: center; text-align: center; }
   .info-grid { grid-template-columns: 1fr; }
@@ -2686,6 +2714,33 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .tl-step span { font-size: 10.5px; }
 
   .toast { bottom: 16px; }
+}
+
+@media (max-width: 520px) {
+  .hero-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "brand cart" "nav nav";
+    gap: 8px 12px;
+    padding: 12px 16px;
+  }
+  .header-left { display: contents; }
+  .brand-logo { grid-area: brand; }
+  .hero-header nav { grid-area: nav; width: 100%; }
+  .nav-menu { justify-content: space-between; gap: 8px; width: 100%; }
+  .nav-link { font-size: 12px; }
+  .header-right { grid-area: cart; }
+
+  .section { padding: 52px 16px; }
+  .page { padding: 8px 16px 56px; }
+  .page-title { font-size: clamp(38px, 11vw, 56px); line-height: 0.98; overflow-wrap: anywhere; }
+  .panel { min-width: 0; padding: 18px 16px; }
+  .form-grid { grid-template-columns: minmax(0, 1fr); }
+  .col-6, .col-4, .col-3, .col-2 { grid-column: 1 / -1; }
+  .layout-2col, #checkoutLayout, #checkoutRoot { min-width: 0; width: 100%; }
+  .specs-row { align-items: flex-start; gap: 10px; }
+  .specs-row dt { flex: 0 0 38%; }
+  .specs-row dd { flex: 1 1 0; }
 }
 
 /* Telas muito pequenas (iPhone SE / telas <= 380px) */
@@ -2721,26 +2776,6 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .stats { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
   .col-6, .col-4, .col-3, .col-2 { grid-column: span 1; }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition { navigation: auto; }
-
-  ::view-transition-old(root) {
-    animation: page-transition-out 180ms ease-in both;
-  }
-
-  ::view-transition-new(root) {
-    animation: page-transition-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-
-  @keyframes page-transition-out {
-    to { opacity: 0; transform: translateY(-8px); }
-  }
-
-  @keyframes page-transition-in {
-    from { opacity: 0; transform: translateY(10px); }
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

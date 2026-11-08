@@ -14,6 +14,10 @@ Loja de móveis **demonstrativa** com design minimalista: vitrine em tela cheia 
 | `checkout.html` | Identificação, endereço (preenchido pelo CEP via ViaCEP) e pagamento (Pix, cartão ou boleto) |
 | `pedido.html` | Pedido confirmado, previsão de entrega, acompanhamento e Pix ilustrativo |
 
+## Experiência em celular
+
+As páginas se reorganizam para telas estreitas: a vitrine mantém o móvel inteiro visível, as opções de cor ficam acessíveis junto à imagem e os filtros da coleção formam uma grade alinhada. Os detalhes do produto e o checkout se ajustam à largura do aparelho, com campos empilhados e sem rolagem horizontal.
+
 ## Catálogo
 
 12 móveis com 4 cores cada (48 variações): poltrona, sofá, cadeira, conjunto de jantar, mesa de centro, rack, cama, guarda-roupa, cômoda, mesa de cabeceira, pufe e luminária. Tudo fica em [`assets/js/data.js`](assets/js/data.js) — para adicionar um móvel, copie um bloco do array `PRODUCTS` e troque nome, preços, fotos e cores do tema.
