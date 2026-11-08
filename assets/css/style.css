@@ -2452,7 +2452,8 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .hero-bg-layer {
     top: 44%;
     left: 50%;
-    width: var(--mscale, 200%);
+    /* A escala é reduzida pelo controlador para mostrar o móvel inteiro. */
+    width: var(--mscale, 144%);
     height: auto;
     aspect-ratio: 16 / 9;
     translate: -50% -50%;
@@ -2664,6 +2665,8 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .panel-price { font-size: 40px; }
   .specs { padding: 4px 18px; }
   .specs-row { font-size: 13px; }
+  .specs-row dt,
+  .specs-row dd { min-width: 0; overflow-wrap: anywhere; }
 
   .cart-list .line-item { grid-template-columns: 96px 1fr; padding: 12px; }
   .cart-list .line-thumb { width: 96px; height: 96px; }
