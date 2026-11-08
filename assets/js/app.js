@@ -1,3 +1,23 @@
+import { CATEGORIES, COUPONS, HERO_FRAMES, NEUTRAL_THEME, PRODUCTS, PRODUCT_REVIEWS, ROOMS, STORE } from './data.js';
+import { prepareReviewPhoto, reviewPhotos, reviewPhotoGallery, reviewPhotoPreview } from './review-photos.js';
+
+const navigationEntry = performance.getEntriesByType('navigation')[0];
+if (navigationEntry?.type === 'reload' && 'scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+  window.addEventListener('pageshow', () => {
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => { history.scrollRestoration = 'auto'; });
+  }, { once: true });
+}
+
+window.addEventListener('pageshow', (event) => {
+  if (!event.persisted || document.body.dataset.page !== 'product') return;
+  document.querySelectorAll('.accordion details').forEach((details) => {
+    details.classList.remove('is-expanded');
+    details.open = false;
+  });
+});
+
 /**
  * DECORA MÓVEIS - CONTROLADOR DA LOJA
  * Vitrine interativa, carrinho (localStorage), frete simulado, cupons,
@@ -16,6 +36,7 @@ const moneyShort = (n) => 'R$ ' + n.toLocaleString('pt-BR');
 const onlyDigits = (s) => String(s || '').replace(/\D/g, '');
 
 const ICONS = {
+  camera: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h4l2-3h4l2 3h4v14H4z"/><circle cx="12" cy="12" r="4"/></svg>',
   bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>',
   plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
   close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
@@ -75,6 +96,7 @@ function applyTheme(theme, fill) {
 const CART_KEY = 'decora_cart';
 const STATE_KEY = 'decora_checkout';
 const ORDER_KEY = 'decora_last_order';
+const MAX_QTY_PER_VARIANT = 10;
 
 const getCart = () => load(CART_KEY, []);
 const setCart = (items) => { save(CART_KEY, items); refreshCartUI(); };
@@ -92,27 +114,43 @@ function cartLines() {
     .filter(Boolean);
 }
 
+function cartQtyForVariant(pid, vid) {
+  return getCart()
+    .filter((item) => item.pid === pid && item.vid === vid)
+    .reduce((total, item) => total + Math.max(0, Number(item.qty) || 0), 0);
+}
+
 const cartCount = () => cartLines().reduce((s, l) => s + l.qty, 0);
 const cartSubtotal = () => cartLines().reduce((s, l) => s + l.total, 0);
 
 function addToCart(pid, vid, qty = 1, { silent = false } = {}) {
   const items = getCart();
   const found = items.find((i) => i.pid === pid && i.vid === vid);
-  if (found) found.qty = Math.min(10, found.qty + qty);
-  else items.push({ pid, vid, qty });
+  const requestedQty = Math.max(1, Math.floor(Number(qty) || 1));
+  const currentVariantQty = found ? Math.max(0, Number(found.qty) || 0) : 0;
+  const acceptedQty = Math.min(requestedQty, Math.max(0, MAX_QTY_PER_VARIANT - currentVariantQty));
+  if (acceptedQty === 0) {
+    showToast(`Limite de ${MAX_QTY_PER_VARIANT} unidades desta cor por compra atingido.`, 'Ver carrinho', openDrawer);
+    return false;
+  }
+  if (found) found.qty = currentVariantQty + acceptedQty;
+  else items.push({ pid, vid, qty: acceptedQty });
   setCart(items);
   bumpBadge();
-  if (!silent) {
+  if (acceptedQty < requestedQty) {
+    showToast(`Limite de ${MAX_QTY_PER_VARIANT} unidades desta cor por compra atingido.`, 'Ver carrinho', openDrawer);
+  } else if (!silent) {
     const product = findProduct(pid);
     const variant = findVariant(product, vid);
     showToast(`${productLabel(product)} · ${variant.name} no carrinho`, 'Ver carrinho', openDrawer);
   }
+  return true;
 }
 
 function setQty(pid, vid, qty) {
   let items = getCart();
   if (qty <= 0) items = items.filter((i) => !(i.pid === pid && i.vid === vid));
-  else items.forEach((i) => { if (i.pid === pid && i.vid === vid) i.qty = Math.min(10, qty); });
+  else items.forEach((i) => { if (i.pid === pid && i.vid === vid) i.qty = Math.min(MAX_QTY_PER_VARIANT, qty); });
   setCart(items);
 }
 
@@ -195,16 +233,18 @@ function computeTotals(payment) {
    ========================================================================== */
 function renderHeader(el) {
   if (!el) return;
-  const homeHref = document.body.dataset.page === 'home' ? '#hero' : 'index.html';
+  const isHome = document.body.dataset.page === 'home';
+  const homeHref = isHome ? '#hero' : 'index.html';
+  const sectionHref = (section) => isHome ? `#${section}` : `index.html#${section}`;
   el.innerHTML = `
     <div class="header-left">
       <a href="${homeHref}" class="brand-logo" aria-label="Decora Móveis Início"><span>D</span></a>
       <nav aria-label="Navegação Principal">
         <ul class="nav-menu">
-          <li><a href="index.html#colecao" class="nav-link">Coleção</a></li>
-          <li><a href="index.html#sobre" class="nav-link">Sobre</a></li>
-          <li><a href="index.html#entrega" class="nav-link">Entrega</a></li>
-          <li><a href="index.html#contato" class="nav-link">Contato</a></li>
+          <li><a href="${sectionHref('colecao')}" class="nav-link">Coleção</a></li>
+          <li><a href="${sectionHref('sobre')}" class="nav-link">Sobre</a></li>
+          <li><a href="${sectionHref('entrega')}" class="nav-link">Entrega</a></li>
+          <li><a href="${sectionHref('contato')}" class="nav-link">Contato</a></li>
         </ul>
       </nav>
     </div>
@@ -250,6 +290,7 @@ function closeDrawer() {
 
 function lineItemHTML(line, { compact = true } = {}) {
   const { product, variant, qty, total } = line;
+  const variantQty = cartQtyForVariant(product.id, variant.id);
   return `
     <div class="line-item">
       <a class="line-thumb" href="${productUrl(product, variant)}" style="--card-fill:${variant.fill};--zoom:${product.cardZoom * 1.15}">
@@ -267,7 +308,7 @@ function lineItemHTML(line, { compact = true } = {}) {
           <div class="qty ${compact ? 'qty-sm' : ''}">
             <button type="button" data-qty="${product.id}|${variant.id}|-1" aria-label="Diminuir quantidade">−</button>
             <span>${qty}</span>
-            <button type="button" data-qty="${product.id}|${variant.id}|1" aria-label="Aumentar quantidade">+</button>
+            <button type="button" data-qty="${product.id}|${variant.id}|1" aria-label="${variantQty >= MAX_QTY_PER_VARIANT ? `Limite de ${MAX_QTY_PER_VARIANT} unidades desta cor por compra` : 'Aumentar quantidade'}" ${variantQty >= MAX_QTY_PER_VARIANT ? 'disabled' : ''}>+</button>
           </div>
           <span class="line-price">${money(total)}</span>
         </div>
@@ -368,6 +409,69 @@ function hideToast() {
 /* ==========================================================================
    VITRINE (HERO) - mesma mecânica do hero "Suave Mobiliário"
    ========================================================================== */
+// A câmera é compartilhada por todas as cores. O ajuste de cobertura também é
+// compartilhado: corrigir uma borda nunca pode deslocar só uma das variantes.
+function productImageFrames(product, width, height, focus = [0.5, 0.5], subjectScaleOverride) {
+  const frames = HERO_FRAMES[product.id] || {};
+  const bounds = product.variants.map((variant) => frames[variant.id]?.bounds).filter(Boolean);
+  const median = (values) => {
+    const sorted = values.slice().sort((a, b) => a - b);
+    const middle = Math.floor(sorted.length / 2);
+    return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+  };
+  const subjectScale = subjectScaleOverride ?? frames.subjectScale ?? 1;
+  const targetWidth = (bounds.length ? median(bounds.map(([left, , right]) => right - left)) : 1) * subjectScale;
+  const targetHeight = (bounds.length ? median(bounds.map(([, top, , bottom]) => bottom - top)) : 1) * subjectScale;
+  const baseHeight = Math.max(height, width * 9 / 16);
+  const baseWidth = baseHeight * 16 / 9;
+  const [fx, fy] = focus;
+  const variants = product.variants.map((variant) => {
+    const frame = frames[variant.id] || {};
+    const box = frame.bounds;
+    return {
+      id: variant.id,
+      cx: box ? (box[0] + box[2]) / 2 : (frame.cx ?? 0.5),
+      cy: box ? (box[1] + box[3]) / 2 : (frame.cy ?? 0.5),
+      width: baseWidth * (box ? targetWidth / (box[2] - box[0]) : (frame.scale ?? 1)),
+      height: baseHeight * (box ? targetHeight / (box[3] - box[1]) : (frame.scale ?? 1))
+    };
+  });
+  const zoom = subjectScaleOverride != null ? 1 : Math.max(1, ...variants.flatMap((frame) => [
+    fx * width / (frame.cx * frame.width),
+    (1 - fx) * width / ((1 - frame.cx) * frame.width),
+    fy * height / (frame.cy * frame.height),
+    (1 - fy) * height / ((1 - frame.cy) * frame.height)
+  ])) * (subjectScaleOverride != null ? 1 : 1.002);
+
+  return Object.fromEntries(variants.map((frame) => {
+    const imageWidth = frame.width * zoom;
+    const imageHeight = frame.height * zoom;
+    return [frame.id, {
+      width: imageWidth,
+      height: imageHeight,
+      x: fx * width - frame.cx * imageWidth,
+      y: fy * height - frame.cy * imageHeight,
+      cx: frame.cx,
+      cy: frame.cy
+    }];
+  }));
+}
+
+function alignProductCardImages(card) {
+  const product = findProduct(card.dataset.pid);
+  const media = $('.product-media', card);
+  const frames = productImageFrames(product, media.clientWidth, media.clientHeight, HERO_FRAMES[product.id]?.cardFocus ?? [0.5, 0.5], HERO_FRAMES[product.id]?.cardSubjectScale);
+  $$('img', media).forEach((img) => {
+    const frame = frames[img.dataset.vid];
+    if (!frame) return;
+    Object.assign(img.style, {
+      width: `${frame.width}px`, height: `${frame.height}px`,
+      left: `${frame.x}px`, top: `${frame.y}px`,
+      transformOrigin: `${frame.cx * 100}% ${frame.cy * 100}%`
+    });
+  });
+}
+
 function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'product', onChange }) {
   const variants = product.variants;
   let currentVariantIndex = startIndex;
@@ -389,18 +493,24 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     layer.className = `hero-bg-layer ${index === currentVariantIndex ? 'active' : ''}`;
     layer.style.backgroundImage = `url('${variant.image}')`;
     layer.style.setProperty('--mscale', `${product.mobileScale}%`);
-    const productFrames = HERO_FRAMES[product.id] || {};
-    const frame = productFrames[variant.id] || {};
-    const [focusX, focusY] = productFrames.focus || [0.5, 0.5];
-    layer.style.setProperty('--hero-image-scale', frame.scale || variant.heroScale || 1);
-    layer.style.setProperty('--hero-cx', frame.cx ?? 0.5);   // centro do móvel na foto
-    layer.style.setProperty('--hero-cy', frame.cy ?? 0.5);
-    layer.style.setProperty('--hero-fx', focusX);            // ponto fixo da tela onde o móvel fica
-    layer.style.setProperty('--hero-fy', focusY);
-    layer.style.setProperty('--mscale-n', product.mobileScale);
     layer.setAttribute('data-id', variant.id);
     bgContainer.appendChild(layer);
   });
+
+  const alignShowcaseImages = () => {
+    const layers = $$('.hero-bg-layer', bgContainer);
+    const first = layers[0];
+    const portrait = window.matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
+    const focus = portrait ? [0.5, 0.5] : (HERO_FRAMES[product.id]?.focus || [0.5, 0.5]);
+    const frames = productImageFrames(product, first.clientWidth, first.clientHeight, focus);
+    layers.forEach((layer) => {
+      const frame = frames[layer.dataset.id];
+      layer.style.backgroundSize = `${frame.width}px ${frame.height}px`;
+      layer.style.backgroundPosition = `${frame.x}px ${frame.y}px`;
+    });
+  };
+  alignShowcaseImages();
+  new ResizeObserver(alignShowcaseImages).observe(bgContainer);
 
   // A tela inicial dá um instante para a marca aparecer e revelar a vitrine
   // assim que a primeira imagem estiver pronta.
@@ -409,26 +519,42 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     const heroHeader = $('#siteHeader');
     const heroBody = $('.hero-body');
     const loader = $('#siteLoader');
+    const loaderWordmark = $('#hero .hero-center-typography');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const image = new Image();
     image.src = variants[currentVariantIndex].image;
     const imageReady = image.decode ? image.decode().catch(() => {}) : new Promise((resolve) => {
       image.onload = image.onerror = resolve;
     });
-    const minimumSplash = new Promise((resolve) => setTimeout(resolve, reducedMotion ? 0 : 900));
+    const wordmarkIntro = reducedMotion ? Promise.resolve() : new Promise((resolve) => {
+      let settled = false;
+      const fallback = window.setTimeout(finish, 1700);
+      function finish() {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(fallback);
+        window.setTimeout(resolve, 320);
+      }
+      loaderWordmark.addEventListener('animationend', (event) => {
+        if (event.target === loaderWordmark) finish();
+      }, { once: true });
+    });
+    const minimumSplash = new Promise((resolve) => setTimeout(resolve, reducedMotion ? 0 : 250));
 
     const imageReadyOrTimeout = Promise.race([
       imageReady,
       new Promise((resolve) => setTimeout(resolve, 1400))
     ]);
 
-    Promise.all([imageReadyOrTimeout, minimumSplash]).then(() => {
-      heroHeader.classList.add('hero-header-enter');
-      heroBody.classList.add('hero-body-enter');
-      firstLayer.classList.add('hero-intro-rise');
-      document.body.classList.remove('home-loading');
+    Promise.all([imageReadyOrTimeout, minimumSplash, wordmarkIntro]).then(() => {
       loader.classList.add('is-exiting');
-      window.setTimeout(() => loader.remove(), 500);
+      window.setTimeout(() => {
+        heroHeader.classList.add('hero-header-enter');
+        heroBody.classList.add('hero-body-enter');
+        firstLayer.classList.add('hero-intro-rise');
+        document.body.classList.remove('home-loading');
+        loader.remove();
+      }, reducedMotion ? 0 : 450);
     });
     firstLayer.addEventListener('animationend', () => firstLayer.classList.remove('hero-intro-rise'), { once: true });
     heroHeader.addEventListener('animationend', () => heroHeader.classList.remove('hero-header-enter'), { once: true });
@@ -480,8 +606,7 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     $('[data-add]', buyBox).addEventListener('click', () => addToCart(product.id, variant.id, 1));
     const buy = $('[data-buy]', buyBox);
     if (buy) buy.addEventListener('click', () => {
-      addToCart(product.id, variant.id, 1, { silent: true });
-      window.location.href = 'checkout.html';
+      if (addToCart(product.id, variant.id, 1, { silent: true })) window.location.href = 'checkout.html';
     });
   }
 
@@ -553,8 +678,8 @@ function productCardHTML(product, delay = 0) {
   const minPrice = Math.min(...product.variants.map((x) => x.price));
   return `
     <article class="product-card" data-pid="${product.id}" style="animation-delay:${delay}ms">
-      <a class="product-media" href="${productUrl(product, v)}" style="--card-fill:${v.fill};--zoom:${product.cardZoom};--word-color:${v.theme.titleText}">
-        <img src="${v.image}" alt="${productLabel(product)} na cor ${v.name}" loading="lazy">
+      <a class="product-media" href="${productUrl(product, v)}" style="--card-fill:${v.fill};--zoom:${Math.min(1.12, 1 + (product.cardZoom - 1) * 0.35)};--word-color:${v.theme.titleText}">
+        <img src="${v.image}" data-vid="${v.id}" alt="${productLabel(product)} na cor ${v.name}" loading="lazy">
         <span class="product-word">${product.word}</span>
       </a>
       <div class="product-info">
@@ -577,14 +702,60 @@ function bindProductCards(container) {
   $$('.product-card', container).forEach((card) => {
     const product = findProduct(card.dataset.pid);
     let selected = product.variants[0];
+    let imageRequest = 0;
     const media = $('.product-media', card);
     const img = $('img', media);
+    alignProductCardImages(card);
+
+    const swapImage = (variant) => {
+      if (img.getAttribute('src') === variant.image) return;
+      const request = ++imageRequest;
+      const preload = new Image();
+      preload.src = variant.image;
+      const commit = () => {
+        if (request !== imageRequest) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          img.src = variant.image;
+          img.dataset.vid = variant.id;
+          alignProductCardImages(card);
+          return;
+        }
+
+        const outgoing = img.cloneNode();
+        outgoing.className = 'product-media-image-out';
+        outgoing.alt = '';
+        outgoing.setAttribute('aria-hidden', 'true');
+        media.appendChild(outgoing);
+
+        img.classList.remove('product-media-image-in');
+        img.src = variant.image;
+        img.dataset.vid = variant.id;
+        alignProductCardImages(card);
+        void img.offsetWidth;
+        img.classList.add('product-media-image-in');
+
+        let cleanupTimer;
+        const cleanup = () => {
+          window.clearTimeout(cleanupTimer);
+          outgoing.remove();
+        };
+        outgoing.addEventListener('animationend', cleanup, { once: true });
+        cleanupTimer = window.setTimeout(cleanup, 500);
+      };
+
+      if (preload.decode) preload.decode().then(commit).catch(commit);
+      else {
+        preload.onload = commit;
+        preload.onerror = commit;
+      }
+    };
 
     const select = (variant) => {
+      const changed = selected !== variant;
       selected = variant;
       media.style.setProperty('--card-fill', variant.fill);
       media.style.setProperty('--word-color', variant.theme.titleText);
-      img.src = variant.image;
+      if (changed) swapImage(variant);
       img.alt = `${productLabel(product)} na cor ${variant.name}`;
       $('[data-color]', card).textContent = `${variant.name} · ${product.variants.length} cores`;
       const url = productUrl(product, variant);
@@ -620,7 +791,11 @@ function initHome() {
     });
     grid.innerHTML = list.map((p, i) => productCardHTML(p, i * 50)).join('');
     bindProductCards(grid);
-    $$('.chip', chips).forEach((c) => c.classList.toggle('active', filter.type === 'cat' && c.dataset.cat === filter.key));
+    $$('.chip', chips).forEach((c) => {
+      const active = filter.type === 'cat' && c.dataset.cat === filter.key;
+      c.classList.toggle('active', active);
+      c.setAttribute('aria-pressed', String(active));
+    });
     $$('.room-card', roomCards).forEach((c) => c.classList.toggle('active', filter.type === 'room' && c.dataset.room === filter.key));
   };
 
@@ -678,21 +853,30 @@ function initProductReviews(product) {
   if (!root) return;
 
   const storageKey = `decora_reviews_${product.id}`;
-  const readReviews = () => {
+  const readStoredReviews = () => {
     const reviews = load(storageKey, []);
     return Array.isArray(reviews) ? reviews.filter((review) =>
       review && typeof review.name === 'string' && typeof review.comment === 'string' &&
       Number.isInteger(review.rating) && review.rating >= 1 && review.rating <= 5
     ) : [];
   };
+  const exampleReviews = (PRODUCT_REVIEWS[product.id] || []).map((review) => ({ ...review, demo: true }));
+  const readReviews = () => [...exampleReviews, ...readStoredReviews()];
+  let photosOnly = false;
+  let draftPhotos = [];
+  let preparingPhotos = false;
 
   root.innerHTML = `
     <div class="reviews-heading">
       <div>
         <span class="eyebrow">Quem já escolheu</span>
-        <h2 class="display-title" id="reviewsTitle">avaliações</h2>
+        <h2 class="display-title" id="reviewsTitle">Avaliações</h2>
       </div>
       <div class="reviews-summary" id="reviewsSummary" aria-live="polite"></div>
+    </div>
+    <div class="review-filters" role="group" aria-label="Filtrar avaliações">
+      <button class="review-filter active" type="button" data-review-filter="all" aria-pressed="true">Todas</button>
+      <button class="review-filter" type="button" data-review-filter="photos" aria-pressed="false">Com fotos</button>
     </div>
     <div class="reviews-layout">
       <div class="reviews-list" id="reviewsList" aria-live="polite"></div>
@@ -713,6 +897,15 @@ function initProductReviews(product) {
           <span>Seu comentário</span>
           <textarea class="input review-comment-input" name="comment" maxlength="600" rows="4" placeholder="O que mais gostou neste móvel?" required></textarea>
         </label>
+        <div class="field review-upload">
+          <span>Fotos do móvel na sua casa <span class="review-optional">(opcional)</span></span>
+          <label class="review-upload-trigger">${ICONS.camera}<span>Adicionar fotos</span>
+            <input class="sr-only" id="reviewPhotoInput" type="file" accept="image/jpeg,image/png,image/webp" multiple aria-describedby="reviewPhotoHelp reviewPhotoError">
+          </label>
+          <p class="review-upload-help" id="reviewPhotoHelp">Até 3 fotos · JPG, PNG ou WebP · 5 MB por foto</p>
+          <div id="reviewPhotoPreviews"></div>
+          <p class="review-upload-error" id="reviewPhotoError" role="alert"></p>
+        </div>
         <button class="btn btn-lg" type="submit">Enviar avaliação</button>
         <p class="review-local-note">Sua avaliação fica salva neste navegador.</p>
       </form>
@@ -733,16 +926,27 @@ function initProductReviews(product) {
       ? `<strong>${average.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</strong><span class="review-stars" aria-label="${average.toFixed(1)} de 5 estrelas">${'★'.repeat(Math.round(average))}${'☆'.repeat(5 - Math.round(average))}</span><span>${reviews.length} ${reviews.length === 1 ? 'avaliação' : 'avaliações'}</span>`
       : '<span>Seja a primeira pessoa a avaliar</span>';
 
+    const visibleReviews = photosOnly ? reviews.filter((review) => reviewPhotos(review.photos).length) : reviews;
+    $$('.review-filter', root).forEach((button) => {
+      const active = (button.dataset.reviewFilter === 'photos') === photosOnly;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+      button.textContent = button.dataset.reviewFilter === 'photos'
+        ? `Com fotos (${reviews.filter((review) => reviewPhotos(review.photos).length).length})`
+        : `Todas (${reviews.length})`;
+    });
     list.replaceChildren();
-    if (!reviews.length) {
+    if (!visibleReviews.length) {
       const empty = document.createElement('div');
       empty.className = 'reviews-empty';
-      empty.innerHTML = '<span class="reviews-empty-star" aria-hidden="true">☆</span><h3>Esse espaço é seu</h3><p>Conte como o móvel ficou na sua casa e ajude outras pessoas a escolher.</p>';
+      empty.innerHTML = photosOnly
+        ? '<h3>Ainda sem fotos</h3><p>Adicione uma foto ao contar como o móvel ficou na sua casa.</p>'
+        : '<span class="reviews-empty-star" aria-hidden="true">☆</span><h3>Esse espaço é seu</h3><p>Conte como o móvel ficou na sua casa e ajude outras pessoas a escolher.</p>';
       list.appendChild(empty);
       return;
     }
 
-    reviews.slice().reverse().forEach((review) => {
+    visibleReviews.slice().reverse().forEach((review) => {
       const card = document.createElement('article');
       card.className = 'review-card';
       const top = document.createElement('div');
@@ -750,11 +954,15 @@ function initProductReviews(product) {
       const author = document.createElement('strong');
       author.className = 'review-author';
       author.textContent = review.name;
-      const date = document.createElement('time');
+      const date = document.createElement(review.demo ? 'span' : 'time');
       date.className = 'review-date';
       const createdAt = new Date(review.createdAt);
-      date.dateTime = Number.isNaN(createdAt.getTime()) ? '' : createdAt.toISOString();
-      date.textContent = Number.isNaN(createdAt.getTime()) ? '' : createdAt.toLocaleDateString('pt-BR');
+      if (review.demo) {
+        date.textContent = 'Avaliação de exemplo';
+      } else {
+        date.dateTime = Number.isNaN(createdAt.getTime()) ? '' : createdAt.toISOString();
+        date.textContent = Number.isNaN(createdAt.getTime()) ? '' : createdAt.toLocaleDateString('pt-BR');
+      }
       top.append(author, date);
       const stars = document.createElement('div');
       stars.className = 'review-stars';
@@ -763,32 +971,151 @@ function initProductReviews(product) {
       const comment = document.createElement('p');
       comment.className = 'review-card-comment';
       comment.textContent = review.comment;
-      card.append(top, stars, comment);
+      card.append(top, stars);
+      const variant = findVariant(product, review.variantId);
+      if (variant) {
+        const color = document.createElement('p');
+        color.className = 'review-variant';
+        color.textContent = `Cor: ${variant.name}`;
+        card.appendChild(color);
+      }
+      card.appendChild(comment);
+      const photos = reviewPhotos(review.photos);
+      if (photos.length) {
+        card.appendChild(reviewPhotoGallery(photos, review.demo
+          ? `Foto de exemplo gerada por IA · ${productLabel(product)}`
+          : `${productLabel(product)} · Foto enviada por ${review.name}`));
+        if (review.demo) {
+          const note = document.createElement('p');
+          note.className = 'review-photo-note';
+          note.textContent = 'Foto de exemplo gerada por IA';
+          card.appendChild(note);
+        }
+      }
       list.appendChild(card);
     });
   };
 
+  $$('.review-filter', root).forEach((button) => button.addEventListener('click', () => {
+    photosOnly = button.dataset.reviewFilter === 'photos';
+    render();
+  }));
+
+  const photoInput = $('#reviewPhotoInput', root);
+  const photoError = $('#reviewPhotoError', root);
+  const submitReview = $('#reviewForm button[type="submit"]', root);
+  const renderDraftPhotos = () => {
+    $('#reviewPhotoPreviews', root).replaceChildren(reviewPhotoPreview(draftPhotos, (index) => {
+      draftPhotos.splice(index, 1);
+      photoError.textContent = '';
+      renderDraftPhotos();
+    }));
+    $('#reviewPhotoHelp', root).textContent = preparingPhotos
+      ? 'Preparando fotos…'
+      : `${draftPhotos.length} de 3 fotos · JPG, PNG ou WebP · 5 MB por foto`;
+    photoInput.disabled = preparingPhotos || draftPhotos.length >= 3;
+    submitReview.disabled = preparingPhotos;
+  };
+  photoInput.addEventListener('change', async () => {
+    const files = Array.from(photoInput.files);
+    photoInput.value = '';
+    photoError.textContent = '';
+    if (!files.length) return;
+    if (files.length + draftPhotos.length > 3) {
+      photoError.textContent = 'Você pode adicionar até 3 fotos por avaliação.';
+      return;
+    }
+    preparingPhotos = true;
+    renderDraftPhotos();
+    try {
+      const prepared = await Promise.all(files.map(prepareReviewPhoto));
+      draftPhotos.push(...prepared);
+    } catch (error) {
+      photoError.textContent = error.message || 'Não foi possível preparar as fotos. Tente novamente.';
+    } finally {
+      preparingPhotos = false;
+      renderDraftPhotos();
+    }
+  });
+
   $('#reviewForm', root).addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
+    if (preparingPhotos) return;
     if (!form.reportValidity()) return;
     const data = new FormData(form);
     const review = {
       name: String(data.get('name')).trim(),
       rating: Number(data.get('rating')),
       comment: String(data.get('comment')).trim(),
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      variantId: product.variants[Number($('#panelSwatches .swatch.active')?.dataset.index) || 0].id,
+      photos: draftPhotos.slice()
     };
     if (!review.name || !review.comment || review.rating < 1 || review.rating > 5) return;
-    const reviews = readReviews();
+    const reviews = readStoredReviews();
     reviews.push(review);
-    save(storageKey, reviews);
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(reviews));
+      memoryStore[storageKey] = reviews;
+    } catch (error) {
+      photoError.textContent = 'Não foi possível salvar neste navegador. Se o armazenamento estiver cheio, remova algumas fotos e tente novamente.';
+      return;
+    }
     form.reset();
+    draftPhotos = [];
+    photoError.textContent = '';
+    photosOnly = false;
+    renderDraftPhotos();
     render();
     showToast('Obrigado por compartilhar sua avaliação!');
   });
 
   render();
+}
+
+function initProductAccordions(root) {
+  $$('.accordion details', root).forEach((details) => {
+    const summary = $('summary', details);
+    const panel = $('.accordion-panel', details);
+    details.classList.toggle('is-expanded', details.open);
+    let cancelClosing = () => {};
+
+    summary.addEventListener('click', (event) => {
+      event.preventDefault();
+      cancelClosing();
+      const expanding = !details.classList.contains('is-expanded');
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        details.open = expanding;
+        details.classList.toggle('is-expanded', expanding);
+        return;
+      }
+
+      if (expanding) {
+        details.open = true;
+        // Disponibiliza o conteúdo no estado recolhido antes de expandi-lo.
+        void panel.offsetHeight;
+        details.classList.add('is-expanded');
+        return;
+      }
+
+      details.classList.remove('is-expanded');
+      const finishClosing = () => {
+        cancelClosing();
+        if (!details.classList.contains('is-expanded')) details.open = false;
+      };
+      const onTransitionEnd = (transition) => {
+        if (transition.target === panel && transition.propertyName === 'grid-template-rows') finishClosing();
+      };
+      panel.addEventListener('transitionend', onTransitionEnd);
+      const timeout = window.setTimeout(finishClosing, 450);
+      cancelClosing = () => {
+        window.clearTimeout(timeout);
+        panel.removeEventListener('transitionend', onTransitionEnd);
+      };
+    });
+  });
 }
 
 function initProduct() {
@@ -814,17 +1141,17 @@ function initProduct() {
         ${Object.entries(product.specs).map(([k, v]) => `<div class="specs-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('')}
       </dl>
       <div class="accordion">
-        <details open>
+        <details>
           <summary>Entrega${product.assembly ? ' e montagem' : ''}</summary>
-          <p>Enviamos para todo o Brasil com transportadora especializada em móveis. Compras acima de ${moneyShort(STORE.freeShippingFrom)} têm frete padrão grátis.${product.assembly ? ` Esta peça pode ser entregue montada por ${moneyShort(STORE.assemblyPrice)} por unidade — escolha no carrinho.` : ' Esta peça chega pronta para usar.'}</p>
+          <div class="accordion-panel"><div class="accordion-panel-inner"><p>Enviamos para todo o Brasil com transportadora especializada em móveis. Compras acima de ${moneyShort(STORE.freeShippingFrom)} têm frete padrão grátis.${product.assembly ? ` Esta peça pode ser entregue montada por ${moneyShort(STORE.assemblyPrice)} por unidade — escolha no carrinho.` : ' Esta peça chega pronta para usar.'}</p></div></div>
         </details>
         <details>
           <summary>Garantia</summary>
-          <p>2 anos de garantia contra defeitos de fabricação na estrutura e 1 ano no revestimento. Você tem 30 dias para trocar ou devolver sem custo.</p>
+          <div class="accordion-panel"><div class="accordion-panel-inner"><p>2 anos de garantia contra defeitos de fabricação na estrutura e 1 ano no revestimento. Você tem 30 dias para trocar ou devolver sem custo.</p></div></div>
         </details>
         <details>
           <summary>Cuidados</summary>
-          <p>Aspire semanalmente com bocal macio. Manchas: pano úmido com sabão neutro, sem esfregar. Evite sol direto prolongado para preservar a cor.</p>
+          <div class="accordion-panel"><div class="accordion-panel-inner"><p>Aspire semanalmente com bocal macio. Manchas: pano úmido com sabão neutro, sem esfregar. Evite sol direto prolongado para preservar a cor.</p></div></div>
         </details>
       </div>
     </div>
@@ -861,6 +1188,7 @@ function initProduct() {
       </div>
     </aside>`;
 
+  initProductAccordions(details);
   initProductReviews(product);
 
   const renderPanel = () => {
@@ -869,6 +1197,10 @@ function initProduct() {
     $('#panelPrice').textContent = moneyShort(current.price * qty);
     $('#panelSub').innerHTML = `em até <strong>${inst.n}x de ${money(inst.value)}</strong> sem juros<br>ou <strong>${money(current.price * qty * (1 - STORE.pixDiscount / 100))}</strong> no Pix (${STORE.pixDiscount}% off)`;
     $('#qtyValue').textContent = qty;
+    const qtyPlus = $('#qtyPlus');
+    const remainingQty = Math.max(0, MAX_QTY_PER_VARIANT - cartQtyForVariant(product.id, current.id));
+    qtyPlus.disabled = qty >= remainingQty;
+    qtyPlus.setAttribute('aria-label', qtyPlus.disabled ? `Limite de ${MAX_QTY_PER_VARIANT} unidades desta cor por compra` : 'Aumentar quantidade');
     $$('#panelSwatches .swatch').forEach((s) => s.classList.toggle('active', product.variants[s.dataset.index] === current));
     if (onlyDigits($('#cepInput').value).length === 8) renderQuote();
   };
@@ -896,13 +1228,19 @@ function initProduct() {
     }
   });
 
+  const productHeroImage = $('.hero-bg-layer.active', $('#heroBgContainer'));
+  const productHeroTitle = $('.hero-center-typography', $('#hero'));
+  productHeroImage.addEventListener('animationend', () => productHeroImage.classList.remove('product-detail-image-enter'), { once: true });
+  productHeroTitle.addEventListener('animationend', () => productHeroTitle.classList.remove('product-detail-title-enter'), { once: true });
+  productHeroImage.classList.add('product-detail-image-enter');
+  productHeroTitle.classList.add('product-detail-title-enter');
+
   $$('#panelSwatches .swatch').forEach((s) => s.addEventListener('click', () => showcase.select(Number(s.dataset.index))));
   $('#qtyMinus').addEventListener('click', () => { qty = Math.max(1, qty - 1); renderPanel(); });
-  $('#qtyPlus').addEventListener('click', () => { qty = Math.min(10, qty + 1); renderPanel(); });
+  $('#qtyPlus').addEventListener('click', () => { qty = Math.min(MAX_QTY_PER_VARIANT, qty + 1); renderPanel(); });
   $('#panelAdd').addEventListener('click', () => addToCart(product.id, current.id, qty));
   $('#panelBuy').addEventListener('click', () => {
-    addToCart(product.id, current.id, qty, { silent: true });
-    window.location.href = 'checkout.html';
+    if (addToCart(product.id, current.id, qty, { silent: true })) window.location.href = 'checkout.html';
   });
 
   const cepInput = $('#cepInput');
@@ -1278,7 +1616,7 @@ function initCheckout() {
   };
   renderInstallments();
 
-  $('#placeOrder').addEventListener('click', () => {
+  $('#placeOrder').addEventListener('click', async () => {
     // Revalida as etapas anteriores (ex.: página recarregada no meio do checkout)
     const step1 = ['name', 'email', 'phone'];
     const step2 = ['cep', 'street', 'number', 'district', 'city', 'uf'];
@@ -1287,27 +1625,51 @@ function initCheckout() {
     if (payment === 'card' && !validate(['cardNumber', 'cardName', 'cardExpiry', 'cardCvv'])) return;
     const t = computeTotals(payment);
     const get = (k) => $(`[name="${k}"]`, root).value.trim();
-    const order = {
-      number: 'DM-' + String(Math.floor(100000 + Math.random() * 900000)),
-      createdAt: new Date().toISOString(),
-      lines: t.lines.map((l) => ({ pid: l.product.id, vid: l.variant.id, qty: l.qty, total: l.total })),
-      totals: { subtotal: t.subtotal, discount: t.discount, coupon: t.coupon.valid ? t.state.coupon : null, shipping: t.ship ? t.ship.price : 0, assembly: t.assembly, pixDiscount: t.pixDiscount, total: t.total },
-      shipping: t.ship ? { label: t.ship.label, id: t.ship.id, date: t.ship.date, dateText: t.ship.dateText, note: t.ship.note || '' } : null,
-      customer: { name: get('name'), email: get('email'), phone: get('phone') },
-      address: { street: get('street'), number: get('number'), complement: get('complement'), district: get('district'), city: get('city'), uf: get('uf').toUpperCase(), cep: get('cep') },
-      payment: {
-        method: payment,
-        installments: payment === 'card' ? Number(get('installments')) : 1,
-        last4: payment === 'card' ? onlyDigits(get('cardNumber')).slice(-4) : null
-      }
+    const customer = { name: get('name'), email: get('email'), phone: get('phone') };
+    const address = { street: get('street'), number: get('number'), complement: get('complement'), district: get('district'), city: get('city'), uf: get('uf').toUpperCase(), cep: get('cep') };
+    const paymentDetails = {
+      method: payment,
+      installments: payment === 'card' ? Number(get('installments')) : 1,
+      last4: payment === 'card' ? onlyDigits(get('cardNumber')).slice(-4) : null
     };
+    const backendPayload = {
+      items: t.lines.map((line) => ({ pid: line.product.id, vid: line.variant.id, qty: line.qty })),
+      coupon: t.coupon.valid ? t.state.coupon : null,
+      regionCode: onlyDigits(address.cep)[0],
+      shippingId: t.ship?.id || t.state.ship || 'padrao',
+      assembly: t.state.assembly,
+      payment: { method: paymentDetails.method, installments: paymentDetails.installments }
+    };
+
     $('#processing').classList.add('show');
-    setTimeout(() => {
+    $('#placeOrder').disabled = true;
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        cache: 'no-store',
+        body: JSON.stringify(backendPayload)
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Não foi possível validar o pedido.');
+
+      const order = {
+        ...result.order,
+        serverValidated: true,
+        persisted: result.persisted,
+        customer,
+        address,
+        payment: paymentDetails
+      };
       save(ORDER_KEY, order);
       save(CART_KEY, []);
       setState({ coupon: null, assembly: false });
       window.location.href = 'pedido.html';
-    }, 1800);
+    } catch (error) {
+      $('#processing').classList.remove('show');
+      $('#placeOrder').disabled = false;
+      showToast(error.message || 'Não foi possível conectar ao servidor. Tente novamente.');
+    }
   });
 
   goTo(1);
@@ -1388,6 +1750,7 @@ function initOrder() {
       <h1 class="page-title">pedido confirmado!</h1>
       <p>Obrigado, <strong>${first}</strong>. Seu pedido <strong>${order.number}</strong> foi recebido em ${created.toLocaleDateString('pt-BR')}.<br>
       ${deliveryDate ? `Previsão de ${order.shipping.id === 'retirada' ? 'retirada' : 'entrega'}: <strong>${fmtDate(deliveryDate)}</strong>` : ''}</p>
+      ${order.serverValidated ? '<p class="hint">Pedido validado pelo servidor demonstrativo. Este comprovante fica salvo apenas neste navegador.</p>' : ''}
     </section>
 
     <div class="layout-2col">
@@ -1461,3 +1824,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const year = $('#year');
   if (year) year.textContent = new Date().getFullYear();
 });
+
+let imageFrameResize;
+window.addEventListener('resize', () => {
+  cancelAnimationFrame(imageFrameResize);
+  imageFrameResize = requestAnimationFrame(() => $$('.product-card').forEach(alignProductCardImages));
+}, { passive: true });

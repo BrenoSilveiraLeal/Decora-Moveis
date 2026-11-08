@@ -4,7 +4,7 @@
  * a frase adaptável e as seis cores de tema usadas pela vitrine.
  */
 
-const PRODUCTS = [
+export const PRODUCTS = [
   {
     id: 'poltrona-orbe',
     name: 'Orbe',
@@ -385,98 +385,178 @@ const PRODUCTS = [
   }
 ];
 
-// Enquadramento medido automaticamente em cada foto (centro de massa do móvel e
-// escala relativa). Todas as cores de um produto são posicionadas de modo que o
-// móvel ocupe exatamente o mesmo ponto e tamanho da tela (focus = ponto alvo,
-// cx/cy = centro do móvel na foto, scale = zoom). Só a cor muda na transição.
-const HERO_FRAMES = {
+// Limites visuais: [esquerda, topo, direita, base], em coordenadas de 0 a 1.
+// Todas as cores compartilham largura, altura, centro e ajuste de cobertura.
+export const HERO_FRAMES = {
   'poltrona-orbe': {
-    focus: [0.4995, 0.5026],
-    verde: { scale: 1.006, cx: 0.5, cy: 0.5017 },
-    azul: { scale: 1.002, cx: 0.499, cy: 0.5035 },
-    laranja: { scale: 1.002, cx: 0.5, cy: 0.5017 },
-    bege: { scale: 1.017, cx: 0.4975, cy: 0.505 }
+    focus: [0.4995,0.5026],
+    verde: { bounds: [0.21224,0.11343,0.78776,0.88889] },
+    azul: { bounds: [0.21224,0.11111,0.78776,0.8912] },
+    laranja: { bounds: [0.21224,0.1088,0.78906,0.8912] },
+    bege: { bounds: [0.21224,0.10185,0.78385,0.8912] }
   },
   'sofa-lumo': {
-    focus: [0.502, 0.5521],
-    rosa: { scale: 1.108, cx: 0.5039, cy: 0.5573 },
-    mostarda: { scale: 1.029, cx: 0.5146, cy: 0.566 },
-    petroleo: { scale: 1.072, cx: 0.5, cy: 0.5243 },
-    linho: { scale: 1.028, cx: 0.5, cy: 0.5469 }
+    focus: [0.502,0.5521],
+    subjectScale: 0.94,
+    cardSubjectScale: 0.77,
+    cardFocus: [0.5, 0.55],
+    rosa: { bounds: [0.16016,0.34491,0.84115,0.76157] },
+    mostarda: { bounds: [0.13021,0.33102,0.86719,0.78472] },
+    petroleo: { bounds: [0.14323,0.31481,0.85677,0.72917] },
+    linho: { bounds: [0.1276,0.3287,0.87109,0.76852] }
   },
   'cadeira-aro': {
-    focus: [0.499, 0.4835],
-    musgo: { scale: 1.165, cx: 0.499, cy: 0.4514 },
-    terracota: { scale: 1.163, cx: 0.4971, cy: 0.4688 },
-    ceu: { scale: 1.093, cx: 0.499, cy: 0.4983 },
-    creme: { scale: 1.056, cx: 0.5015, cy: 0.51 }
+    focus: [0.499,0.4835],
+    musgo: { bounds: [0.36198,0.13657,0.63542,0.85185] },
+    terracota: { bounds: [0.35677,0.15741,0.63411,0.84722] },
+    ceu: { bounds: [0.35938,0.14352,0.64062,0.84259] },
+    creme: { bounds: [0.35417,0.15046,0.64193,0.86806] }
   },
   'pufe-bolha': {
-    focus: [0.5035, 0.5688],
-    lilas: { scale: 1.075, cx: 0.5035, cy: 0.565 },
-    manteiga: { scale: 1.096, cx: 0.4595, cy: 0.5725 },
-    menta: { scale: 1.095, cx: 0.5035, cy: 0.56 },
-    pedra: { scale: 1.08, cx: 0.5244, cy: 0.5851 }
+    focus: [0.5035,0.5688],
+    lilas: { bounds: [0.29427,0.3287,0.69661,0.79398] },
+    manteiga: { bounds: [0.31901,0.35648,0.67839,0.78704] },
+    menta: { bounds: [0.29948,0.32176,0.69792,0.77778] },
+    pedra: { bounds: [0.3151,0.35648,0.67839,0.7963] }
   },
   'luminaria-cogu': {
-    focus: [0.5, 0.5043],
-    coral: { scale: 1.005, cx: 0.501, cy: 0.5017 },
-    salvia: { scale: 1.029, cx: 0.5, cy: 0.5069 },
-    cobalto: { scale: 1.075, cx: 0.5, cy: 0.5226 },
-    marfim: { scale: 1.08, cx: 0.4736, cy: 0.4983 }
+    focus: [0.5,0.5043],
+    coral: { bounds: [0.35417,0.15741,0.64453,0.84491] },
+    salvia: { bounds: [0.35938,0.1713,0.63802,0.84028] },
+    cobalto: { bounds: [0.36589,0.20833,0.63542,0.83796] },
+    marfim: { bounds: [0.34505,0.16898,0.64583,0.84722] }
   },
   'mesa-seixo': {
-    focus: [0.5063, 0.5886],
-    travertino: { scale: 1.17, cx: 0.5, cy: 0.58 },
-    nogueira: { scale: 1.163, cx: 0.5127, cy: 0.5799 },
-    argila: { scale: 1.152, cx: 0.5566, cy: 0.5972 },
-    grafite: { scale: 1.067, cx: 0.495, cy: 0.62 }
+    focus: [0.5063,0.5886],
+    travertino: { bounds: [0.23307,0.37731,0.77344,0.78935] },
+    nogueira: { bounds: [0.24219,0.36806,0.75651,0.77083] },
+    argila: { bounds: [0.26953,0.3912,0.73307,0.76852] },
+    grafite: { bounds: [0.23958,0.34491,0.76042,0.75231] }
   },
   'conjunto-roda': {
-    focus: [0.4917, 0.5451],
-    linho: { scale: 1.059, cx: 0.5, cy: 0.55 },
-    terracota: { scale: 1.015, cx: 0.499, cy: 0.5486 },
-    salvia: { scale: 1.094, cx: 0.4844, cy: 0.5365 },
-    mostarda: { scale: 1.07, cx: 0.4785, cy: 0.5417 }
+    focus: [0.4917,0.5451],
+    linho: { bounds: [0.18229,0.28704,0.81901,0.81713] },
+    terracota: { bounds: [0.15885,0.27083,0.84115,0.82639] },
+    salvia: { bounds: [0.18229,0.26389,0.82292,0.82639] },
+    mostarda: { bounds: [0.16406,0.26389,0.83464,0.82639] }
   },
   'guardaroupa-nicho': {
-    focus: [0.499, 0.4896],
-    areia: { scale: 1.12, cx: 0.5088, cy: 0.4878 },
-    salvia: { scale: 1.079, cx: 0.5, cy: 0.4861 },
-    nevoa: { scale: 1.103, cx: 0.498, cy: 0.4913 },
-    nogueira: { scale: 1.039, cx: 0.4805, cy: 0.4948 }
+    focus: [0.499,0.4896],
+    areia: { bounds: [0.35156,0.08102,0.64583,0.89352] },
+    salvia: { bounds: [0.34896,0.09028,0.65104,0.88194] },
+    nevoa: { bounds: [0.35156,0.10648,0.64844,0.87731] },
+    nogueira: { bounds: [0.35286,0.10648,0.64714,0.8912] }
   },
   'comoda-onda': {
-    focus: [0.5029, 0.5547],
-    terracota: { scale: 1.023, cx: 0.5, cy: 0.5434 },
-    creme: { scale: 1.087, cx: 0.5088, cy: 0.5642 },
-    oliva: { scale: 1.027, cx: 0.501, cy: 0.5538 },
-    rosa: { scale: 1.011, cx: 0.5049, cy: 0.5556 }
+    focus: [0.5029,0.5547],
+    terracota: { bounds: [0.28125,0.31944,0.71745,0.77083] },
+    creme: { bounds: [0.27604,0.34722,0.72656,0.7662] },
+    oliva: { bounds: [0.26953,0.33333,0.73047,0.76389] },
+    rosa: { bounds: [0.27083,0.31481,0.72786,0.77315] }
   },
   'cama-nuvem': {
-    focus: [0.4971, 0.5252],
-    aveia: { scale: 1.175, cx: 0.5215, cy: 0.5972 },
-    rosa: { scale: 1.103, cx: 0.5039, cy: 0.5243 },
-    indigo: { scale: 1.045, cx: 0.4863, cy: 0.5035 },
-    floresta: { scale: 1.106, cx: 0.4902, cy: 0.526 }
+    focus: [0.4971,0.5252],
+    aveia: { bounds: [0.21615,0.21991,0.77083,0.83565] },
+    rosa: { bounds: [0.21484,0.19676,0.77604,0.83565] },
+    indigo: { bounds: [0.20573,0.17361,0.78385,0.82639] },
+    floresta: { bounds: [0.21745,0.21991,0.77734,0.82639] }
   },
   'cabeceira-pingo': {
-    focus: [0.4995, 0.5417],
-    mostarda: { scale: 1.051, cx: 0.5215, cy: 0.5174 },
-    lilas: { scale: 1.215, cx: 0.495, cy: 0.555 },
-    giz: { scale: 1.302, cx: 0.499, cy: 0.5399 },
-    nogueira: { scale: 1.139, cx: 0.5, cy: 0.5434 }
+    focus: [0.4995,0.5417],
+    mostarda: { bounds: [0.35807,0.25,0.64323,0.78009] },
+    lilas: { bounds: [0.36719,0.28472,0.6263,0.80787] },
+    giz: { bounds: [0.3737,0.30787,0.625,0.77546] },
+    nogueira: { bounds: [0.35417,0.28704,0.64583,0.79861] }
   },
   'rack-arco': {
-    focus: [0.5, 0.5382],
-    carvalho: { scale: 1.059, cx: 0.5156, cy: 0.5503 },
-    grafite: { scale: 1.044, cx: 0.5, cy: 0.5208 },
-    salvia: { scale: 1.022, cx: 0.5, cy: 0.5434 },
-    terracota: { scale: 1.011, cx: 0.5, cy: 0.533 }
+    focus: [0.5,0.5382],
+    carvalho: { bounds: [0.17969,0.37731,0.82031,0.71296] },
+    grafite: { bounds: [0.1862,0.35648,0.8138,0.68287] },
+    salvia: { bounds: [0.17578,0.375,0.82161,0.71296] },
+    terracota: { bounds: [0.18359,0.3588,0.81641,0.70602] }
   }
 };
 
-const CATEGORIES = [
+// Avaliações e fotos ilustrativas para a demonstração da loja.
+export const PRODUCT_REVIEWS = {
+  'poltrona-orbe': [{ name: 'Ana', rating: 5, comment: 'O assento é aconchegante e o formato arredondado ficou ótimo no cantinho de leitura.' }],
+  'sofa-lumo': [{ name: 'Rafael', rating: 5, comment: 'Gostei do espaço do assento e das linhas suaves. Combinou bem com a sala.' }],
+  'cadeira-aro': [{ name: 'Marina', rating: 4, comment: 'O encosto curvo é confortável e a cadeira deixou a mesa de jantar mais leve.' }],
+  'pufe-bolha': [{ name: 'Lucas', rating: 5, comment: 'Ficou ótimo como apoio para os pés ao lado da poltrona. A cor dá vida ao ambiente.' }],
+  'luminaria-cogu': [{ name: 'Beatriz', rating: 5, comment: 'O formato é delicado e a iluminação cria um clima acolhedor no quarto.' }],
+  'mesa-seixo': [{ name: 'Pedro', rating: 4, comment: 'As curvas da mesa combinam com o sofá e deixam a circulação pela sala mais agradável.' }],
+  'conjunto-roda': [{ name: 'Camila', rating: 5, comment: 'A mesa redonda aproximou os lugares e deixou o espaço de jantar mais convidativo.' }],
+  'guardaroupa-nicho': [{ name: 'Felipe', rating: 4, comment: 'Gostei da divisão interna e dos puxadores discretos. O acabamento neutro combina com o quarto.' }],
+  'comoda-onda': [{ name: 'Juliana', rating: 5, comment: 'O detalhe da frente é bonito e as gavetas ajudam a organizar as peças menores.' }],
+  'cama-nuvem': [{ name: 'Bruno', rating: 5, comment: 'A cabeceira estofada é agradável para ler antes de dormir e deixou o quarto mais acolhedor.' }],
+  'cabeceira-pingo': [{ name: 'Larissa', rating: 4, comment: 'Tem espaço para o livro e a luminária, sem ocupar muito ao lado da cama.' }],
+  'rack-arco': [{ name: 'Diego', rating: 5, comment: 'O desenho é leve e os compartimentos ajudam a manter os aparelhos e acessórios organizados.' }]
+};
+
+const ADDITIONAL_PRODUCT_REVIEWS = {
+  'poltrona-orbe': [
+    { name: 'Patrícia', rating: 5, comment: 'Coloquei perto da estante e virou meu lugar de ler. O verde fica suave com a luz da janela.' },
+    { name: 'Gustavo', rating: 4, comment: 'Ficou ao lado do sofá, em cima do tapete. Gostei do tecido e dos pés de madeira.' }
+  ],
+  'sofa-lumo': [
+    { name: 'Fernanda', rating: 5, comment: 'O rosa ficou bonito na sala com piso claro. As almofadas do encosto deixam o sofá bem acolhedor.' },
+    { name: 'André', rating: 4, comment: 'A sala é pequena e o formato arredondado ajudou na composição. Uso com uma manta no braço.' }
+  ],
+  'cadeira-aro': [
+    { name: 'Renata', rating: 5, comment: 'Uso na escrivaninha perto da janela. O encosto apoia bem e o verde combina com a madeira.' },
+    { name: 'Thiago', rating: 4, comment: 'Colocamos na mesa da sala de jantar. O assento é macio e a cadeira não pesa no visual.' }
+  ],
+  'pufe-bolha': [
+    { name: 'Sofia', rating: 5, comment: 'O lilás deu um toque de cor ao lado do sofá bege. É fácil mudar de lugar quando preciso.' },
+    { name: 'Daniel', rating: 4, comment: 'Deixei no quarto, perto da cama. O tamanho ficou bom para apoiar os pés e sentar um pouco.' }
+  ],
+  'luminaria-cogu': [
+    { name: 'Clara', rating: 5, comment: 'Durante o dia ela já funciona como decoração no aparador. Gostei muito desse tom coral.' },
+    { name: 'Henrique', rating: 4, comment: 'Coloquei na mesa de trabalho. À noite a luz fica agradável e o formato chama atenção.' }
+  ],
+  'mesa-seixo': [
+    { name: 'Luiza', rating: 5, comment: 'A mesa ficou no centro da sala com alguns livros. A textura da pedra é o detalhe que mais gostei.' },
+    { name: 'Marcelo', rating: 4, comment: 'Os cantos arredondados combinaram com o tapete. Fica bonita tanto com a luz do dia quanto à noite.' }
+  ],
+  'conjunto-roda': [
+    { name: 'Isabela', rating: 5, comment: 'O conjunto ficou entre a cozinha e a sala. A base central deixa o espaço para as pernas mais livre.' },
+    { name: 'Eduardo', rating: 4, comment: 'Gostei da combinação da madeira clara com as cadeiras de tecido. A mesa fica bonita com um vaso simples.' }
+  ],
+  'guardaroupa-nicho': [
+    { name: 'Aline', rating: 5, comment: 'O tom areia ficou discreto perto da janela. As portas sem puxadores salientes deixam o quarto mais leve.' },
+    { name: 'Vinícius', rating: 4, comment: 'Ficou na parede em frente à cama. Os cantos arredondados e os pés de madeira foram os detalhes favoritos.' }
+  ],
+  'comoda-onda': [
+    { name: 'Bianca', rating: 5, comment: 'A cor terracota combinou com a parede verde do quarto. Deixei uma planta em cima e ficou lindo.' },
+    { name: 'Rodrigo', rating: 4, comment: 'As gavetas ajudaram na organização. O ripado e os puxadores de madeira fazem diferença no acabamento.' }
+  ],
+  'cama-nuvem': [
+    { name: 'Helena', rating: 5, comment: 'Com uma manta e roupa de cama clara, o quarto ficou do jeito que eu queria. A cabeceira é muito bonita.' },
+    { name: 'Caio', rating: 4, comment: 'O formato da cabeceira deixa o ambiente aconchegante. O revestimento claro combinou com os móveis de madeira.' }
+  ],
+  'cabeceira-pingo': [
+    { name: 'Manuela', rating: 5, comment: 'O amarelo trouxe cor para o quarto. Na gaveta guardo os carregadores e no nicho deixo o livro.' },
+    { name: 'Otávio', rating: 4, comment: 'Ficou certinha ao lado da cama. O tampo acomoda uma luminária pequena e ainda sobra um espaço.' }
+  ],
+  'rack-arco': [
+    { name: 'Letícia', rating: 5, comment: 'A madeira clara ficou ótima com as plantas e os quadros. As portas escondem a bagunça do dia a dia.' },
+    { name: 'Fábio', rating: 4, comment: 'O desenho dos arcos é bem bonito de perto. Ficou na sala com livros e um cesto ao lado.' }
+  ]
+};
+
+for (const product of PRODUCTS) {
+  PRODUCT_REVIEWS[product.id] = [...PRODUCT_REVIEWS[product.id], ...ADDITIONAL_PRODUCT_REVIEWS[product.id]]
+    .slice(0, 2)
+    .map((review, index) => ({
+      ...review,
+      variantId: product.variants[index].id,
+      photos: [0, 1, 2].map((panel) => ({
+        src: `assets/img/reviews/${product.name.toLowerCase()}.png`, panel, row: index, panels: 3, rows: 2
+      }))
+    }));
+}
+
+export const CATEGORIES = [
   { key: 'todos', label: 'Todos' },
   { key: 'sofas', label: 'Sofás' },
   { key: 'poltronas', label: 'Poltronas' },
@@ -493,20 +573,20 @@ const CATEGORIES = [
 ];
 
 // Ambientes usados para sugerir peças que combinam
-const ROOMS = [
+export const ROOMS = [
   { key: 'sala', label: 'Sala de estar' },
   { key: 'jantar', label: 'Sala de jantar' },
   { key: 'quarto', label: 'Quarto' }
 ];
 
 // Cupons de demonstração
-const COUPONS = {
+export const COUPONS = {
   DECORA10: { type: 'percent', value: 10, label: '10% de desconto' },
   BEMVINDO: { type: 'fixed', value: 150, min: 1500, label: 'R$ 150 off em compras acima de R$ 1.500' },
   FRETEGRATIS: { type: 'shipping', label: 'Frete padrão grátis' }
 };
 
-const STORE = {
+export const STORE = {
   freeShippingFrom: 2500,
   assemblyPrice: 120,
   pixDiscount: 5,
@@ -514,4 +594,4 @@ const STORE = {
 };
 
 // Tema neutro usado em carrinho, checkout e pedido
-const NEUTRAL_THEME = { navText: '#2c3222', darkBtn: '#383e29', darkHover: '#262b1a', badgeBg: '#4a5238', titleText: '#f4efe6', bodyBg: '#f4efe6' };
+export const NEUTRAL_THEME = { navText: '#2c3222', darkBtn: '#383e29', darkHover: '#262b1a', badgeBg: '#4a5238', titleText: '#f4efe6', bodyBg: '#f4efe6' };

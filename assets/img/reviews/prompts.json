@@ -1,0 +1,98 @@
+﻿[
+    {
+        "name":  "orbe",
+        "file":  "orbe.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Oliva",
+        "customerB":  "Azul",
+        "prompt":  "3x2 grid. Two unmistakably different homes. Three same-room different-angle photos per customer, with distinct angles between rows. Orbe rounded upholstered armchair with short wood legs."
+    },
+    {
+        "name":  "lumo",
+        "file":  "lumo.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Rosa",
+        "customerB":  "Mostarda",
+        "prompt":  "3x2 grid. Two unmistakably different homes. Three same-room different-angle photos per customer, with distinct angles between rows. Lumo low rounded three-seat sofa with segmented back cushions and short wood feet."
+    },
+    {
+        "name":  "aro",
+        "file":  "aro.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Musgo",
+        "customerB":  "Terracota",
+        "prompt":  "3x2 grid. Two unmistakably different homes. Three same-room different-angle photos per customer, with distinct angles between rows. Aro curved-back upholstered chair with slender wooden legs."
+    },
+    {
+        "name":  "bolha",
+        "file":  "bolha.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Lilás",
+        "customerB":  "Manteiga",
+        "prompt":  "3x2 grid. Two unmistakably different homes. Three same-room different-angle photos per customer, with distinct angles between rows. Bolha round low softly domed upholstered pouf."
+    },
+    {
+        "name":  "cogu",
+        "file":  "cogu.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Coral",
+        "customerB":  "Sálvia",
+        "prompt":  "3x2 grid. Two different homes; three same-room different-angle views per row. Cogu lamp: wide low hemispherical dome with flat rim and glowing underside, short wide cylindrical stem, flat round base. Preserve exact shape from catalog."
+    },
+    {
+        "name":  "seixo",
+        "file":  "seixo.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Travertino",
+        "customerB":  "Nogueira",
+        "prompt":  "3x2 grid. Two unmistakably different homes. Three same-room different-angle photos per customer, distinct camera paths. Seixo organic rounded coffee table with sculptural central pedestal."
+    },
+    {
+        "name":  "roda",
+        "file":  "roda.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Linho",
+        "customerB":  "Terracota",
+        "prompt":  "3x2 grid. Two distinctly different dining rooms. Three same-room different-angle photos per customer, distinct camera paths. Roda round pedestal dining table with four curved-back chairs."
+    },
+    {
+        "name":  "nicho",
+        "file":  "nicho.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Areia",
+        "customerB":  "Sálvia",
+        "prompt":  "3x2 grid. Two distinctly different bedrooms. Three same-room different-angle photos per customer, distinct camera paths. Nicho tall three-door wardrobe, slim vertical handles, tapered wood feet."
+    },
+    {
+        "name":  "onda",
+        "file":  "onda.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Terracota",
+        "customerB":  "Creme",
+        "prompt":  "3x2 grid. Two distinctly different bedrooms. Three same-room different-angle photos per customer, distinct camera paths. Onda three-drawer ribbed dresser, wood knobs, tapered legs."
+    },
+    {
+        "name":  "nuvem",
+        "file":  "nuvem.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Aveia",
+        "customerB":  "Rosa",
+        "prompt":  "3x2 grid. Two distinctly different bedrooms. Three same-room different-angle photos per customer, distinct camera paths. Nuvem queen upholstered bed with tall cloud-shaped rounded headboard and enveloping base."
+    },
+    {
+        "name":  "pingo",
+        "file":  "pingo.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Mostarda",
+        "customerB":  "Lilás",
+        "prompt":  "3x2 grid. Two distinctly different bedrooms. Three same-room different-angle photos per customer, distinct camera paths. Pingo compact capsule-shaped nightstand, one drawer, one open niche, short wood feet."
+    },
+    {
+        "name":  "arco",
+        "file":  "arco.png",
+        "tool":  "image_gen (built-in)",
+        "customerA":  "Carvalho",
+        "customerB":  "Grafite",
+        "prompt":  "3x2 grid. Two unmistakably different homes. Three same-room different-angle photos per customer, distinct camera paths. Arco low long four-door media console with carved arch reliefs and tapered feet."
+    }
+]

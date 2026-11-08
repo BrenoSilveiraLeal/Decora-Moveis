@@ -1,8 +1,8 @@
 # Decora Móveis
 
-Loja de móveis **demonstrativa** com design minimalista: vitrine em tela cheia onde cada cor troca o móvel, o fundo e as cores da página, carrinho, cupons, frete simulado por CEP, checkout em etapas e confirmação de pedido.
+Loja de móveis **demonstrativa** com design minimalista: vitrine em tela cheia onde cada cor troca o móvel, o fundo e as cores da página, carrinho, cupons, frete, checkout em etapas e confirmação de pedido. O projeto inclui uma API Node.js para validar os pedidos no servidor.
 
-> Projeto de demonstração: não há login, banco de dados nem cobrança real. O carrinho e o pedido ficam salvos apenas no navegador (localStorage).
+> Projeto de demonstração: não há login, banco de dados nem cobrança real. O carrinho e o comprovante ficam salvos apenas no navegador (localStorage); a API valida o pedido, mas não mantém histórico.
 
 ## Páginas
 
@@ -22,18 +22,26 @@ Cupons de teste: `DECORA10`, `BEMVINDO` e `FRETEGRATIS`.
 
 ## Rodar localmente
 
-Basta abrir o `index.html` no navegador. Ou, no Windows, suba o servidor incluso e acesse `http://localhost:5173`:
+Requer Node.js 20 ou superior. No Windows, inicie o servidor de desenvolvimento incluso e acesse `http://localhost:5173`:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File serve.ps1
 ```
 
-## Publicar no GitHub Pages
+O servidor local atende o site e as mesmas rotas da API usadas no Vercel:
 
-1. Envie estes arquivos para a raiz de um repositório.
-2. Em **Settings → Pages**, escolha **Deploy from a branch**, branch `main` e pasta `/ (root)`.
-3. O site fica disponível em `https://<seu-usuario>.github.io/<repositorio>/`.
+| Rota | O que faz |
+|---|---|
+| `GET /api/health` | Informa o estado da API e os recursos demonstrados |
+| `GET /api/catalog` | Retorna produtos, cores, preços e imagens do catálogo |
+| `POST /api/orders` | Revalida itens e quantidades, recalcula preços, cupons, entrega e montagem e gera um comprovante demonstrativo |
+
+O checkout envia ao servidor somente os itens, cupom, primeiro dígito do CEP, entrega selecionada, montagem e forma de pagamento/parcelas. Nome, contato, endereço completo e dados do cartão não são enviados à API. O comprovante final continua no navegador; sem armazenamento persistente, ele não fica disponível em outro dispositivo ou navegador.
+
+## Publicar
+
+O projeto está configurado para o Vercel, que publica as páginas estáticas e as funções em `api/`. GitHub Pages publica apenas os arquivos estáticos e não executa essa API; para manter o checkout com validação de servidor, use o Vercel ou outro host que execute funções Node.js.
 
 ## Tecnologias
 
-HTML5 semântico, um único CSS e JavaScript puro — sem framework e sem build. Fontes Fredoka e Plus Jakarta Sans (Google Fonts). Fotos dos produtos geradas com IA em estilo de estúdio.
+HTML5 semântico, CSS, JavaScript em módulos ES e funções Node.js nativas — sem dependências de runtime. Fontes Fredoka e Plus Jakarta Sans (Google Fonts). Fotos dos produtos geradas com IA em estilo de estúdio.
