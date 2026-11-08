@@ -1362,10 +1362,14 @@ select.input {
    ========================================================================== */
 .product-details {
   display: grid;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns: minmax(0, 1fr) 420px;
   gap: 64px;
   align-items: start;
 }
+
+.product-details > *,
+.layout-2col > *,
+.form-grid > * { min-width: 0; }
 
 .reviews-section { padding-top: 24px; }
 
@@ -2009,7 +2013,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
 
 .layout-2col {
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: minmax(0, 1fr) 400px;
   gap: 32px;
   align-items: start;
 }
@@ -2439,11 +2443,11 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .cta-band { grid-template-columns: 1fr; padding: 48px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 
-  .product-details { grid-template-columns: 1fr; }
+  .product-details { grid-template-columns: minmax(0, 1fr); }
   .reviews-layout { grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); gap: 20px; }
   .review-form { padding: 22px; }
   .buy-panel { position: static; }
-  .layout-2col { grid-template-columns: 1fr; }
+  .layout-2col { grid-template-columns: minmax(0, 1fr); }
   .sticky { position: static; }
 }
 
@@ -2473,9 +2477,8 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
 @media (max-width: 768px) {
   .hero-wrapper {
     height: 100vh;
-    height: 100dvh;
-    min-height: -webkit-fill-available;
-    min-height: 600px;
+    height: 100svh;
+    min-height: min(600px, 100svh);
     overflow: hidden;
   }
 
@@ -2717,20 +2720,10 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
 }
 
 @media (max-width: 520px) {
-  .hero-header {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-areas: "brand cart" "nav nav";
-    gap: 8px 12px;
-    padding: 12px 16px;
-  }
-  .header-left { display: contents; }
-  .brand-logo { grid-area: brand; }
-  .hero-header nav { grid-area: nav; width: 100%; }
-  .nav-menu { justify-content: space-between; gap: 8px; width: 100%; }
-  .nav-link { font-size: 12px; }
-  .header-right { grid-area: cart; }
-
+  .panel-actions { grid-template-columns: minmax(0, 1fr); }
+  .panel-actions .qty { width: min(160px, 100%); justify-content: space-between; }
+  .panel-actions .btn { min-width: 0; width: 100%; white-space: normal; }
+  .breadcrumb { flex-wrap: wrap; }
   .section { padding: 52px 16px; }
   .page { padding: 8px 16px 56px; }
   .page-title { font-size: clamp(38px, 11vw, 56px); line-height: 0.98; overflow-wrap: anywhere; }
