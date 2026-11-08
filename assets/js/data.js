@@ -385,80 +385,94 @@ const PRODUCTS = [
   }
 ];
 
-// Escala e ponto de ancoragem medidos por foto para manter cada móvel no
-// mesmo quadro ao trocar de cor. A proporção do produto permanece intacta.
+// Enquadramento medido automaticamente em cada foto (centro de massa do móvel e
+// escala relativa). Todas as cores de um produto são posicionadas de modo que o
+// móvel ocupe exatamente o mesmo ponto e tamanho da tela (focus = ponto alvo,
+// cx/cy = centro do móvel na foto, scale = zoom). Só a cor muda na transição.
 const HERO_FRAMES = {
   'poltrona-orbe': {
-    verde: { scale: 1.05, position: '51% 52%' },
-    azul: { scale: 1.05, position: '49% 48%' },
-    laranja: { scale: 1.05, position: '51% 48%' },
-    bege: { scale: 1.08, position: '37% 60%' }
+    focus: [0.4995, 0.5026],
+    verde: { scale: 1.006, cx: 0.5, cy: 0.5017 },
+    azul: { scale: 1.002, cx: 0.499, cy: 0.5035 },
+    laranja: { scale: 1.002, cx: 0.5, cy: 0.5017 },
+    bege: { scale: 1.017, cx: 0.4975, cy: 0.505 }
   },
   'sofa-lumo': {
-    rosa: { scale: 1.09, position: '49% 59%' },
-    mostarda: { scale: 1.04, position: '55% 81%' },
-    petroleo: { scale: 1.07, position: '45% 9%' },
-    linho: { scale: 1.04, position: '77% 45%' }
+    focus: [0.502, 0.5521],
+    rosa: { scale: 1.108, cx: 0.5039, cy: 0.5573 },
+    mostarda: { scale: 1.029, cx: 0.5146, cy: 0.566 },
+    petroleo: { scale: 1.072, cx: 0.5, cy: 0.5243 },
+    linho: { scale: 1.028, cx: 0.5, cy: 0.5469 }
   },
   'cadeira-aro': {
-    musgo: { scale: 1.05, position: '51% 37%' },
-    terracota: { scale: 1.06, position: '46% 54%' },
-    ceu: { scale: 1.05, position: '49% 45%' },
-    creme: { scale: 1.04, position: '54% 77%' }
+    focus: [0.499, 0.4835],
+    musgo: { scale: 1.165, cx: 0.499, cy: 0.4514 },
+    terracota: { scale: 1.163, cx: 0.4971, cy: 0.4688 },
+    ceu: { scale: 1.093, cx: 0.499, cy: 0.4983 },
+    creme: { scale: 1.056, cx: 0.5015, cy: 0.51 }
   },
   'pufe-bolha': {
-    lilas: { scale: 1.14, position: '50% 50%' },
-    manteiga: { scale: 1.10, position: '50% 50%' },
-    menta: { scale: 1.04, position: '50% 50%' },
-    pedra: { scale: 1.10, position: '50% 50%' }
+    focus: [0.5035, 0.5688],
+    lilas: { scale: 1.075, cx: 0.5035, cy: 0.565 },
+    manteiga: { scale: 1.096, cx: 0.4595, cy: 0.5725 },
+    menta: { scale: 1.095, cx: 0.5035, cy: 0.56 },
+    pedra: { scale: 1.08, cx: 0.5244, cy: 0.5851 }
   },
   'luminaria-cogu': {
-    coral: { scale: 1.04, position: '55% 48%' },
-    salvia: { scale: 1.06, position: '50% 49%' },
-    cobalto: { scale: 1.11, position: '50% 66%' },
-    marfim: { scale: 1.04, position: '24% 53%' }
+    focus: [0.5, 0.5043],
+    coral: { scale: 1.005, cx: 0.501, cy: 0.5017 },
+    salvia: { scale: 1.029, cx: 0.5, cy: 0.5069 },
+    cobalto: { scale: 1.075, cx: 0.5, cy: 0.5226 },
+    marfim: { scale: 1.08, cx: 0.4736, cy: 0.4983 }
   },
   'mesa-seixo': {
-    travertino: { scale: 1.03, position: '64% 98%' },
-    nogueira: { scale: 1.04, position: '36% 41%' },
-    argila: { scale: 1.15, position: '55% 62%' },
-    grafite: { scale: 1.05, position: '37% 1%' }
+    focus: [0.5063, 0.5886],
+    travertino: { scale: 1.17, cx: 0.5, cy: 0.58 },
+    nogueira: { scale: 1.163, cx: 0.5127, cy: 0.5799 },
+    argila: { scale: 1.152, cx: 0.5566, cy: 0.5972 },
+    grafite: { scale: 1.067, cx: 0.495, cy: 0.62 }
   },
   'conjunto-roda': {
-    linho: { scale: 1.18, position: '55% 61%' },
-    terracota: { scale: 1.04, position: '44% 55%' },
-    salvia: { scale: 1.06, position: '48% 49%' },
-    mostarda: { scale: 1.04, position: '53% 55%' }
+    focus: [0.4917, 0.5451],
+    linho: { scale: 1.059, cx: 0.5, cy: 0.55 },
+    terracota: { scale: 1.015, cx: 0.499, cy: 0.5486 },
+    salvia: { scale: 1.094, cx: 0.4844, cy: 0.5365 },
+    mostarda: { scale: 1.07, cx: 0.4785, cy: 0.5417 }
   },
   'guardaroupa-nicho': {
-    areia: { scale: 1.05, position: '2% 44%' },
-    salvia: { scale: 1.04, position: '51% 39%' },
-    nevoa: { scale: 1.07, position: '49% 53%' },
-    nogueira: { scale: 1.16, position: '51% 63%' }
+    focus: [0.499, 0.4896],
+    areia: { scale: 1.12, cx: 0.5088, cy: 0.4878 },
+    salvia: { scale: 1.079, cx: 0.5, cy: 0.4861 },
+    nevoa: { scale: 1.103, cx: 0.498, cy: 0.4913 },
+    nogueira: { scale: 1.039, cx: 0.4805, cy: 0.4948 }
   },
   'comoda-onda': {
-    terracota: { scale: 1.07, position: '49% 51%' },
-    creme: { scale: 1.07, position: '27% 75%' },
-    oliva: { scale: 1.07, position: '51% 59%' },
-    rosa: { scale: 1.12, position: '69% 48%' }
+    focus: [0.5029, 0.5547],
+    terracota: { scale: 1.023, cx: 0.5, cy: 0.5434 },
+    creme: { scale: 1.087, cx: 0.5088, cy: 0.5642 },
+    oliva: { scale: 1.027, cx: 0.501, cy: 0.5538 },
+    rosa: { scale: 1.011, cx: 0.5049, cy: 0.5556 }
   },
   'cama-nuvem': {
-    aveia: { scale: 1.05, position: '76% 66%' },
-    rosa: { scale: 1.06, position: '59% 51%' },
-    indigo: { scale: 1.05, position: '35% 2%' },
-    floresta: { scale: 1.02, position: '42% 54%' }
+    focus: [0.4971, 0.5252],
+    aveia: { scale: 1.175, cx: 0.5215, cy: 0.5972 },
+    rosa: { scale: 1.103, cx: 0.5039, cy: 0.5243 },
+    indigo: { scale: 1.045, cx: 0.4863, cy: 0.5035 },
+    floresta: { scale: 1.106, cx: 0.4902, cy: 0.526 }
   },
   'cabeceira-pingo': {
-    mostarda: { scale: 1.07, position: '53% 3%' },
-    lilas: { scale: 1.10, position: '34% 72%' },
-    giz: { scale: 1.13, position: '58% 59%' },
-    nogueira: { scale: 1.04, position: '46% 39%' }
+    focus: [0.4995, 0.5417],
+    mostarda: { scale: 1.051, cx: 0.5215, cy: 0.5174 },
+    lilas: { scale: 1.215, cx: 0.495, cy: 0.555 },
+    giz: { scale: 1.302, cx: 0.499, cy: 0.5399 },
+    nogueira: { scale: 1.139, cx: 0.5, cy: 0.5434 }
   },
   'rack-arco': {
-    carvalho: { scale: 1.04, position: '74% 73%' },
-    grafite: { scale: 1.09, position: '50% 40%' },
-    salvia: { scale: 1.04, position: '48% 69%' },
-    terracota: { scale: 1.04, position: '50% 37%' }
+    focus: [0.5, 0.5382],
+    carvalho: { scale: 1.059, cx: 0.5156, cy: 0.5503 },
+    grafite: { scale: 1.044, cx: 0.5, cy: 0.5208 },
+    salvia: { scale: 1.022, cx: 0.5, cy: 0.5434 },
+    terracota: { scale: 1.011, cx: 0.5, cy: 0.533 }
   }
 };
 

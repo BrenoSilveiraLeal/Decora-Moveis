@@ -195,9 +195,10 @@ function computeTotals(payment) {
    ========================================================================== */
 function renderHeader(el) {
   if (!el) return;
+  const homeHref = document.body.dataset.page === 'home' ? '#hero' : 'index.html';
   el.innerHTML = `
     <div class="header-left">
-      <a href="index.html" class="brand-logo" aria-label="Decora Móveis Início"><span>D</span></a>
+      <a href="${homeHref}" class="brand-logo" aria-label="Decora Móveis Início"><span>D</span></a>
       <nav aria-label="Navegação Principal">
         <ul class="nav-menu">
           <li><a href="index.html#colecao" class="nav-link">Coleção</a></li>
@@ -388,9 +389,15 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
     layer.className = `hero-bg-layer ${index === currentVariantIndex ? 'active' : ''}`;
     layer.style.backgroundImage = `url('${variant.image}')`;
     layer.style.setProperty('--mscale', `${product.mobileScale}%`);
-    const frame = HERO_FRAMES[product.id]?.[variant.id] || {};
+    const productFrames = HERO_FRAMES[product.id] || {};
+    const frame = productFrames[variant.id] || {};
+    const [focusX, focusY] = productFrames.focus || [0.5, 0.5];
     layer.style.setProperty('--hero-image-scale', frame.scale || variant.heroScale || 1);
-    layer.style.setProperty('--hero-position', frame.position || '50% 50%');
+    layer.style.setProperty('--hero-cx', frame.cx ?? 0.5);   // centro do móvel na foto
+    layer.style.setProperty('--hero-cy', frame.cy ?? 0.5);
+    layer.style.setProperty('--hero-fx', focusX);            // ponto fixo da tela onde o móvel fica
+    layer.style.setProperty('--hero-fy', focusY);
+    layer.style.setProperty('--mscale-n', product.mobileScale);
     layer.setAttribute('data-id', variant.id);
     bgContainer.appendChild(layer);
   });

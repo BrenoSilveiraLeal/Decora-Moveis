@@ -161,8 +161,14 @@ body.home-loading .site-loader .hero-center-typography { visibility: visible; }
   left: 0;
   width: 100%;
   height: 100%;
-  background-size: auto calc(max(100vh, 56.25vw, 680px) * var(--hero-image-scale, 1));
-  background-position: var(--hero-position, 50% 50%);
+  /* Altura/largura da foto já ampliada; o móvel (centro cx/cy) é levado sempre ao
+     mesmo ponto da tela (fx/fy): offset = fx*C - cx*I = fx*(C-I) + (fx-cx)*I */
+  --img-h: calc(max(100vh, 56.25vw, 680px) * var(--hero-image-scale, 1));
+  --img-w: calc(var(--img-h) * 16 / 9);
+  background-size: auto var(--img-h);
+  background-position:
+    calc(var(--hero-fx, 0.5) * 100% + (var(--hero-fx, 0.5) - var(--hero-cx, 0.5)) * var(--img-w))
+    calc(var(--hero-fy, 0.5) * 100% + (var(--hero-fy, 0.5) - var(--hero-cy, 0.5)) * var(--img-h));
   background-repeat: no-repeat;
   opacity: 0;
   transition: opacity 0.35s ease-in-out;
@@ -2233,14 +2239,23 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
     aspect-ratio: 16 / 9;
     translate: -50% -50%;
     background-size: calc(100% * var(--hero-image-scale, 1)) auto;
-    background-position: var(--hero-position, 50% 48%);
+    /* No celular o móvel fica sempre no centro da camada */
+    --img-w: calc(var(--hero-image-scale, 1) * var(--mscale-n, 200) * 1vw);
+    --img-h: calc(var(--img-w) * 9 / 16);
+    background-position:
+      calc(50% + (0.5 - var(--hero-cx, 0.5)) * var(--img-w))
+      calc(50% + (0.5 - var(--hero-cy, 0.5)) * var(--img-h));
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 16%, #000 84%, transparent 100%);
     mask-image: linear-gradient(to bottom, transparent 0, #000 16%, #000 84%, transparent 100%);
   }
 }
 
 @media (width > 768px) and (max-width: 1024px) and (orientation: portrait) {
-  .hero-bg-layer { top: 50%; width: calc(var(--mscale, 200%) * 0.68); }
+  .hero-bg-layer {
+    top: 50%;
+    width: calc(var(--mscale, 200%) * 0.68);
+    --img-w: calc(var(--hero-image-scale, 1) * var(--mscale-n, 200) * 0.68 * 1vw);
+  }
 }
 
 /* Dispositivos Móveis (Smartphones <= 768px) */
