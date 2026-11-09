@@ -891,13 +891,14 @@ select.input {
 .chips {
   display: flex;
   align-items: flex-end;
-  gap: 30px;
+  gap: clamp(14px, 1.8vw, 30px);
   flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior: contain;
-  padding-right: 56px;
   border-bottom: 1px solid var(--line);
+}
+.chips.has-more {
   -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
   mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
 }
@@ -2517,7 +2518,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   }
 
   .hero-center-typography {
-    top: 44dvh;
+    top: 44svh;
     left: 50%;
     transform: translate(-50%, -50%);
     align-items: flex-start;
@@ -2637,7 +2638,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .site-footer { padding: 48px 20px 32px; text-align: center; }
 
   .section-head { margin-bottom: 28px; }
-  .chips { gap: 24px; margin: 0 -20px 20px; padding: 0 56px 0 20px; width: calc(100% + 40px); }
+  .chips { gap: 24px; margin: 0 -20px 20px; padding: 0 20px; width: calc(100% + 40px); }
   #categoryChips { margin-bottom: 20px; }
 
   .product-grid { grid-template-columns: 1fr; gap: 18px; }

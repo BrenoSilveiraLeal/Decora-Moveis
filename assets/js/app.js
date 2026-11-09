@@ -807,6 +807,14 @@ function initHome() {
     renderGrid();
   }));
 
+  // O esmaecido da borda só aparece quando ainda há categorias fora da tela
+  const updateChipsFade = () => {
+    chips.classList.toggle('has-more', chips.scrollWidth - chips.clientWidth - chips.scrollLeft > 4);
+  };
+  chips.addEventListener('scroll', updateChipsFade, { passive: true });
+  window.addEventListener('resize', updateChipsFade);
+  updateChipsFade();
+
   // Compre por ambiente: cada card usa a primeira peça do ambiente como foto
   const roomCover = { sala: 'sofa-lumo', jantar: 'conjunto-roda', quarto: 'cama-nuvem' };
   roomCards.innerHTML = ROOMS.map((room) => {
