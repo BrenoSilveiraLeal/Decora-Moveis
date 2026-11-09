@@ -894,7 +894,9 @@ select.input {
   gap: 30px;
   flex-wrap: nowrap;
   overflow-x: auto;
-  scrollbar-width: none;
+  overflow-y: hidden;
+  overscroll-behavior: contain;
+  padding-right: 56px;
   border-bottom: 1px solid var(--line);
   -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
   mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
@@ -2635,11 +2637,11 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .site-footer { padding: 48px 20px 32px; text-align: center; }
 
   .section-head { margin-bottom: 28px; }
-  .chips { gap: 24px; margin: 0 -20px 20px; padding: 0 20px; width: calc(100% + 40px); }
+  .chips { gap: 24px; margin: 0 -20px 20px; padding: 0 56px 0 20px; width: calc(100% + 40px); }
   #categoryChips { margin-bottom: 20px; }
 
   .product-grid { grid-template-columns: 1fr; gap: 18px; }
-  .rooms { grid-template-columns: repeat(3, 72%); overflow-x: auto; scrollbar-width: none; gap: 12px; margin: 0 -20px 20px; padding: 4px 20px 8px 28px; scroll-padding-left: 28px; scroll-snap-type: x mandatory; }
+  .rooms { grid-template-columns: repeat(3, 72%); overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: none; gap: 12px; margin: 0 -20px 20px; padding: 4px 20px 8px 28px; scroll-padding-left: 28px; scroll-snap-type: x mandatory; }
   .rooms::-webkit-scrollbar { display: none; }
   .room-card { scroll-snap-align: start; }
   .benefits { grid-template-columns: 1fr; gap: 12px; }
