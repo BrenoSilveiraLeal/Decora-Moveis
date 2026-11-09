@@ -782,6 +782,19 @@ function initHome() {
   const chips = $('#categoryChips');
   const roomCards = $('#roomCards');
   let filter = { type: 'cat', key: 'todos' };
+  const indicator = document.createElement('span');
+  indicator.className = 'chip-indicator';
+  indicator.setAttribute('aria-hidden', 'true');
+
+  const moveChipIndicator = () => {
+    const active = chips.querySelector('.chip.active');
+    indicator.classList.toggle('is-ready', Boolean(active));
+    if (!active) return;
+    indicator.style.width = `${active.offsetWidth}px`;
+    indicator.style.transform = `translateX(${active.offsetLeft}px)`;
+    // só anima a partir do segundo posicionamento, para não deslizar do zero ao carregar
+    requestAnimationFrame(() => indicator.classList.add('is-animated'));
+  };
 
   const renderGrid = () => {
     const list = PRODUCTS.filter((p) => {
@@ -795,6 +808,7 @@ function initHome() {
       c.classList.toggle('active', active);
       c.setAttribute('aria-pressed', String(active));
     });
+    moveChipIndicator();
     $$('.room-card', roomCards).forEach((c) => c.classList.toggle('active', filter.type === 'room' && c.dataset.room === filter.key));
   };
 
@@ -802,6 +816,7 @@ function initHome() {
     .filter((c) => c.key === 'todos' || PRODUCTS.some((p) => p.categoryKey === c.key))
     .map((c) => `<button type="button" class="chip" data-cat="${c.key}">${c.label}</button>`)
     .join('');
+  chips.appendChild(indicator);
   $$('.chip', chips).forEach((chip) => chip.addEventListener('click', () => {
     filter = { type: 'cat', key: chip.dataset.cat };
     renderGrid();
@@ -812,7 +827,11 @@ function initHome() {
     chips.classList.toggle('has-more', chips.scrollWidth - chips.clientWidth - chips.scrollLeft > 4);
   };
   chips.addEventListener('scroll', updateChipsFade, { passive: true });
-  window.addEventListener('resize', updateChipsFade);
+  window.addEventListener('resize', () => {
+    updateChipsFade();
+    indicator.classList.remove('is-animated');
+    moveChipIndicator();
+  });
   updateChipsFade();
 
   // Compre por ambiente: cada card usa a primeira peça do ambiente como foto

@@ -98,6 +98,7 @@
 }
 
 html, body {
+  -webkit-tap-highlight-color: transparent;
   width: 100%;
   min-height: 100%;
   overflow-x: clip;
@@ -923,25 +924,31 @@ select.input {
   transition: color 0.2s ease;
 }
 
-.chip::after {
-  content: "";
+/* Traço único que desliza até a categoria escolhida */
+.chips { position: relative; }
+.chip-indicator {
   position: absolute;
   left: 0;
-  right: 0;
-  bottom: -1px;
+  bottom: 0;
   height: 3px;
+  width: 0;
   border-radius: 3px 3px 0 0;
   background: var(--color-dark-btn);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+  opacity: 0;
+}
+.chip-indicator.is-ready { opacity: 1; }
+.chip-indicator.is-animated {
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1), width 0.45s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chip-indicator.is-animated { transition: none; }
 }
 
 .chip-count { font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--muted); }
 
 .chip:hover { color: var(--ink); }
 .chip.active { color: var(--ink); }
-.chip.active::after { transform: scaleX(1); }
 
 .chip:focus-visible {
   outline: 2px solid var(--color-dark-btn);
@@ -1597,7 +1604,13 @@ select.input {
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
+
+.accordion summary:focus:not(:focus-visible) { outline: none; }
 
 .accordion summary::-webkit-details-marker { display: none; }
 
