@@ -16,7 +16,11 @@ Loja de móveis **demonstrativa** com design minimalista: vitrine em tela cheia 
 
 ## Experiência em celular
 
-As páginas se reorganizam para telas estreitas: a vitrine mantém o móvel inteiro visível, as opções de cor ficam acessíveis junto à imagem e os filtros da coleção formam uma grade alinhada. Os detalhes do produto e o checkout se ajustam à largura do aparelho, com campos empilhados e sem rolagem horizontal.
+As páginas se reorganizam para telas estreitas: a vitrine mantém o móvel inteiro visível, as opções de cor ficam acessíveis junto à imagem e os filtros da coleção viram uma faixa de abas que rola só na horizontal. Os detalhes do produto e o checkout se ajustam à largura do aparelho, com campos empilhados e sem rolagem horizontal. O título da vitrine usa altura fixa (`svh`) para não saltar quando a barra do navegador some ou volta, e o toque não mostra o destaque azul padrão do navegador.
+
+## Filtros da coleção
+
+As categorias aparecem como abas de texto em uma linha. Um único traço escuro desliza até a categoria escolhida; em telas estreitas a faixa rola na horizontal, com um esmaecido na borda direita enquanto houver categorias fora da tela. Quem prefere menos movimento no sistema vê a troca sem animação.
 
 ## Catálogo
 
