@@ -11,7 +11,7 @@ Loja demonstrativa de móveis com catálogo, vitrine interativa, carrinho, check
 - `checkout.html`: identificação, endereço e forma de pagamento ilustrativa.
 - `pedido.html`: confirmação demonstrativa salva apenas neste navegador.
 
-A área do cliente usa o perfil de exemplo Mariana Costa. Os favoritos começam com alguns produtos e podem ser alterados na vitrine ou na página da conta. Endereços, cartões e dados editados são demonstrações locais. Não use informações de pagamento reais.
+A área do cliente usa o perfil de exemplo Cliente. Os favoritos começam com alguns produtos e podem ser alterados na vitrine ou na página da conta. Endereços, cartões e dados editados são demonstrações locais. Não use informações de pagamento reais.
 
 Cupons de teste: `DECORA10`, `BEMVINDO` e `FRETEGRATIS`.
 
