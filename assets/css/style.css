@@ -2770,7 +2770,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
 .favorite-toggle.is-favorite { color:#a6503b; }
 .account-page { min-height:100vh; background:#f7f6f1; color:#34362c; }
 .account-header { background:#fff; border-bottom:1px solid #e8e7df; }
-.account-header-inner { max-width:1320px; min-height:88px; margin:auto; padding:0 40px; display:flex; align-items:center; justify-content:space-between; }
+.account-header-inner { max-width:1320px; min-height:88px; margin:auto; padding:0 40px; display:flex; align-items:center; justify-content:space-between; column-gap:20px; }
 .account-header #siteHeader { display:flex; flex:1; align-items:center; }
 .account-header .hero-header { position:static; padding:0; color:inherit; }
 .account-header .header-left { gap:34px; }
