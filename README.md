@@ -1,55 +1,28 @@
-# Decora Móveis
+﻿# Decora Móveis
 
-Loja de móveis **demonstrativa** com design minimalista: vitrine em tela cheia onde cada cor troca o móvel, o fundo e as cores da página, carrinho, cupons, frete, checkout em etapas e confirmação de pedido. O projeto inclui uma API Node.js para validar os pedidos no servidor.
+Loja demonstrativa de móveis com catálogo, vitrine interativa, carrinho, checkout e área do cliente. O projeto é estático: não possui backend, banco de dados, login real nem cobrança. Carrinho, pedidos demonstrativos, favoritos, endereços e dados da conta ficam no `localStorage` do navegador atual.
 
-> Projeto de demonstração: não há login, banco de dados nem cobrança real. O carrinho e o comprovante ficam salvos apenas no navegador (localStorage); a API valida o pedido, mas não mantém histórico.
+## Experiência
 
-## Páginas
+- `index.html`: vitrine, categorias, coleções e conteúdo institucional.
+- `produto.html?p=<id>&c=<cor>`: detalhes, variações, prazo simulado e itens relacionados.
+- `perfil.html`: conta de exemplo com pedidos, favoritos, endereços, cartões fictícios e dados editáveis.
+- `carrinho.html`: itens, cupons, frete e montagem simulados.
+- `checkout.html`: identificação, endereço e forma de pagamento ilustrativa.
+- `pedido.html`: confirmação demonstrativa salva apenas neste navegador.
 
-| Arquivo | O que tem |
-|---|---|
-| `index.html` | Vitrine principal, compra por ambiente, coleção com filtros, sobre, entrega e newsletter |
-| `produto.html?p=<id>&c=<cor>` | Vitrine do móvel com troca de cor, painel de compra, prazo por CEP e sugestões do mesmo ambiente |
-| `carrinho.html` | Itens, cupom, frete (padrão, expressa ou retirada) e montagem opcional |
-| `checkout.html` | Identificação, endereço (preenchido pelo CEP via ViaCEP) e pagamento (Pix, cartão ou boleto) |
-| `pedido.html` | Pedido confirmado, previsão de entrega, acompanhamento e Pix ilustrativo |
-
-## Experiência em celular
-
-As páginas se reorganizam para telas estreitas: a vitrine mantém o móvel inteiro visível, as opções de cor ficam acessíveis junto à imagem e os filtros da coleção viram uma faixa de abas que rola só na horizontal. Os detalhes do produto e o checkout se ajustam à largura do aparelho, com campos empilhados e sem rolagem horizontal. O título da vitrine usa altura fixa (`svh`) para não saltar quando a barra do navegador some ou volta, e o toque não mostra o destaque azul padrão do navegador.
-
-## Filtros da coleção
-
-As categorias aparecem como abas de texto em uma linha. Um único traço escuro desliza até a categoria escolhida; em telas estreitas a faixa rola na horizontal, com um esmaecido na borda direita enquanto houver categorias fora da tela. Quem prefere menos movimento no sistema vê a troca sem animação.
-
-## Catálogo
-
-12 móveis com 4 cores cada (48 variações): poltrona, sofá, cadeira, conjunto de jantar, mesa de centro, rack, cama, guarda-roupa, cômoda, mesa de cabeceira, pufe e luminária. Tudo fica em [`assets/js/data.js`](assets/js/data.js) — para adicionar um móvel, copie um bloco do array `PRODUCTS` e troque nome, preços, fotos e cores do tema.
+A área do cliente usa o perfil de exemplo Mariana Costa. Os favoritos começam com alguns produtos e podem ser alterados na vitrine ou na página da conta. Endereços, cartões e dados editados são demonstrações locais. Não use informações de pagamento reais.
 
 Cupons de teste: `DECORA10`, `BEMVINDO` e `FRETEGRATIS`.
 
 ## Rodar localmente
 
-Requer Node.js 20 ou superior. No Windows, inicie o servidor de desenvolvimento incluso e acesse `http://localhost:5173`:
+Requer Node.js 20 ou superior. No Windows, execute `powershell -ExecutionPolicy Bypass -File serve.ps1` e abra `http://localhost:5173`. O servidor Node incluído só entrega arquivos estáticos para desenvolvimento; a experiência de compra roda no navegador.
 
-```powershell
-powershell -ExecutionPolicy Bypass -File serve.ps1
-```
+## Catálogo
 
-O servidor local atende o site e as mesmas rotas da API usadas no Vercel:
-
-| Rota | O que faz |
-|---|---|
-| `GET /api/health` | Informa o estado da API e os recursos demonstrados |
-| `GET /api/catalog` | Retorna produtos, cores, preços e imagens do catálogo |
-| `POST /api/orders` | Revalida itens e quantidades, recalcula preços, cupons, entrega e montagem e gera um comprovante demonstrativo |
-
-O checkout envia ao servidor somente os itens, cupom, primeiro dígito do CEP, entrega selecionada, montagem e forma de pagamento/parcelas. Nome, contato, endereço completo e dados do cartão não são enviados à API. O comprovante final continua no navegador; sem armazenamento persistente, ele não fica disponível em outro dispositivo ou navegador.
+Os produtos e suas variações estão em [`assets/js/data.js`](assets/js/data.js). As imagens são servidas localmente ou por URLs de imagem configuradas no catálogo. A consulta de endereço por CEP usa o serviço público ViaCEP; se estiver indisponível, os campos podem ser preenchidos manualmente.
 
 ## Publicar
 
-O projeto está configurado para o Vercel, que publica as páginas estáticas e as funções em `api/`. GitHub Pages publica apenas os arquivos estáticos e não executa essa API; para manter o checkout com validação de servidor, use o Vercel ou outro host que execute funções Node.js.
-
-## Tecnologias
-
-HTML5 semântico, CSS, JavaScript em módulos ES e funções Node.js nativas — sem dependências de runtime. Fontes Fredoka e Plus Jakarta Sans (Google Fonts). Fotos dos produtos geradas com IA em estilo de estúdio.
+Publique os arquivos estáticos em qualquer hospedagem de sites estáticos. Não é necessário provisionar banco de dados nem funções de servidor.

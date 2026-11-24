@@ -245,6 +245,7 @@ function renderHeader(el) {
           <li><a href="${sectionHref('sobre')}" class="nav-link">Sobre</a></li>
           <li><a href="${sectionHref('entrega')}" class="nav-link">Entrega</a></li>
           <li><a href="${sectionHref('contato')}" class="nav-link">Contato</a></li>
+          <li><a href="perfil.html" class="nav-link">Minha conta</a></li>
         </ul>
       </nav>
     </div>
@@ -672,14 +673,15 @@ function initShowcase({ product, startIndex = 0, title, subtitle, mode = 'produc
 /* ==========================================================================
    CARD DE PRODUTO (grade da coleção e relacionados)
    ========================================================================== */
-function productCardHTML(product, delay = 0) {
-  const v = product.variants[0];
+function productCardHTML(product, delay = 0, variantId = null) {
+  const v = findVariant(product, variantId) || product.variants[0];
   const minPrice = Math.min(...product.variants.map((x) => x.price));
   return `
     <article class="product-card" data-pid="${product.id}" style="animation-delay:${delay}ms">
       <a class="product-media" href="${productUrl(product, v)}" style="--card-fill:${v.fill};--zoom:${Math.min(1.12, 1 + (product.cardZoom - 1) * 0.35)};--word-color:${v.theme.titleText}">
         <img src="${v.image}" data-vid="${v.id}" alt="${productLabel(product)} na cor ${v.name}" loading="lazy">
         <span class="product-word">${product.word}</span>
+        <button type="button" class="favorite-toggle" aria-label="Favoritar ${productLabel(product)}" aria-pressed="false" data-favorite="${product.id}|${v.id}">♡</button>
       </a>
       <div class="product-info">
         <div>
@@ -690,7 +692,7 @@ function productCardHTML(product, delay = 0) {
       </div>
       <div class="product-foot">
         <div class="swatches" role="group" aria-label="Cores">
-          ${product.variants.map((x, i) => `<button type="button" class="swatch ${i === 0 ? 'active' : ''}" style="--sw:${x.swatch}" data-vid="${x.id}" aria-label="Cor ${x.name}"></button>`).join('')}
+          ${product.variants.map((x) => `<button type="button" class="swatch ${x.id === v.id ? 'active' : ''}" style="--sw:${x.swatch}" data-vid="${x.id}" aria-label="Cor ${x.name}"></button>`).join('')}
         </div>
         <button class="quick-add" type="button" aria-label="Adicionar ${productLabel(product)} ao carrinho">${ICONS.plus}</button>
       </div>
@@ -700,11 +702,28 @@ function productCardHTML(product, delay = 0) {
 function bindProductCards(container) {
   $$('.product-card', container).forEach((card) => {
     const product = findProduct(card.dataset.pid);
-    let selected = product.variants[0];
+    let selected = findVariant(product, $('img', card)?.dataset.vid) || product.variants[0];
     let imageRequest = 0;
     const media = $('.product-media', card);
     const img = $('img', media);
     alignProductCardImages(card);
+    const favorite = $('.favorite-toggle', card);
+    const syncFavorite = () => {
+      const saved = load('decora_favorites', []);
+      const active = saved.some((item) => item.pid === product.id);
+      favorite?.classList.toggle('is-favorite', active);
+      favorite?.setAttribute('aria-pressed', String(active));
+      if (favorite) favorite.textContent = active ? '♥' : '♡';
+    };
+    favorite?.addEventListener('click', (event) => {
+      event.preventDefault(); event.stopPropagation();
+      const saved = load('decora_favorites', []);
+      const index = saved.findIndex((item) => item.pid === product.id);
+      if (index >= 0) saved.splice(index, 1); else saved.push({ pid: product.id, vid: selected.id });
+      save('decora_favorites', saved); syncFavorite();
+      showToast(index >= 0 ? 'Removido dos favoritos' : 'Adicionado aos favoritos');
+    });
+    syncFavorite();
 
     const swapImage = (variant) => {
       if (img.getAttribute('src') === variant.image) return;
@@ -770,6 +789,45 @@ function bindProductCards(container) {
     });
     $('.quick-add', card).addEventListener('click', () => addToCart(product.id, selected.id, 1));
   });
+}
+
+function initProfile() {
+  const root = $('#profileRoot');
+  if (!root) return;
+  const demoUser = { name: 'Mariana Costa', email: 'mariana.costa@email.com', phone: '(11) 99999-1234', since: 'março de 2024', ...load('decora_profile', {}) };
+  const read = (key, fallback) => load(key, fallback);
+  let tab = new URLSearchParams(location.search).get('aba') || 'visao-geral';
+  const tabs = [['visao-geral','Visão geral'],['pedidos','Meus pedidos'],['favoritos','Favoritos'],['enderecos','Endereços'],['pagamentos','Pagamentos'],['dados','Meus dados']];
+  if (!localStorage.getItem('decora_favorites')) save('decora_favorites',[{pid:'poltrona-orbe',vid:'verde'},{pid:'sofa-lumo',vid:'linho'},{pid:'mesa-seixo',vid:'nogueira'}]);
+  const sampleOrders = [
+    { id:'DC-2025-0842', status:'A caminho', date:'12 nov 2025', total:5290, pid:'sofa-lumo', vid:'linho', qty:1, delivery:'Previsão: 28 de novembro' },
+    { id:'DC-2025-0617', status:'Entregue', date:'03 ago 2025', total:2890, pid:'mesa-seixo', vid:'nogueira', qty:1, delivery:'Entregue em 11 de agosto' }
+  ];
+  const setTab = (next) => { tab = next; history.replaceState({}, '', `perfil.html?aba=${next}`); render(); };
+  const orderCard = (o) => { const p=findProduct(o.pid)||PRODUCTS[0]; const v=findVariant(p,o.vid)||p.variants[0]; return `<article class="profile-order"><img src="${v.image}" alt=""><div><span class="order-status">${o.status}</span><h3>Pedido ${o.id}</h3><p>${p.name} · ${o.date}</p><small>${o.delivery}</small></div><strong>${money(o.total)}</strong></article>`; };
+  function render() {
+    const addresses=read('decora_addresses',[{id:'home',label:'Casa',name:'Mariana Costa',street:'Rua Harmonia, 412',extra:'Apto 32 · Vila Madalena',city:'São Paulo, SP',cep:'05435-000',default:true}]);
+    const payments=read('decora_payments',[{id:'card1',type:'Visa',last4:'4242',holder:'Mariana Costa',default:true}]);
+    const favorites=read('decora_favorites',[{pid:'poltrona-orbe',vid:'verde'},{pid:'sofa-modular',vid:'linho'},{pid:'mesa-centro',vid:'carvalho'}]);
+    const orders=read('decora_orders',sampleOrders);
+    const content = {
+      'visao-geral': `<div class="profile-welcome"><div><p>terça-feira, 24 de novembro</p><h1>Olá, Mariana <span>☀</span></h1><p>Seu espaço para acompanhar tudo da Decora.</p></div><div class="profile-avatar">MC</div></div><div class="profile-stats"><button data-tab="pedidos"><strong>${orders.length}</strong><span>pedidos</span></button><button data-tab="favoritos"><strong>${favorites.length}</strong><span>favoritos</span></button><button data-tab="enderecos"><strong>${addresses.length}</strong><span>endereços</span></button></div><section class="profile-section"><div class="profile-section-head"><h2>Seus pedidos</h2><button class="text-action" data-tab="pedidos">Ver todos</button></div>${orders.slice(0,2).map(orderCard).join('')}</section><section class="profile-section"><div class="profile-section-head"><h2>Escolhidos para você</h2><button class="text-action" data-tab="favoritos">Ver favoritos</button></div><div class="profile-products">${favorites.slice(0,3).map(({pid})=>productCardHTML(findProduct(pid)||PRODUCTS[0])).join('')}</div></section>`,
+      pedidos: `<div class="profile-page-head"><div><h1>Meus pedidos</h1><p>Acompanhe suas compras e entregas.</p></div><span class="demo-tag">Histórico demonstrativo</span></div>${orders.map(orderCard).join('')}`,
+      favoritos: `<div class="profile-page-head"><div><h1>Meus favoritos</h1><p>Peças que você guardou para depois.</p></div><span>${favorites.length} itens</span></div><div class="profile-products">${favorites.map(({pid,vid})=>productCardHTML(findProduct(pid)||PRODUCTS[0],0,vid)).join('')}</div>`,
+      enderecos: `<div class="profile-page-head"><div><h1>Endereços</h1><p>Escolha onde suas novas peças vão chegar.</p></div><button class="profile-primary" id="addAddress">+ Adicionar endereço</button></div><div class="profile-address-grid">${addresses.map(a=>`<article class="profile-address"><div class="address-title"><h3>${a.label}</h3>${a.default?'<span>Principal</span>':''}</div><p>${a.name}<br>${a.street}<br>${a.extra?`${a.extra}<br>`:''}${a.city}<br>CEP ${a.cep}</p><button class="text-action" data-remove-address="${a.id}">Remover</button></article>`).join('')}</div>`,
+      pagamentos: `<div class="profile-page-head"><div><h1>Pagamentos</h1><p>Formas de pagamento salvas nesta demonstração.</p></div><button class="profile-primary" id="addPayment">+ Adicionar cartão</button></div><div class="profile-payment-list">${payments.map(p=>`<article class="profile-payment"><span class="payment-icon">▰</span><div><strong>${p.type} •••• ${p.last4}</strong><p>${p.holder}</p></div>${p.default?'<span class="address-main">Principal</span>':''}<button class="text-action" data-remove-payment="${p.id}">Remover</button></article>`).join('')}</div><p class="profile-note">Dados de pagamento fictícios. Nenhuma cobrança é processada.</p>`,
+      dados: `<div class="profile-page-head"><div><h1>Meus dados</h1><p>Informações do perfil demonstrativo.</p></div><span class="demo-tag">Perfil de exemplo</span></div><form class="profile-form" id="profileForm"><label>Nome completo<input name="name" value="${demoUser.name}"></label><label>E-mail<input name="email" type="email" value="${demoUser.email}"></label><label>Celular<input name="phone" value="${demoUser.phone}"></label><label>CPF<input value="•••.•••.•••-••" disabled></label><button class="profile-primary">Salvar alterações</button></form><p class="profile-note">As alterações ficam salvas somente neste navegador.</p>`
+    }[tab] || '';
+    root.innerHTML = `<div class="profile-layout"><aside class="profile-sidebar"><div class="sidebar-person"><div class="profile-avatar">MC</div><div><strong>Mariana Costa</strong><small>Cliente desde ${demoUser.since}</small></div></div><nav>${tabs.map(([id,label])=>`<button data-tab="${id}" class="${tab===id?'active':''}">${label}</button>`).join('')}</nav><a href="index.html" class="back-store">← Continuar comprando</a></aside><main class="profile-main">${content}<p class="profile-disclaimer">Esta é uma conta de demonstração. Suas alterações ficam neste navegador.</p></main></div>`;
+    bindProductCards(root);
+    $$('[data-tab]',root).forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+    $('#addAddress',root)?.addEventListener('click',()=>{const label=prompt('Como quer identificar este endereço?','Trabalho'); if(!label)return; const arr=read('decora_addresses',[]); arr.push({id:Date.now(),label,name:'Mariana Costa',street:'Av. Paulista, 1000',extra:'Conjunto 12',city:'São Paulo, SP',cep:'01310-100'});save('decora_addresses',arr);render();});
+    $('#addPayment',root)?.addEventListener('click',()=>{const last4=prompt('Últimos 4 dígitos do cartão de demonstração','1234');if(!last4)return;const arr=read('decora_payments',[]);arr.push({id:Date.now(),type:'Mastercard',last4:last4.slice(-4),holder:'Mariana Costa'});save('decora_payments',arr);render();});
+    $$('[data-remove-address]',root).forEach(b=>b.addEventListener('click',()=>{save('decora_addresses',addresses.filter(a=>String(a.id)!==b.dataset.removeAddress));render()}));
+    $$('[data-remove-payment]',root).forEach(b=>b.addEventListener('click',()=>{save('decora_payments',payments.filter(p=>String(p.id)!==b.dataset.removePayment));render()}));
+    $('#profileForm',root)?.addEventListener('submit',e=>{e.preventDefault();save('decora_profile',Object.fromEntries(new FormData(e.currentTarget)));showToast('Dados salvos neste navegador');});
+  }
+  render();
 }
 
 /* ==========================================================================
@@ -1658,44 +1716,28 @@ function initCheckout() {
       installments: payment === 'card' ? Number(get('installments')) : 1,
       last4: payment === 'card' ? onlyDigits(get('cardNumber')).slice(-4) : null
     };
-    const backendPayload = {
-      items: t.lines.map((line) => ({ pid: line.product.id, vid: line.variant.id, qty: line.qty })),
-      coupon: t.coupon.valid ? t.state.coupon : null,
-      regionCode: onlyDigits(address.cep)[0],
-      shippingId: t.ship?.id || t.state.ship || 'padrao',
-      assembly: t.state.assembly,
-      payment: { method: paymentDetails.method, installments: paymentDetails.installments }
-    };
-
     $('#processing').classList.add('show');
     $('#placeOrder').disabled = true;
-    try {
-      const response = await fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        cache: 'no-store',
-        body: JSON.stringify(backendPayload)
-      });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || 'Não foi possível validar o pedido.');
-
+    window.setTimeout(() => {
       const order = {
-        ...result.order,
-        serverValidated: true,
-        persisted: result.persisted,
+        id: `DC-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
+        number: `DC-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
+        createdAt: new Date().toISOString(),
+        lines: t.lines.map((line) => ({ pid: line.product.id, vid: line.variant.id, qty: line.qty, total: line.total })),
+        totals: { subtotal:t.subtotal, discount:t.discount, coupon:t.state.coupon, shipping:t.ship?.price||0, assembly:t.assembly, pixDiscount:t.pixDiscount, total:t.total },
+        shipping: t.ship,
         customer,
         address,
         payment: paymentDetails
       };
       save(ORDER_KEY, order);
+      const orders = load('decora_orders', []);
+      orders.unshift({ id: order.id, status: 'Pedido recebido', date: new Date().toLocaleDateString('pt-BR'), total: order.totals.total, pid: order.lines[0]?.pid, vid: order.lines[0]?.vid, qty: order.lines[0]?.qty, delivery: 'Compra demonstrativa' });
+      save('decora_orders', orders);
       save(CART_KEY, []);
       setState({ coupon: null, assembly: false });
       window.location.href = 'pedido.html';
-    } catch (error) {
-      $('#processing').classList.remove('show');
-      $('#placeOrder').disabled = false;
-      showToast(error.message || 'Não foi possível conectar ao servidor. Tente novamente.');
-    }
+    }, 450);
   });
 
   goTo(1);
@@ -1776,7 +1818,7 @@ function initOrder() {
       <h1 class="page-title">pedido confirmado!</h1>
       <p>Obrigado, <strong>${first}</strong>. Seu pedido <strong>${order.number}</strong> foi recebido em ${created.toLocaleDateString('pt-BR')}.<br>
       ${deliveryDate ? `Previsão de ${order.shipping.id === 'retirada' ? 'retirada' : 'entrega'}: <strong>${fmtDate(deliveryDate)}</strong>` : ''}</p>
-      ${order.serverValidated ? '<p class="hint">Pedido validado pelo servidor demonstrativo. Este comprovante fica salvo apenas neste navegador.</p>' : ''}
+      <p class="hint">Pedido demonstrativo. As informações ficam salvas somente neste navegador.</p>
     </section>
 
     <div class="layout-2col">
@@ -1846,6 +1888,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (page === 'cart') initCart();
   if (page === 'checkout') initCheckout();
   if (page === 'order') initOrder();
+  if (page === 'profile') initProfile();
 
   const year = $('#year');
   if (year) year.textContent = new Date().getFullYear();
