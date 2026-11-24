@@ -2780,7 +2780,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
 .profile-layout { display:grid; grid-template-columns:250px minmax(0,1fr); gap:54px; align-items:start; }
 .profile-sidebar { position:sticky; top:28px; padding:10px 0; }
 .sidebar-person { display:flex; align-items:center; gap:13px; padding:0 12px 24px; border-bottom:1px solid #e4e3dc; }
-.profile-avatar { width:48px; height:48px; border-radius:50%; display:grid; place-items:center; color:#fff; background:#6d7655; font:600 17px 'Fredoka',sans-serif; }
+.profile-avatar { width:48px; height:48px; border-radius:50%; display:grid; place-items:center; color:#fff; background:#6d7655; font:600 22px 'Fredoka',sans-serif; }
 .sidebar-person strong,.sidebar-person small { display:block; }
 .sidebar-person strong { font-size:14px; }
 .sidebar-person small { margin-top:4px; color:#828276; font-size:11px; }
@@ -2793,7 +2793,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
 .profile-welcome p,.profile-page-head p { margin:0 0 8px; color:#77786d; font-size:13px; }
 .profile-welcome h1,.profile-page-head h1 { margin:0 0 9px; font:600 clamp(30px,4vw,42px)/1.12 'Fredoka',sans-serif; letter-spacing:-.5px; }
 .profile-welcome h1 span { color:#a68445; font-size:.8em; }
-.profile-welcome .profile-avatar { width:64px; height:64px; font-size:21px; }
+.profile-welcome .profile-avatar { width:64px; height:64px; font-size:27px; }
 .profile-stats { display:grid; grid-template-columns:repeat(3,1fr); border-block:1px solid #e4e3dc; margin-bottom:36px; }
 .profile-stats button { display:flex; align-items:baseline; gap:9px; padding:20px 12px; border:0; border-right:1px solid #e4e3dc; background:transparent; text-align:left; cursor:pointer; }
 .profile-stats button:last-child { border:0; }
