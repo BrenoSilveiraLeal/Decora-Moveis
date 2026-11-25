@@ -2492,12 +2492,12 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
     overflow: hidden;
   }
 
-  .hero-header { padding: 16px; gap: 10px; }
+  .hero-header { padding: 14px 16px 54px; gap: 10px; }
 
   .header-left {
-    flex: 1;
+    flex: 1 1 100%;
     justify-content: flex-start;
-    gap: 8px;
+    gap: 0;
   }
 
   .brand-logo {
@@ -2512,12 +2512,23 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .cart-button { width: 38px; height: 38px; border-radius: 12px; }
   .cart-button svg { width: 18px; height: 18px; }
 
-  nav { flex: 1; min-width: 0; }
+  .hero-header nav {
+    position: absolute;
+    top: 58px;
+    left: 14px;
+    right: 14px;
+    min-width: 0;
+  }
+
+  .hero-header .header-right { position: absolute; top: 14px; right: 16px; }
+  .account-header .hero-header nav { position: static; inset: auto; }
+  .account-header .hero-header .header-right { position: static; }
 
   .nav-menu {
-    justify-content: space-between;
-    gap: clamp(3px, 1.8vw, 7px);
-    overflow: visible;
+    justify-content: center;
+    gap: clamp(10px, 3.2vw, 18px);
+    overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;
     padding: 4px 0;
@@ -2526,7 +2537,7 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
   .nav-menu::-webkit-scrollbar { display: none; }
 
   .nav-link {
-    font-size: clamp(10.5px, 3vw, 12px);
+    font-size: clamp(10px, 3vw, 12px);
     white-space: nowrap;
   }
 
@@ -2727,9 +2738,11 @@ body.drawer-open .drawer-overlay { opacity: 1; pointer-events: auto; }
 
 /* Telas muito pequenas (iPhone SE / telas <= 380px) */
 @media (max-width: 380px) {
-  .hero-header { padding: 12px 14px; }
+  .hero-header { padding: 12px 14px 52px; }
 
-  .nav-menu { gap: 4px; }
+  .hero-header nav { top: 54px; }
+  .hero-header .header-right { top: 12px; right: 14px; }
+  .nav-menu { gap: 10px; }
 
   .nav-link { font-size: 11px; }
 
